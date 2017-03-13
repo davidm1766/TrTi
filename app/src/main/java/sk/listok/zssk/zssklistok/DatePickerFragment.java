@@ -22,6 +22,12 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     public void setINotifiable(INotifyDate ind){
         this.ind = ind;
+        Calendar c = Calendar.getInstance();
+
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        ind.notifyDate(day,month+1,year);
     }
 
     @Override
@@ -29,11 +35,12 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         // Use the current date as the default date in the picker
 
         // Create a new instance of DatePickerDialog and return it
-            Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
 
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
+
 
         return new DatePickerDialog(getActivity(), this,year,month,day);
     }
@@ -41,7 +48,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         if(ind != null){
-            ind.notifyDate(day,month,year);
+            ind.notifyDate(day,month+1,year);
         }
     }
 

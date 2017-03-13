@@ -28,17 +28,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <Button
-        android:text="Ďalej"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="22dp" />
+
 
     <ScrollView
         android:id="@+id/scrollContainer"
@@ -46,7 +36,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:paddingLeft="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,26 +45,17 @@
             android:orientation="vertical"
             android:weightSum="1">
 
-            <Button
-                android:text="Button"
-                android:layout_width="275dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:id="@+id/button"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="22dp" />
-
             <TextView
-        android:text="Odkiaľ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="23dp"
-        android:id="@+id/textView"
-        android:textSize="18sp" />
+                android:text="Odkiaľ"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:id="@+id/textView"
+                android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,42 +65,49 @@
             android:weightSum="1">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="30dp"
                 android:inputType="textPersonName"
-                android:hint="Bratislava"
+                android:text="Žilina"
+                android:textSize="16sp"
                 android:ems="10"
-                android:layout_marginTop="11dp"
                 android:id="@+id/textViewFromTown"
                 android:layout_below="@+id/textView"
                 android:layout_toRightOf="@+id/textView2"
-                android:layout_toEndOf="@+id/textView2" />
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
             <TextView
-        android:text="Kam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="18sp" />
+                android:text="Kam"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/textView2"
+                android:layout_below="@+id/editText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textSize="18sp" />
 
             <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Košice"
-        android:ems="10"
-        android:id="@+id/textViewToTown"
-        android:layout_below="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
-        android:layout_marginTop="17dp" />
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:inputType="textPersonName"
+                android:text="Zvolen"
+                android:textSize="16sp"
+                android:ems="10"
+                android:id="@+id/textViewToTown"
+                android:layout_below="@+id/textView2"
+                android:layout_toRightOf="@+id/textView2"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                 />
 
     <TextView
         android:text="Dátum"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
@@ -126,7 +115,7 @@
         android:layout_below="@+id/editText2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="10dp" />
 
 
         <LinearLayout
@@ -146,15 +135,16 @@
                 />
             </LinearLayout>
             <TextView
-        android:text="Čas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:textSize="18sp"
-        android:layout_marginTop="19dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-         />
+                android:text="Čas"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                 />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -177,7 +167,18 @@
 
 
         </LinearLayout>
+
     </ScrollView>
+
 </FrameLayout>
+
+    <Button
+        android:text="Ďalej"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

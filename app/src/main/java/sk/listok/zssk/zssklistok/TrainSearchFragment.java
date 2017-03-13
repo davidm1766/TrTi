@@ -89,7 +89,7 @@ public class TrainSearchFragment extends Fragment {
         stations = new ArrayList<TrainStation>();
         stations.add(new TrainStation("Zvolen"));
         stations.add(new TrainStation("Košice"));
-        stations.add(new TrainStation("Bratislava"));
+        stations.add(new TrainStation("Bratislava hl.st."));
         stations.add(new TrainStation("Trenčín"));
         stations.add(new TrainStation("Turčianske Teplice"));
         stations.add(new TrainStation("Banská Bystrica"));

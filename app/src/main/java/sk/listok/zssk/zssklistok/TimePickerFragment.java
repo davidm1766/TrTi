@@ -16,20 +16,27 @@ import java.util.Date;
 
 public class TimePickerFragment extends DialogFragment  implements TimePickerDialog.OnTimeSetListener {
 
-    private String selectedTime;
+
     private INotifyTime it;
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-        this.selectedTime = (hourOfDay+":"+minute);
+
         if(it != null){
             it.notifyTime(hourOfDay,minute);
         }
     }
 
     public void setINotifiable(INotifyTime it){
+
         this.it = it;
+        java.util.Calendar c = java.util.Calendar.getInstance();
+
+        int hour = c.get(java.util.Calendar.HOUR_OF_DAY);
+        int minute = c.get(java.util.Calendar.MINUTE);
+
+        it.notifyTime(hour,minute);
     }
 
 
@@ -48,7 +55,5 @@ public class TimePickerFragment extends DialogFragment  implements TimePickerDia
 
     }
 
-    public String getSelectedTime() {
-        return selectedTime;
-    }
+
 }
