@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -26,7 +27,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_passenger_info);
-        person = new PersonInfo("madaras.david1@gmail.com","Dávid","Madaras","EB793051","1588524");
+
 
         finalInfo = (TextView) findViewById(R.id.textViewFinalDetails);
         priceInfo = (TextView) findViewById(R.id.textViewPrice);
@@ -69,9 +70,24 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IP
 
 
 
+    public void createPerson(){
+        //person = new PersonInfo("madaras.david1@gmail.com","Dávid","Madaras","EB793051","1588524");
+        String email = ((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+        String name = ((EditText)findViewById(R.id.editTextName)).getText().toString();
+        String surname =((EditText)findViewById(R.id.editTextSurname)).getText().toString() ;
+        String iDcard = ((EditText)findViewById(R.id.editTextIDcard)).getText().toString();
+        String regNum = ((EditText)findViewById(R.id.editTextRegNumber)).getText().toString();
+
+
+        person = new PersonInfo(email,name,surname,iDcard,regNum);
+
+    }
+
+
     @Override
     public String createPOSTData(String html) {
         try {
+            createPerson(); // nacitam data z editboxov
             Document doc = Jsoup.parse(html);
 
 

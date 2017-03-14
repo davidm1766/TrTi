@@ -14,24 +14,23 @@ import java.net.URLEncoder;
 
 public class SelectFinishPayActivity extends AppCompatActivity implements IPostable {
 
-
-    private HttpObject ht;
+    private DataHolder dh = DataHolder.getInst();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_finish_pay);
-        ht = (HttpObject) getIntent().getExtras().getParcelable("HttpObject");
+
 
         Button button = (Button) findViewById(R.id.button6);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ht.setPaUrl("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/payment.xhtml");
-       //         ht.setPaPOSTdata(parse(ht.getPaHtml()));
-           //     ht.setPaHtml(POSTdata(ht)); // toto treba opravit a odkomentit
+                dh.setPaUrl("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/payment.xhtml");
+                dh.setPaPOSTdata(createPOSTData(dh.getPaHtml()));
+                POSTDataSync ret = new POSTDataSync();
+                dh.setPaHtml(ret.POSTDataSyncFunc(dh));
 
                 Intent activityChangeIntent = new Intent(SelectFinishPayActivity.this, MainActivity.class);
-                activityChangeIntent.putExtra("HttpObject",ht);
                 SelectFinishPayActivity.this.startActivity(activityChangeIntent);
             }
 

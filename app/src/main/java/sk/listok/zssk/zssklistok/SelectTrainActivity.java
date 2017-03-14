@@ -1,5 +1,6 @@
 package sk.listok.zssk.zssklistok;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -45,7 +46,7 @@ public class SelectTrainActivity extends AppCompatActivity implements IPostable,
         setContentView(R.layout.activity_select_train);
 
         selectedJourneyIndex = -1;
-       
+
     }
 
     @Override
@@ -575,6 +576,8 @@ public class SelectTrainActivity extends AppCompatActivity implements IPostable,
 
     @Override
     public void onClick(View v) {
+        final ProgressDialog progressDialog= ProgressDialog.show(SelectTrainActivity.this, "Spracúvavam údaje",
+                "Prosím čakajte...", true);
 
         this.selectedJourneyIndex = v.getId()-1;
 
@@ -590,6 +593,7 @@ public class SelectTrainActivity extends AppCompatActivity implements IPostable,
                             public void run() {
 
                                 Intent activityChangeIntent = new Intent(SelectTrainActivity.this, SelectPassengerTypeActivity.class);
+                                progressDialog.dismiss();
                                 SelectTrainActivity.this.startActivity(activityChangeIntent);
                             }
                         });
