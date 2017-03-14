@@ -31,6 +31,7 @@ public class TimePickerFragment extends DialogFragment  implements TimePickerDia
     public void setINotifiable(INotifyTime it){
 
         this.it = it;
+
         java.util.Calendar c = java.util.Calendar.getInstance();
 
         int hour = c.get(java.util.Calendar.HOUR_OF_DAY);

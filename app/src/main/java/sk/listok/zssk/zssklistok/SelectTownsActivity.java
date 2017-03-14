@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import java.net.URI;
-import java.net.URLEncoder;
-
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -30,7 +26,7 @@ import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
 
-public class SelectTownsActivity extends AppCompatActivity implements IPharseableHTML, INotifyTime,INotifyDate {
+public class SelectTownsActivity extends AppCompatActivity implements IPostable, INotifyTime,INotifyDate {
 
 
     private boolean isFromTown;
@@ -43,6 +39,7 @@ public class SelectTownsActivity extends AppCompatActivity implements IPharseabl
     private TextView twDate;
     private TimePickerFragment newTimeFragment;
     private DatePickerFragment newDateFragment;
+    TrainSearchFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +147,7 @@ public class SelectTownsActivity extends AppCompatActivity implements IPharseabl
         twFromTown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragment.clearFilter();
                 isFromTown = true;
                 containerFragment.setVisibility(View.VISIBLE);
 
@@ -171,14 +169,15 @@ public class SelectTownsActivity extends AppCompatActivity implements IPharseabl
         twToTown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragment.clearFilter();
                 isFromTown = false;
                 containerFragment.setVisibility(View.VISIBLE);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                //TrainSearchFragment fragment = (TrainSearchFragment)fragmentManager.findFragmentById(R.id.fragment);// new TrainSearchFragment();
 
+                fragment.clearFilter();
                 containerFragmentThis.setVisibility(View.INVISIBLE);
 
                 fragmentTransaction.commit();
@@ -218,18 +217,15 @@ public class SelectTownsActivity extends AppCompatActivity implements IPharseabl
     @Nullable
     public String getHtmlPage(DataHolder ht){
         dh.setPaUrl("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml");
-        dh.setPaPOSTdata(parse(dh.getPaHtml()));
+        dh.setPaPOSTdata(createPOSTData(dh.getPaHtml()));
         POSTDataSync ret = new POSTDataSync();
         return ret.POSTDataSyncFunc(ht);
     }
 
 
 
-
-
-
     @Override
-    public String parse(String html) {
+    public String createPOSTData(String html) {
         String townFrom = Uri.encode(twFromTown.getText().toString());//"Tepli%C4%8Dka%20nad%20Horn%C3%A1dom";//"%C5%BDilina";
         String townTo = Uri.encode(twToTown.getText().toString()); //"Zvolen";
         String time = Uri.encode(twTime.getText().toString()); //18%3A41
@@ -250,19 +246,10 @@ public class SelectTownsActivity extends AppCompatActivity implements IPharseabl
         newTimeFragment.setINotifiable(SelectTownsActivity.this);
         this.newDateFragment = new DatePickerFragment();
         newDateFragment.setINotifiable(SelectTownsActivity.this);
+        fragment = (TrainSearchFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
 
     }
 
-
-    @Override
-    public void POSTdata(HttpObject ht) {
-        //POSTData.getInstance().execute(this);
-    }
-
-    public String test (DataHolder ht){
-        POSTDataSync ps = new POSTDataSync();
-        return ps.POSTDataSyncFunc(ht);
-    }
 
 
     @Override

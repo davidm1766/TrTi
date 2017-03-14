@@ -33,68 +33,19 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
-public class SelectTrainActivity extends AppCompatActivity implements IPharseableHTML,INotifiable {
+public class SelectTrainActivity extends AppCompatActivity implements IPostable,INotifiable,View.OnClickListener {
 
     private DataHolder dh = DataHolder.getInst();
+    private ArrayList<JourneyData> journeyData;
+    private int selectedJourneyIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("SOM TU");
         setContentView(R.layout.activity_select_train);
 
-        Button button = (Button) findViewById(R.id.button3);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            //    dh.setPaUrl("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml");
-            //    dh.setPaPOSTdata(parse(dh.getPaHtml()));
-              //  ht.setPaHtml(POSTdata(ht));
-                //POSTdata(dh);
-
-                subscription = getPOSTData(dh)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<String>() {
-                            @Override
-                            public void onCompleted() {
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        Intent activityChangeIntent = new Intent(SelectTrainActivity.this, SelectPassengerTypeActivity.class);
-                                        System.out.println("spustam aktivity");
-                                        SelectTrainActivity.this.startActivity(activityChangeIntent);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                System.out.println(e.toString()+"CHYBA rx");
-                            }
-
-                            @Override
-                            public void onNext(String s) {
-                                System.out.println("dostal som : "+s);
-                                dh.setPaHtml(s);
-}
-                        });
-
-            }
-
-        });
-
-        //nacitanie dat
-        Button button2 = (Button) findViewById(R.id.buttonLoadData);
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-            }
-
-        });
-
-
+        selectedJourneyIndex = -1;
+       
     }
 
     @Override
@@ -162,7 +113,7 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
     @Nullable
     public String getHtmlPage(DataHolder ht){
         ht.setPaUrl("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml");
-        ht.setPaPOSTdata(parse(dh.getPaHtml()));
+        ht.setPaPOSTdata(createPOSTData(dh.getPaHtml()));
 
         POSTDataSync ret = new POSTDataSync();
         return ret.POSTDataSyncFunc(ht);
@@ -176,12 +127,12 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
         return Observable.defer(new Func0<Observable<String>>() {
             @Override
             public Observable<String> call() {
-                //try{
+                try{
                     return Observable.just(loadDataIntoTable());
-               // }catch (Exception e){
-                 //   System.out.println(e.toString());
-                   // return null;
-                //}
+               }catch (Exception e){
+                  System.out.println(e.toString());
+                  return null;
+                }
             }
         });
     }
@@ -201,8 +152,8 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
     //*******************************************************
 
     private void loadTrains(){
-        ArrayList<JourneyData> tr = trainparser(dh.getPaHtml());//loadTrians(ht.getPaHtml());
-        createGrids(tr);
+        this.journeyData = trainparser(dh.getPaHtml());//loadTrians(ht.getPaHtml());
+        createGrids(this.journeyData);
     }
 
     //vykresli gridy do tabulky
@@ -220,6 +171,7 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
 
 
         TableRow.LayoutParams tblLP = new TableRow.LayoutParams();
+
         tblLP.width = TableRow.LayoutParams.WRAP_CONTENT;
         tblLP.height = TableRow.LayoutParams.MATCH_PARENT;
         tblLP.gravity = Gravity.TOP;
@@ -227,6 +179,16 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
 
         TableRow tr = null;
         TableLayout tl = new TableLayout(this);
+        //nastavnie handlovania clicku
+        tl.setId(rowID);
+        tl.setOnClickListener(this);
+
+        //nastavim pozadie pre kazdu skupinu vlakov
+        if(rowID%2==0) {
+            tl.setBackgroundColor(Color.rgb(255,255,255));
+        } else{
+            tl.setBackgroundColor(Color.rgb(255,218,150));
+        }
 
         tl.setLayoutParams(tblLP);
 
@@ -279,13 +241,13 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
         TableRow totalTime = new TableRow(this);
         totalTime.addView(tw);
         tl.addView(totalTime);
-
+/*
         if(rowID%2==0) {
             tr.setBackgroundColor(Color.rgb(255,255,255));
         } else{
             tr.setBackgroundColor(Color.rgb(255,218,150));
         }
-
+*/
         tr.addView(tl);
     }
 
@@ -562,7 +524,7 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
 
 
     @Override
-    public String parse(String html) {
+    public String createPOSTData(String html) {
         try {
             Document doc = Jsoup.parse(html);
 
@@ -571,12 +533,12 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
 
             String selectedLink = links.last().attr("onClick");
 
-            int start = selectedLink.indexOf("searchForm:inetConnection");
+         /*   int start = selectedLink.indexOf("searchForm:inetConnection");
             int end = selectedLink.indexOf('\'',start);
             int count = end  - start;
             String fi = selectedLink.substring(start,end);
-
-
+         */
+            String fi = this.journeyData.get(0).getIdJourney();
 
             Element javaView = doc.getElementById("javax.faces.ViewState");
             String value = javaView.attr("value");
@@ -593,11 +555,6 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
         return "";
     }
 
-    @Override
-    public void POSTdata(HttpObject ht) {
-        POSTData.getInstance().execute(this);
-       // return "";
-    }
 
     @Override
     public void notify(String html) {
@@ -611,5 +568,44 @@ public class SelectTrainActivity extends AppCompatActivity implements IPharseabl
     @Override
     public HttpObject getHt() {
         return null;
+    }
+
+
+
+
+    @Override
+    public void onClick(View v) {
+
+        this.selectedJourneyIndex = v.getId()-1;
+
+        subscription = getPOSTData(dh)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                Intent activityChangeIntent = new Intent(SelectTrainActivity.this, SelectPassengerTypeActivity.class);
+                                SelectTrainActivity.this.startActivity(activityChangeIntent);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println(e.toString()+"CHYBA rx");
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("dostal som : "+s);
+                        dh.setPaHtml(s);
+                    }
+                });
+
     }
 }

@@ -12,7 +12,7 @@ import org.jsoup.nodes.Element;
 
 import java.net.URLEncoder;
 
-public class SelectFinishPayActivity extends AppCompatActivity implements IPharseableHTML {
+public class SelectFinishPayActivity extends AppCompatActivity implements IPostable {
 
 
     private HttpObject ht;
@@ -41,7 +41,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements IPhars
     }
 
     @Override
-    public String parse(String html) {
+    public String createPOSTData(String html) {
         try {
             Document doc = Jsoup.parse(html);
 
@@ -72,9 +72,5 @@ public class SelectFinishPayActivity extends AppCompatActivity implements IPhars
         return "";
     }
 
-    @Override
-    public void POSTdata(HttpObject ht) {
-      // new POSTData().execute(ht);
 
-    }
 }
