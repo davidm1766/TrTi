@@ -43,11 +43,20 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    /**
+     * Funkcia nacita vlaky. Pri nacitani sa
+     * pouzije parser, ktory pracuje asynchronne.
+     */
     private void loadTrains(){
         new ParserFoundTrains(this).execute(Provider.getDataholder().getPaHtml());
     }
 
-    //vykresli gridy do tabulky
+    /**
+     * Vykresli gridy do tabulky - jeden riadok v tabulke
+     * moze obsahovat viacero gridov, lebo grid predstavuje
+     * jeden prestup.
+     * @param tr
+     */
     private void createGrids(ArrayList<JourneyData> tr) {
 
         int rowID = 0;
@@ -57,6 +66,13 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    /**
+     * Funkcia prida cely grid do tabulky, kde jeden riadok predstavuje
+     * jednu cestu z mesta x do mesta y a moze byt na nej aj niekolko
+     * prestupov - stale je to jeden riadok v tabulke...
+     * @param jd
+     * @param rowID
+     */
     private void addGridToTable(JourneyData jd, int rowID){
 
 
@@ -134,176 +150,80 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    /**
+     * Vrati string s BOLD.
+     * @param s
+     * @return
+     */
     private SpannableString setBold(String s){
         SpannableString spanString = new SpannableString(s);
         spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
         return spanString;
     }
 
+    /**
+     * Vrati string s ITALIC.
+     * @param s
+     * @return
+     */
     private SpannableString setItalic(String s){
         SpannableString spanString = new SpannableString(s);
         spanString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spanString.length(), 0);
         return spanString;
     }
 
+    /**
+     * Vygeneruje 1 grid, ktory predstavuje cestu jednym vlakom.
+     * @param td
+     * @param yellowTrain
+     * @return
+     */
     private GridLayout generateGridForTrain(TrainData td, boolean yellowTrain) {
 
-        Point size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(size);
-        int screenWidth = size.x;
-        int screenHeight = size.y;
-        int halfScreenWidth = (int)(screenWidth *0.5);
-        int quarterScreenWidth = (int)(halfScreenWidth * 0.5);
-
         GridLayout gridLayout = new GridLayout(this);
-
         gridLayout.setColumnCount(6);
         gridLayout.setRowCount(8);
 
+        // pri uprave poctu prvkov v gride treba upravit layout params
+        View cells[] = new View[10];
 
-        ImageView cell1 = new ImageView(this);
+        cells[0] = new ImageView(this);
         if (yellowTrain) {
-            cell1.setImageResource(R.drawable.trainicored);
+            ((ImageView)cells[0]).setImageResource(R.drawable.trainicored);
         }else {
-            cell1.setImageResource(R.drawable.trainicowhite);
+            ((ImageView)cells[0]).setImageResource(R.drawable.trainicowhite);
         }
 
-
-        TextView cell2 = new TextView(this);
+        cells[1] = new TextView(this);
         String trainName = td.getNameTrain();
-        cell2.setText(setBold(trainName.substring(0,trainName.indexOf('('))));//"R 831 TAJOV"));
+        ((TextView)cells[1]).setText(setBold(trainName.substring(0,trainName.indexOf('('))));//"R 831 TAJOV"));
+        cells[2] = new TextView(this);
+        ((TextView)cells[2]).setText(setItalic(td.getFromTown() +" -> "+td.getToTown()));//"Zvolen -> Banská Bystrica"); td.getFromTown()
+        cells[3] = new TextView(this);
+        ((TextView)cells[3]).setText("Odchod ");
+        cells[4] = new TextView(this);
+        ((TextView)cells[4]).setText(setBold(td.getDepartueTime()));//setBold("11:00"));
+        cells[5] = new TextView(this);
+        ((TextView)cells[5]).setText(td.getDepartueDate());//"01.03.2017");
+        cells[6] = new TextView(this);
+        ((TextView)cells[6]).setText("Príchod ");
+        cells[7] = new TextView(this);
+        ((TextView)cells[7]).setText(setBold(td.getArrivalTime()));//setBold("13:02"));
+        cells[8] = new TextView(this);
+        ((TextView)cells[8]).setText(td.getArrivalDate());//"01.03.2017");
+        cells[9] = new TextView(this); //medzera
 
 
-        TextView cell3 = new TextView(this);
-        cell3.setText(setItalic(td.getFromTown() +" -> "+td.getToTown()));//"Zvolen -> Banská Bystrica"); td.getFromTown()
-
-        TextView cell4 = new TextView(this);
-        cell4.setText("Odchod ");
-        TextView cell5 = new TextView(this);
-        cell5.setText(setBold(td.getDepartueTime()));//setBold("11:00"));
-        TextView cell6 = new TextView(this);
-        cell6.setText(td.getDepartueDate());//"01.03.2017");
-        TextView cell7 = new TextView(this);
-        cell7.setText("Príchod ");
-        TextView cell8 = new TextView(this);
-        cell8.setText(setBold(td.getArrivalTime()));//setBold("13:02"));
-        TextView cell9 = new TextView(this);
-        cell9.setText(td.getArrivalDate());//"01.03.2017");
-
-        TextView cellSpace = new TextView(this);
-
-        int rowSize = 30;
-
-        GridLayout.LayoutParams paramTwoColumns =new GridLayout.LayoutParams();
-        paramTwoColumns.height = GridLayout.LayoutParams.WRAP_CONTENT;
-        paramTwoColumns.width = GridLayout.LayoutParams.WRAP_CONTENT;
-        paramTwoColumns.setGravity(Gravity.CENTER);
-        paramTwoColumns.columnSpec = GridLayout.spec(2);
-
-
-        GridLayout.LayoutParams b1 =new GridLayout.LayoutParams();
-        b1.height = screenHeight / rowSize*2;
-        b1.width = screenWidth / 6;
-        b1.setMargins(40,15,0,10);
-        b1.setGravity(Gravity.CENTER);
-        b1.rowSpec = GridLayout.spec(1,2);
-        b1.columnSpec = GridLayout.spec(0,0);
-
-
-        GridLayout.LayoutParams b2 =new GridLayout.LayoutParams();
-        b2.height = screenHeight / rowSize;
-        b2.width = screenWidth * 5 / 6 ;
-        b2.setGravity(Gravity.LEFT);
-        b2.columnSpec = GridLayout.spec(1,4);
-        b2.rowSpec = GridLayout.spec(1);
-
-
-        GridLayout.LayoutParams b3 =new GridLayout.LayoutParams();
-        b3.height = screenHeight / rowSize;
-        b3.width = screenWidth * 5/6 ;
-        b3.setGravity(Gravity.LEFT);
-        b3.columnSpec = GridLayout.spec(1,4);
-        b3.rowSpec = GridLayout.spec(2);
-
-
-        GridLayout.LayoutParams b4 = new GridLayout.LayoutParams();
-        b4.height = screenHeight / rowSize;
-        b4.width = screenWidth / 4 ;
-        b4.setGravity(Gravity.LEFT);
-        b4.leftMargin = 55;
-        b4.columnSpec = GridLayout.spec(0,1);
-        b4.rowSpec = GridLayout.spec(3);
-
-
-        GridLayout.LayoutParams b5 = new GridLayout.LayoutParams();
-        b5.height = screenHeight / rowSize;
-        b5.width = screenWidth / 4 ;
-        b5.setGravity(Gravity.LEFT);
-        b5.columnSpec = GridLayout.spec(1,1);
-        b5.rowSpec = GridLayout.spec(3);
-
-        GridLayout.LayoutParams b6 = new GridLayout.LayoutParams();
-        b6.height = screenHeight / rowSize;
-        b6.width = screenWidth / 4*2 ;
-        b6.setGravity(Gravity.LEFT);
-        b6.columnSpec = GridLayout.spec(2,1);
-        b6.rowSpec = GridLayout.spec(3);
-
-
-        GridLayout.LayoutParams b7 = new GridLayout.LayoutParams();
-        b7.height = screenHeight / rowSize;
-        b7.width = screenWidth / 4 ;
-        b7.setGravity(Gravity.LEFT);
-        b7.leftMargin = 55;
-        b7.columnSpec = GridLayout.spec(0,1);
-        b7.rowSpec = GridLayout.spec(4);
-
-        GridLayout.LayoutParams b8 =new GridLayout.LayoutParams();
-        b8.height = screenHeight / rowSize;
-        b8.width = screenWidth / 4 ;
-        b8.setGravity(Gravity.LEFT);
-        b8.columnSpec = GridLayout.spec(1,1);
-        b8.rowSpec = GridLayout.spec(4);
-
-        GridLayout.LayoutParams b9 =new GridLayout.LayoutParams();
-        b9.height = screenHeight / rowSize;
-        b9.width = screenWidth / 4*2 ;
-        b9.setGravity(Gravity.LEFT);
-        b9.columnSpec = GridLayout.spec(2,1);
-        b9.rowSpec = GridLayout.spec(4);
-
-
-        GridLayout.LayoutParams bSpace =new GridLayout.LayoutParams();
-        bSpace.height = screenHeight / (rowSize);
-        bSpace.width = screenWidth;
-        bSpace.rowSpec = GridLayout.spec(6);
-
-        cell1.setLayoutParams(b1);
-        cell2.setLayoutParams(b2);
-        cell3.setLayoutParams(b3);
-        cell4.setLayoutParams(b4);
-        cell5.setLayoutParams(b5);
-        cell6.setLayoutParams(b6);
-        cell7.setLayoutParams(b7);
-        cell8.setLayoutParams(b8);
-        cell9.setLayoutParams(b9);
-        cellSpace.setLayoutParams(bSpace);
-
-        int text = android.R.style.TextAppearance_Medium;
-       // btn.setTextAppearance(this, text);
-
-
-
-
-        cell2.setTextAppearance(this, text);
-        cell3.setTextAppearance(this, text);
-        cell4.setTextAppearance(this, text);
-        cell5.setTextAppearance(this, text);
-        cell6.setTextAppearance(this, text);
-        cell7.setTextAppearance(this, text);
-        cell8.setTextAppearance(this, text);
-        cell9.setTextAppearance(this, text);
-
+        GridLayout.LayoutParams[] glp = generateLayoutParams();
+        int i = 0;
+        for(View v : cells){
+            v.setLayoutParams(glp[i++]);
+            if(v instanceof TextView){
+                //pri pouzivat api 15 to inak neporiesim iba cez depricated
+                ((TextView)v).setTextAppearance(this,android.R.style.TextAppearance_Medium);
+            }
+            gridLayout.addView(v);
+        }
 
 /* zafarbi kazdu bunku inak
         btn.setBackgroundColor(Color.rgb(255,0,0));
@@ -315,23 +235,105 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         btn7.setBackgroundColor(Color.rgb(60,60,0));
         btn8.setBackgroundColor(Color.rgb(90,155,155));
         btn9.setBackgroundColor(Color.rgb(0,0,155));
-
-
 */
-        gridLayout.addView(cell1);
-        gridLayout.addView(cell2);
-        gridLayout.addView(cell3);
-        gridLayout.addView(cell4);
-        gridLayout.addView(cell5);
-        gridLayout.addView(cell6);
-        gridLayout.addView(cell7);
-        gridLayout.addView(cell8);
-        gridLayout.addView(cell9);
-        gridLayout.addView(cellSpace);
-
-
-
         return gridLayout;
+    }
+
+
+    /**
+     *  Funkcia vrati layout params pre kazdy prvok v gride,
+     *  pocet layoutparams sa musi zhodovat s poctom prvkov v gride!!!
+     * @return
+     */
+    private GridLayout.LayoutParams[] generateLayoutParams(){
+        GridLayout.LayoutParams[] glp = new GridLayout.LayoutParams[10];
+
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        int screenWidth = size.x;
+        int screenHeight = size.y;
+        int halfScreenWidth = (int)(screenWidth *0.5);
+        int quarterScreenWidth = (int)(halfScreenWidth * 0.5);
+        int rowSize = 30;
+
+
+        glp[0] = new GridLayout.LayoutParams();
+        glp[0].height = screenHeight / rowSize*2;
+        glp[0].width = screenWidth / 6;
+        glp[0].setMargins(40,15,0,10);
+        glp[0].setGravity(Gravity.CENTER);
+        glp[0].rowSpec = GridLayout.spec(1,2);
+        glp[0].columnSpec = GridLayout.spec(0,0);
+
+
+        glp[1] = new GridLayout.LayoutParams();
+        glp[1].height = screenHeight / rowSize;
+        glp[1].width = screenWidth * 5 / 6 ;
+        glp[1].setGravity(Gravity.LEFT);
+        glp[1].columnSpec = GridLayout.spec(1,4);
+        glp[1].rowSpec = GridLayout.spec(1);
+
+
+        glp[2] = new GridLayout.LayoutParams();
+        glp[2].height = screenHeight / rowSize;
+        glp[2].width = screenWidth * 5/6 ;
+        glp[2].setGravity(Gravity.LEFT);
+        glp[2].columnSpec = GridLayout.spec(1,4);
+        glp[2].rowSpec = GridLayout.spec(2);
+
+
+        glp[3] = new GridLayout.LayoutParams();
+        glp[3].height = screenHeight / rowSize;
+        glp[3].width = screenWidth / 4 ;
+        glp[3].setGravity(Gravity.LEFT);
+        glp[3].leftMargin = 55;
+        glp[3].columnSpec = GridLayout.spec(0,1);
+        glp[3].rowSpec = GridLayout.spec(3);
+
+
+        glp[4] = new GridLayout.LayoutParams();
+        glp[4].height = screenHeight / rowSize;
+        glp[4].width = screenWidth / 4 ;
+        glp[4].setGravity(Gravity.LEFT);
+        glp[4].columnSpec = GridLayout.spec(1,1);
+        glp[4].rowSpec = GridLayout.spec(3);
+
+        glp[5] = new GridLayout.LayoutParams();
+        glp[5].height = screenHeight / rowSize;
+        glp[5].width = screenWidth / 4*2 ;
+        glp[5].setGravity(Gravity.LEFT);
+        glp[5].columnSpec = GridLayout.spec(2,1);
+        glp[5].rowSpec = GridLayout.spec(3);
+
+
+        glp[6] = new GridLayout.LayoutParams();
+        glp[6].height = screenHeight / rowSize;
+        glp[6].width = screenWidth / 4 ;
+        glp[6].setGravity(Gravity.LEFT);
+        glp[6].leftMargin = 55;
+        glp[6].columnSpec = GridLayout.spec(0,1);
+        glp[6].rowSpec = GridLayout.spec(4);
+
+        glp[7] =new GridLayout.LayoutParams();
+        glp[7].height = screenHeight / rowSize;
+        glp[7].width = screenWidth / 4 ;
+        glp[7].setGravity(Gravity.LEFT);
+        glp[7].columnSpec = GridLayout.spec(1,1);
+        glp[7].rowSpec = GridLayout.spec(4);
+
+        glp[8] =new GridLayout.LayoutParams();
+        glp[8].height = screenHeight / rowSize;
+        glp[8].width = screenWidth / 4*2 ;
+        glp[8].setGravity(Gravity.LEFT);
+        glp[8].columnSpec = GridLayout.spec(2,1);
+        glp[8].rowSpec = GridLayout.spec(4);
+
+
+        glp[9] =new GridLayout.LayoutParams();
+        glp[9].height = screenHeight / (rowSize);
+        glp[9].width = screenWidth;
+        glp[9].rowSpec = GridLayout.spec(6);
+        return glp;
     }
 
 
