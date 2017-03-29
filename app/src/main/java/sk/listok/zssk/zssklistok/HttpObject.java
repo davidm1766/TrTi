@@ -20,7 +20,7 @@ import android.app.Application;
 
 
 
-public class HttpObject extends Application implements Parcelable{
+public class HttpObject extends Application {
 
     private String paUrl;
     private String paPOSTdata;
@@ -28,22 +28,6 @@ public class HttpObject extends Application implements Parcelable{
     private String paCookies;
 
 
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[]{
-                this.paUrl,
-                this.paPOSTdata,
-                this.paCookies,
-                this.paHtml,
-        });
-    }
 
     public HttpObject(Parcel in){
         String[] data = new String[4];
@@ -54,20 +38,6 @@ public class HttpObject extends Application implements Parcelable{
         this.paHtml = data[3];
 
     }
-
-    public static final Parcelable.Creator<HttpObject> CREATOR
-            = new Parcelable.Creator<HttpObject>() {
-        @Override
-        public HttpObject createFromParcel(Parcel in) {
-            return new HttpObject(in);
-        }
-
-        @Override
-        public HttpObject[] newArray(int size) {
-            return new HttpObject[size];
-        }
-    };
-
 
     public HttpObject() {}
 

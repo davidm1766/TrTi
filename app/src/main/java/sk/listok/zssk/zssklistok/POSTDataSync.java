@@ -1,19 +1,13 @@
 
 package sk.listok.zssk.zssklistok;
 
-import android.os.AsyncTask;
-import android.view.SearchEvent;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 
-import javax.xml.transform.Result;
+import sk.listok.zssk.zssklistok.sharedData.DataHolder;
 
 /**
 /**

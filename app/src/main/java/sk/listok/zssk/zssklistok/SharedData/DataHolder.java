@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.sharedData;
 
 import android.text.TextUtils;
 
@@ -31,7 +31,16 @@ public class DataHolder {
         return inst;
     }
 
-    private DataHolder(){
+    /**
+     * DEPRECATED: len pre testovanie - nepouzivat
+     * @return
+     */
+    public static void setInst(DataHolder dh){
+        DataHolder.inst = dh;
+    }
+
+
+    public DataHolder(){
         //singleton
     }
 

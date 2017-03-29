@@ -1,6 +1,4 @@
-package sk.listok.zssk.zssklistok;
-
-import android.webkit.WebView;
+package sk.listok.zssk.zssklistok.sharedData;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,11 +8,11 @@ import org.jsoup.select.Elements;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import sk.listok.zssk.zssklistok.HttpObject;
 
 /**
  * Created by Nexi on 22.02.2017.

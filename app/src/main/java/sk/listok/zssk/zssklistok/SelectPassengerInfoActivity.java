@@ -14,7 +14,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.URLEncoder;
+import sk.listok.zssk.zssklistok.sharedData.DataHolder;
+import sk.listok.zssk.zssklistok.sharedData.IPostable;
 
 public class SelectPassengerInfoActivity extends AppCompatActivity implements IPostable {
 

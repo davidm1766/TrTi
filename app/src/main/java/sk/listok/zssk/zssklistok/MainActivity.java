@@ -10,7 +10,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
+
+import java.util.List;
+
+import sk.listok.zssk.zssklistok.activitiesTmp.FindTrain;
+import sk.listok.zssk.zssklistok.dataLayer.Town;
+import sk.listok.zssk.zssklistok.sharedData.HtmlHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,9 +47,62 @@ public class MainActivity extends AppCompatActivity {
                 HttpObject ht = new HttpObject();
                 HtmlHelper helper = new HtmlHelper(ht);
 
-                activityChangeIntent.putExtra("HttpObject",ht);
                 MainActivity.this.startActivity(activityChangeIntent);
             }
+
+        });
+
+
+        Button buttontest = (Button) findViewById(R.id.buttonTestNew);
+        buttontest.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(MainActivity.this, FindTrain.class);
+                MainActivity.this.startActivity(activityChangeIntent);
+            }
+
+        });
+
+        Button buttondb = (Button) findViewById(R.id.buttonDB);
+        buttondb.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+              /*  DatabaseHelper myhelper = new DatabaseHelper(MainActivity.this);
+                try{
+                    myhelper.createDatabase();
+                    myhelper.openDatabase();
+                    Toast.makeText(MainActivity.this,"VSETKO OK",Toast.LENGTH_SHORT).show();
+                    Cursor c = myhelper.query("TOWN",null,null,null,null,null,null);
+                    if(c.moveToFirst()){
+                        do{
+                            Toast.makeText(MainActivity.this,
+                                    "ID="+ c.getString(0) + "\n" +
+                                    "NAME="+ c.getString(1) + "\n"
+                                    ,Toast.LENGTH_SHORT).show();
+                        }while (c.moveToNext());
+
+                    }
+
+
+                }catch (Exception ex){
+                    throw new Error("CHYBA");
+                }
+*/
+                try{
+
+
+                    OrmLiteSqliteOpenHelper todoOpenDatabaseHelper = OpenHelperManager.getHelper(MainActivity.this,OrmLiteSqliteOpenHelper.class);
+
+                    Dao<Town, Long> todoDao = todoOpenDatabaseHelper.getDao(Town.class);
+
+                   // todoDao.create(new Town(1, "Todo Example 1 Description"));
+                   // todoDao.create(new Town(2, "Todo Example 2 Description"));
+                   // todoDao.create(new Town(3, "Todo Example 3 Description"));
+
+                    List<Town> todos = todoDao.queryForAll();
+
+                }catch (Exception e){
+                    throw new Error(e.toString());
+                }
+               }
 
         });
 

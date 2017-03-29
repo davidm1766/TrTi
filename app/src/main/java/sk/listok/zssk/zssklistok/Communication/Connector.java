@@ -1,61 +1,33 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.Communication;
 
 import android.os.AsyncTask;
-import android.view.SearchEvent;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 
-import javax.xml.transform.Result;
+import sk.listok.zssk.zssklistok.POSTDataSync;
+import sk.listok.zssk.zssklistok.sharedData.DataHolder;
 
 /**
- * Created by Nexi on 27.02.2017.
+ * Created by Nexi on 24.03.2017.
  */
 
-public class POSTData extends AsyncTask<INotifiable, Integer, String>   {
-
-    private INotifiable ht;
-    private String paHTML;
+public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
 
 
-    private static POSTData inst;
-
-    public static POSTData getInstance(){
-        if(POSTData.inst == null){
-            inst = new POSTData();
+    private INotifyDownloader inotify;
+    public Connector(INotifyDownloader in) {
+        if(in == null){
+            throw new IllegalArgumentException("INotifyDownloader is null!");
         }
-        return inst;
+        inotify = in;
     }
 
-    private POSTData(){
-
-    }
-
-    public static void destroy(){
+    private DataHolder requestToServer(DataHolder ht){
         try {
-            inst = null;
-        }catch (Throwable e){
-            //ups
-            System.out.println(e.toString());
-        }
-
-    }
-
-    public String POSTdata(HttpObject ht) {
-
-        //   POSTData.ht = ht1;
-      /*  Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
- */
-        try {
-
             URL url = new URL(ht.getPaUrl());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
@@ -67,7 +39,6 @@ public class POSTData extends AsyncTask<INotifiable, Integer, String>   {
             connection.setRequestProperty("charset", "utf-8");
 
             connection.setUseCaches(false);
-
             connection.setRequestProperty("Cookie", ht.getCookiesForConnection());
 
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
@@ -75,9 +46,7 @@ public class POSTData extends AsyncTask<INotifiable, Integer, String>   {
             wr.flush();
             wr.close();
 
-
             ht.setCookies(connection.getHeaderFields());
-
 
             String line;
             StringBuilder builder = new StringBuilder();
@@ -88,42 +57,40 @@ public class POSTData extends AsyncTask<INotifiable, Integer, String>   {
             }
 
             String html = builder.toString();
-            paHTML = html;
+            //nastavim nove html
+            ht.setPaHtml(html);
 
         } catch (Exception e) {
             System.out.println("CHYBAA!!!");
             e.printStackTrace();
-            paHTML = "";
+            ht.setPaHtml("");
         }
- /*    }
-       });
-        try {
-            t.start();
-            t.join();
-        }catch (Exception e){
-        }
-*/
-        return paHTML;
-    }
-
-
-
-    @Override
-    protected String doInBackground(INotifiable... ht) {
-        this.ht = ht[0];
-        return POSTdata(this.ht.getHt());
+        return ht;
     }
 
     @Override
-    protected void onProgressUpdate(Integer... progress) {
-       // setProgressPercent(progress[0]);
+    protected DataHolder doInBackground(DataHolder... params) {
+        DataHolder dh = params[0];
+        requestToServer(dh);
+        return dh;
     }
 
-    static String res;
+
     @Override
-    protected void onPostExecute(String result) {
-            ht.notify(res);
+    protected void onPostExecute(DataHolder result) {
+        // po dokonceni vysledky...
+        inotify.downloaded(result);
     }
 
+    @Override
+    protected void onPreExecute() {
+        //pred doInBackgroud
+    }
+
+
+    @Override
+    protected void onProgressUpdate(Void... progress) {
+        //setProgressPercent(progress[0]);
+    }
 
 }

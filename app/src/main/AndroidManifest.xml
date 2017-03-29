@@ -3,6 +3,7 @@
     package="sk.listok.zssk.zssklistok">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,14 +22,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectTownsActivity" />
-        <activity android:name=".SelectTrainActivity" />
+        <activity android:name=".selectTrainSecond.SelectTrainActivity" />
         <activity android:name=".SelectPassengerTypeActivity" />
         <activity android:name=".SelectPassengerInfoActivity" />
         <activity android:name=".SelectFinishPayActivity" />
         <activity android:name=".MyTicketsActivity" />
+        <activity android:name=".TestActivity" />
 
-        <activity android:name=".TestActivity"></activity>
-        <application android:name=".YourApplication"/>
+        <application android:name=".YourApplication" />
+
+        <activity android:name=".activitiesTmp.FindTrain" />
+        <activity android:name=".activitiesTmp.SelectTrain"></activity>
+
+        <activity android:name=".activities.SelectTrainActivity" />
+        <activity android:name=".activities.FindTrainsActivity" />
     </application>
 
 </manifest>

@@ -1,12 +1,13 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.activities;
 
 //import android.app.DialogFragment;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,17 +16,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import sk.listok.zssk.zssklistok.Communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
 import sk.listok.zssk.zssklistok.Communication.Provider;
+import sk.listok.zssk.zssklistok.INotifyDate;
+import sk.listok.zssk.zssklistok.INotifyTime;
+import sk.listok.zssk.zssklistok.R;
+import sk.listok.zssk.zssklistok.TrainSearchFragment;
 import sk.listok.zssk.zssklistok.findTrainPageFirst.DatePickerFragment;
-import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.findTrainPageFirst.TimePickerFragment;
+import sk.listok.zssk.zssklistok.helpers.TrainForParser;
+import sk.listok.zssk.zssklistok.selectTrainSecond.SelectTrainActivity;
 import sk.listok.zssk.zssklistok.sharedData.DataHolder;
 
 
-public class SelectTownsActivity extends AppCompatActivity implements INotifyTime,INotifyDate, INotifyDownloader {
+public class FindTrainsActivity extends AppCompatActivity implements INotifyTime,INotifyDate, INotifyDownloader {
 
 
     private boolean isFromTown;
@@ -57,8 +62,8 @@ public class SelectTownsActivity extends AppCompatActivity implements INotifyTim
         Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                progressDialog = ProgressDialog.show(SelectTownsActivity.this, "Vyhľadávanie vlakov", "Prosím čakajte...", true);
-                Provider.Instance(SelectTownsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml", PostDataCreator.postFindTrains(getTrain()));
+                progressDialog = ProgressDialog.show(FindTrainsActivity.this, "Vyhľadávanie vlakov", "Prosím čakajte...", true);
+                Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml", PostDataCreator.postFindTrains(getTrain()));
             }
         });
 
@@ -163,9 +168,9 @@ public class SelectTownsActivity extends AppCompatActivity implements INotifyTim
         this.twTime = (TextView) findViewById(R.id.textViewTime);
         this.twDate = (TextView) findViewById(R.id.textViewDate);
         this.newTimeFragment = new TimePickerFragment();
-        newTimeFragment.setINotifiable(SelectTownsActivity.this);
+        newTimeFragment.setINotifiable(FindTrainsActivity.this);
         this.newDateFragment = new DatePickerFragment();
-        newDateFragment.setINotifiable(SelectTownsActivity.this);
+        newDateFragment.setINotifiable(FindTrainsActivity.this);
         fragment = (TrainSearchFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
 
     }
@@ -188,9 +193,9 @@ public class SelectTownsActivity extends AppCompatActivity implements INotifyTim
     @Override
     public void downloaded(DataHolder dh) {
         DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
-        Intent activityChangeIntent = new Intent(SelectTownsActivity.this, sk.listok.zssk.zssklistok.activities.SelectTrainActivity.class);
+        Intent activityChangeIntent = new Intent(FindTrainsActivity.this, SelectTrainActivity.class);
         progressDialog.dismiss();
-        SelectTownsActivity.this.startActivity(activityChangeIntent);
+        FindTrainsActivity.this.startActivity(activityChangeIntent);
 
     }
 }

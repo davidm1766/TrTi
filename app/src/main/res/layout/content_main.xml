@@ -21,4 +21,27 @@
         android:layout_marginLeft="92dp"
         android:layout_marginStart="92dp"
         android:layout_marginBottom="40dp" />
+
+    <Button
+        android:text="DBTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="14dp"
+        android:id="@+id/buttonDB" />
+
+    <Button
+        android:text="Test new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button1"
+        android:layout_alignLeft="@+id/buttonDB"
+        android:layout_alignStart="@+id/buttonDB"
+        android:layout_marginBottom="53dp"
+
+        android:id="@+id/buttonTestNew" />
 </RelativeLayout>

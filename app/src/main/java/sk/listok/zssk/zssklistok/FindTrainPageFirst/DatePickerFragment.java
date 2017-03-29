@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.findTrainPageFirst;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -7,9 +7,9 @@ import android.os.Bundle;
 
 import android.widget.DatePicker;
 
-import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
+import sk.listok.zssk.zssklistok.INotifyDate;
 
 /**
  * Created by Nexi on 05.03.2017.

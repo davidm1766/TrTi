@@ -12,6 +12,9 @@ import org.jsoup.nodes.Element;
 
 import java.net.URLEncoder;
 
+import sk.listok.zssk.zssklistok.sharedData.DataHolder;
+import sk.listok.zssk.zssklistok.sharedData.IPostable;
+
 public class SelectFinishPayActivity extends AppCompatActivity implements IPostable {
 
     private DataHolder dh = DataHolder.getInst();
