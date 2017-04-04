@@ -1,6 +1,6 @@
-package sk.listok.zssk.zssklistok.Communication;
+package sk.listok.zssk.zssklistok.communication;
 
-import sk.listok.zssk.zssklistok.sharedData.DataHolder;
+import sk.listok.zssk.zssklistok.helpers.ImageHelper;
 
 /**
  *  Trieda zaobaluje komunikaciu so serverom.
@@ -34,10 +34,24 @@ public class Provider implements  INotifyDownloader {
     public void doRequest(String Url, String POSTdata){
         Provider.dataholder.setPaUrl(Url);
         Provider.dataholder.setPaPOSTdata(POSTdata);
+
         new Connector(this).execute(Provider.dataholder);
     }
 
 
+    /**
+     *  Vykona POST request na URL s POST datami v parametri.
+     */
+    public void doRequestDownloadImage(String Url, String POSTdata){
+        Provider.dataholder.setPaUrl(Url);
+        Provider.dataholder.setPaPOSTdata(POSTdata);
+        new ImageHelper().execute(Provider.dataholder);
+    }
+
+    /**
+     * Vráti cely dataholder
+     * @return
+     */
     public static DataHolder getDataholder(){
         return Provider.dataholder;
     }

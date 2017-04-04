@@ -1,15 +1,14 @@
-package sk.listok.zssk.zssklistok.Communication;
+package sk.listok.zssk.zssklistok.communication;
 
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import sk.listok.zssk.zssklistok.POSTDataSync;
-import sk.listok.zssk.zssklistok.sharedData.DataHolder;
 
 /**
  * Created by Nexi on 24.03.2017.
@@ -27,9 +26,11 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
     }
 
     private DataHolder requestToServer(DataHolder ht){
+        HttpURLConnection connection = null;
         try {
+
             URL url = new URL(ht.getPaUrl());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
 
@@ -48,6 +49,7 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
 
             ht.setCookies(connection.getHeaderFields());
 
+
             String line;
             StringBuilder builder = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -64,6 +66,10 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
             System.out.println("CHYBAA!!!");
             e.printStackTrace();
             ht.setPaHtml("");
+        } finally {
+            if (connection != null){
+                connection.disconnect();
+            }
         }
         return ht;
     }

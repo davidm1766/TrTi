@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.objects;
 
 import java.util.ArrayList;
 

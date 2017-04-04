@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.objects;
 
 /**
  * Created by Nexi on 05.03.2017.

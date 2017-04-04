@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok.activitiesTmp;
+package sk.listok.zssk.zssklistok.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,11 +14,10 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.TrainStation;
+import sk.listok.zssk.zssklistok.objects.TrainStation;
 
 
-public class StationsFragment extends Fragment {
-
+public class TrainSearchFragment extends Fragment {
 
     private View rootView;
     private ArrayList<TrainStation> stations;
@@ -26,7 +25,7 @@ public class StationsFragment extends Fragment {
     private ListView lv;
     private SearchView sv;
 
-    String statios1[] = {"Ba","KE","ZV","ZA"};
+    //String statios1[] = {"Ba","KE","ZV","ZA"};
     ArrayAdapter<String> adapter;
     ListAdapter ad;
 
@@ -57,10 +56,10 @@ public class StationsFragment extends Fragment {
                 //adapter.clear()
 
                 adapter.getFilter().filter(newText);
-                //  ArrayList<String> filtered = new ArrayList<String>();
-                //  filtered.add(adapter.getItem(0));
-                //  adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,filtered);
-                //  lv.setAdapter(adapter);
+              //  ArrayList<String> filtered = new ArrayList<String>();
+              //  filtered.add(adapter.getItem(0));
+              //  adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,filtered);
+              //  lv.setAdapter(adapter);
                 return true;
             }
         });
@@ -1055,4 +1054,5 @@ public class StationsFragment extends Fragment {
         stations.add(new TrainStation("Žilina Zarečie"));
         stations.add(new TrainStation("Žirany"));
     }
+
 }

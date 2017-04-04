@@ -9,25 +9,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.net.URLEncoder;
-
-import sk.listok.zssk.zssklistok.Communication.INotifyDownloader;
-import sk.listok.zssk.zssklistok.Communication.Provider;
-import sk.listok.zssk.zssklistok.POSTDataSync;
+import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
+import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.SelectPassengerInfoActivity;
 import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
-import sk.listok.zssk.zssklistok.sharedData.DataHolder;
-import sk.listok.zssk.zssklistok.sharedData.IPostable;
+import sk.listok.zssk.zssklistok.communication.DataHolder;
 
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
     private Spinner spinner;
-    private ProgressDialog progressDialog;
+  //  private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +32,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
 
             Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
                     PostDataCreator.postTicketType(Provider.getDataholder().getPaHtml(), spinner.getSelectedItemPosition()));
-            progressDialog = ProgressDialog.show(SelectPassengerTypeActivity.this, "Spracúvavam údaje", "Prosím čakajte...", true);
+          //  progressDialog = ProgressDialog.show(SelectPassengerTypeActivity.this, "Spracúvavam údaje", "Prosím čakajte...", true);
 
             }
 
@@ -75,8 +66,8 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
     @Override
     public void downloaded(DataHolder dh) {
         DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
-        progressDialog.dismiss();
-        Intent activityChangeIntent = new Intent(sk.listok.zssk.zssklistok.activities.SelectPassengerTypeActivity.this, sk.listok.zssk.zssklistok.SelectPassengerInfoActivity.class);
+       // progressDialog.dismiss();
+        Intent activityChangeIntent = new Intent(SelectPassengerTypeActivity.this, SelectPassengerInfoActivity.class);
         SelectPassengerTypeActivity.this.startActivity(activityChangeIntent);
     }
 }

@@ -15,11 +15,14 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import sk.listok.zssk.zssklistok.activitiesTmp.FindTrain;
+
 import sk.listok.zssk.zssklistok.dataLayer.Town;
-import sk.listok.zssk.zssklistok.sharedData.HtmlHelper;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,24 +46,14 @@ public class MainActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(MainActivity.this, SelectTownsActivity.class);
-                HttpObject ht = new HttpObject();
-                HtmlHelper helper = new HtmlHelper(ht);
 
+                Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.FindTrainsActivity.class);
                 MainActivity.this.startActivity(activityChangeIntent);
             }
 
         });
 
 
-        Button buttontest = (Button) findViewById(R.id.buttonTestNew);
-        buttontest.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(MainActivity.this, FindTrain.class);
-                MainActivity.this.startActivity(activityChangeIntent);
-            }
-
-        });
 
         Button buttondb = (Button) findViewById(R.id.buttonDB);
         buttondb.setOnClickListener(new View.OnClickListener() {

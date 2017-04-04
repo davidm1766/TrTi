@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.objects;
 
 /**
  * Created by Nexi on 14.03.2017.
@@ -9,15 +9,13 @@ public class PersonInfo {
     private String email;
     private String name;
     private String surname;
-    private String IDcard;
     private String RegNumber;
 
 
-    public PersonInfo(String email, String name,String surname, String IDcard, String RegNumber){
+    public PersonInfo(String email, String name,String surname, String RegNumber){
         this.email = email;
         this.name = name;
         this.surname = surname;
-        this.IDcard = IDcard;
         this.RegNumber = RegNumber;
     }
 
@@ -27,10 +25,6 @@ public class PersonInfo {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getIDcard() {
-        return IDcard;
     }
 
     public String getRegNumber() {

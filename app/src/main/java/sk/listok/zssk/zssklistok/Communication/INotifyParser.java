@@ -1,8 +1,8 @@
-package sk.listok.zssk.zssklistok.Communication;
+package sk.listok.zssk.zssklistok.communication;
 
 import java.util.ArrayList;
 
-import sk.listok.zssk.zssklistok.JourneyData;
+import sk.listok.zssk.zssklistok.objects.JourneyData;
 
 /**
  * Created by Nexi on 28.03.2017.

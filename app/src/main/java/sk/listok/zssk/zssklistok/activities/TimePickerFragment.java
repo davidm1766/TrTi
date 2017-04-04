@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok.findTrainPageFirst;
+package sk.listok.zssk.zssklistok.activities;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

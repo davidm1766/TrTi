@@ -21,21 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectTownsActivity" />
-        <activity android:name=".selectTrainSecond.SelectTrainActivity" />
-        <activity android:name=".SelectPassengerTypeActivity" />
-        <activity android:name=".SelectPassengerInfoActivity" />
-        <activity android:name=".SelectFinishPayActivity" />
-        <activity android:name=".MyTicketsActivity" />
-        <activity android:name=".TestActivity" />
 
         <application android:name=".YourApplication" />
 
-        <activity android:name=".activitiesTmp.FindTrain" />
-        <activity android:name=".activitiesTmp.SelectTrain"></activity>
-
-        <activity android:name=".activities.SelectTrainActivity" />
         <activity android:name=".activities.FindTrainsActivity" />
+        <activity android:name=".activities.SelectTrainActivity" />
+        <activity android:name=".activities.SelectPassengerTypeActivity" />
+        <activity android:name=".activities.SelectPassengerInfoActivity" />
+        <activity android:name=".activities.SelectFinishPayActivity" />
     </application>
 
 </manifest>

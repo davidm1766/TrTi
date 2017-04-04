@@ -1,26 +1,18 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.communication;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v4.app.AppLaunchChecker;
 import android.text.TextUtils;
 
-import java.io.Serializable;
 import java.net.CookieManager;
 import java.net.HttpCookie;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Nexi on 25.02.2017.
+ * Created by Nexi on 04.03.2017.
  */
-import android.app.Application;
 
+public class DataHolder {
 
-
-
-
-public class HttpObject extends Application {
 
     private String paUrl;
     private String paPOSTdata;
@@ -29,22 +21,29 @@ public class HttpObject extends Application {
 
 
 
-    public HttpObject(Parcel in){
-        String[] data = new String[4];
-        in.readStringArray(data);
-        this.paUrl = data[0];
-        this.paPOSTdata = data[1];
-        this.paCookies = data[2];
-        this.paHtml = data[3];
 
+    private static DataHolder inst;
+
+    public static DataHolder getInst(){
+        if(inst == null){
+            inst = new DataHolder();
+        }
+        return inst;
     }
 
-    public HttpObject() {}
-
-    public HttpObject(String url, String POSTdata){
-        paUrl = url;
-        paPOSTdata = POSTdata;
+    /**
+     * DEPRECATED: len pre testovanie - nepouzivat
+     * @return
+     */
+    public static void setInst(DataHolder dh){
+        DataHolder.inst = dh;
     }
+
+
+    public DataHolder(){
+        //singleton
+    }
+
 
     public String getCookiesForConnection(){
         return this.paCookies;
@@ -87,8 +86,5 @@ public class HttpObject extends Application {
     public void setPaUrl(String paUrl) {
         this.paUrl = paUrl;
     }
-
-
-
 
 }

@@ -18,16 +18,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-import sk.listok.zssk.zssklistok.Communication.INotifyDownloader;
-import sk.listok.zssk.zssklistok.Communication.INotifyParser;
+import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
+import sk.listok.zssk.zssklistok.communication.INotifyParser;
 import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
-import sk.listok.zssk.zssklistok.Communication.Provider;
-import sk.listok.zssk.zssklistok.JourneyData;
+import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.objects.JourneyData;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.SelectPassengerTypeActivity;
-import sk.listok.zssk.zssklistok.TrainData;
+import sk.listok.zssk.zssklistok.objects.TrainData;
 import sk.listok.zssk.zssklistok.helpers.ParserFoundTrains;
-import sk.listok.zssk.zssklistok.sharedData.DataHolder;
+import sk.listok.zssk.zssklistok.communication.DataHolder;
 
 public class SelectTrainActivity extends AppCompatActivity implements View.OnClickListener,INotifyParser,INotifyDownloader {
 
@@ -358,7 +357,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     public void downloaded(DataHolder dh) {
         progressDialog.dismiss();
         //DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
-        Intent activityChangeIntent = new Intent(sk.listok.zssk.zssklistok.activities.SelectTrainActivity.this, SelectPassengerTypeActivity.class);
+        Intent activityChangeIntent = new Intent(SelectTrainActivity.this,SelectPassengerTypeActivity.class);
         SelectTrainActivity.this.startActivity(activityChangeIntent);
     }
 }

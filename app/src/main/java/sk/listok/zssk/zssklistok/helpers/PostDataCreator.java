@@ -9,8 +9,7 @@ import org.jsoup.select.Elements;
 
 import java.net.URLEncoder;
 
-import sk.listok.zssk.zssklistok.PersonInfo;
-import sk.listok.zssk.zssklistok.helpers.TrainForParser;
+import sk.listok.zssk.zssklistok.objects.PersonInfo;
 
 /**
  * Created by Nexi on 24.03.2017.
@@ -123,7 +122,6 @@ public class PostDataCreator {
             String selectedLink = btn.attr("onClick");
             int start = selectedLink.indexOf("personalData:");
             int end = selectedLink.indexOf('\'',start);
-            int count = end  - start;
             String personalData = selectedLink.substring(start,end);
 
             Element javaView = doc.getElementById("javax.faces.ViewState");
@@ -136,9 +134,10 @@ public class PostDataCreator {
                     Uri.encode("personalData:payerItemsList:0:field")+ "=" + Uri.encode(person.getEmail())+"&"+
                     Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:0:field")+ "=" + Uri.encode(person.getName())+"&"+
                     Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:1:fieldRegId")+ "=" + Uri.encode(person.getSurname())+"&"+
-                    Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:field")+ "=" + Uri.encode(person.getIDcard())+"&"+
-                    Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:3:fieldRegId")+ "=" + Uri.encode(person.getRegNumber())+"&"+
-                    Uri.encode("personalData:personalDataAgreement")+ "=" + "on&"+                  //suhlasim s podmienkami
+                    Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:fieldRegId")+ "=" + Uri.encode(person.getRegNumber())+"&"+
+                    //Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:field")+ "=" + Uri.encode(person.getIDcard())+"&"+
+                    //Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:3:fieldRegId")+ "=" + Uri.encode(person.getRegNumber())+"&"+
+                    //Uri.encode("personalData:personalDataAgreement")+ "=" + "on&"+                  //suhlasim s podmienkami
                     "javax.faces.ViewState"+"="+Uri.encode(value)+"&"+
                     Uri.encode(personalData,"utf-8") + "="+Uri.encode(personalData,"utf-8");        //ticket data
             return  finalstr;
@@ -150,4 +149,61 @@ public class PostDataCreator {
 
     }
 
+
+    public static String postFinishPayment(String html){
+
+        try {
+            Document doc = Jsoup.parse(html);
+
+
+            Element btn = doc.getElementsContainingOwnText("Pokračovať v nákupe").last();
+            String selectedLink = btn.attr("onClick");
+            int start = selectedLink.indexOf("paymentForm:");
+            int end = selectedLink.indexOf('\\',start);
+            int count = end  - start;
+            String paymentForm = selectedLink.substring(start,end);
+
+            Element javaView = doc.getElementById("javax.faces.ViewState");
+            String value = javaView.attr("value");
+
+            System.out.println("+++++++++++++++"+ value +"+++++++++++++++++++");
+
+            String finalstr =
+                    "paymentForm=paymentForm&"+
+                            URLEncoder.encode("paymentForm:SendConfirmation","utf-8")+ "=" + URLEncoder.encode("on","utf-8")+"&"+
+                            URLEncoder.encode("paymentForm:PersonalDataFormDirect","utf-8")+ "=" + URLEncoder.encode("on","utf-8")+"&"+
+                            "javax.faces.ViewState"+"="+URLEncoder.encode(value,"utf-8")+"&"+
+                            URLEncoder.encode(paymentForm,"utf-8") + "="+URLEncoder.encode(paymentForm,"utf-8");
+            return  finalstr;
+        } catch (Exception e){
+            System.out.println("CHYBA:"+e.toString());
+
+        }
+        return "";
+    }
+
+    public static String postDownloadTicket(String html){
+
+        try {
+            Document doc = Jsoup.parse(html);
+            Element javaView = doc.getElementById("javax.faces.ViewState");
+            String value = javaView.attr("value");
+
+            Element btnDownload = doc.getElementsContainingOwnText("Stiahnuť lístok pre mobil").last();
+            String selectedLink = btnDownload.attr("onClick");
+            int start = selectedLink.indexOf("travelDocument:");
+            int end = selectedLink.indexOf('\'',start);
+            String traveldoc = selectedLink.substring(start,end);
+
+            String finalstr =
+                     "travelDocument=travelDocument&"+
+                            "javax.faces.ViewState"+"="+URLEncoder.encode(value,"utf-8")+"&"+
+                            URLEncoder.encode(traveldoc,"utf-8") + "="+URLEncoder.encode(traveldoc,"utf-8");
+            return  finalstr;
+        } catch (Exception e){
+            System.out.println("CHYBA:"+e.toString());
+
+        }
+        return "";
+    }
 }

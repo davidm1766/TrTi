@@ -1,6 +1,6 @@
-package sk.listok.zssk.zssklistok.Communication;
+package sk.listok.zssk.zssklistok.communication;
 
-import sk.listok.zssk.zssklistok.sharedData.DataHolder;
+import android.content.Context;
 
 /**
  * Created by Nexi on 24.03.2017.
@@ -8,4 +8,5 @@ import sk.listok.zssk.zssklistok.sharedData.DataHolder;
 
 public interface INotifyDownloader {
     public void downloaded(DataHolder dh);
+    //public Context getContext();
 }

@@ -9,10 +9,9 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
-import sk.listok.zssk.zssklistok.Communication.INotifyParser;
-import sk.listok.zssk.zssklistok.JourneyData;
-import sk.listok.zssk.zssklistok.TrainData;
-import sk.listok.zssk.zssklistok.sharedData.DataHolder;
+import sk.listok.zssk.zssklistok.communication.INotifyParser;
+import sk.listok.zssk.zssklistok.objects.JourneyData;
+import sk.listok.zssk.zssklistok.objects.TrainData;
 
 /**
  * Created by Nexi on 24.03.2017.

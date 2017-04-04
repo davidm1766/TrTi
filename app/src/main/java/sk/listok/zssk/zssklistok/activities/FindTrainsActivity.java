@@ -16,18 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import sk.listok.zssk.zssklistok.Communication.INotifyDownloader;
+import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
-import sk.listok.zssk.zssklistok.Communication.Provider;
+import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
 import sk.listok.zssk.zssklistok.INotifyTime;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.TrainSearchFragment;
-import sk.listok.zssk.zssklistok.findTrainPageFirst.DatePickerFragment;
-import sk.listok.zssk.zssklistok.findTrainPageFirst.TimePickerFragment;
 import sk.listok.zssk.zssklistok.helpers.TrainForParser;
-import sk.listok.zssk.zssklistok.selectTrainSecond.SelectTrainActivity;
-import sk.listok.zssk.zssklistok.sharedData.DataHolder;
+import sk.listok.zssk.zssklistok.communication.DataHolder;
 
 
 public class FindTrainsActivity extends AppCompatActivity implements INotifyTime,INotifyDate, INotifyDownloader {
