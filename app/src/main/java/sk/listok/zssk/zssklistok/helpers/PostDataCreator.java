@@ -1,12 +1,9 @@
 package sk.listok.zssk.zssklistok.helpers;
 
-import android.net.Uri;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.net.URLEncoder;
 
 import sk.listok.zssk.zssklistok.objects.PersonInfo;
@@ -24,11 +21,17 @@ public class PostDataCreator {
      * @return
      */
     public static String postFindTrains(TrainForParser train){
-        String townFrom = Uri.encode(train.getTownFrom());//"Tepli%C4%8Dka%20nad%20Horn%C3%A1dom";//"%C5%BDilina";
-        String townTo = Uri.encode(train.getTownTo()); //"Zvolen";
-        String time = Uri.encode(train.getTime()); //18%3A41
-        String date = Uri.encode(train.getDate()); //4.3.2017
-        return "lang=sk&portal=&from="+townFrom+"&to="+townTo+"&via=&date="+date+"&time="+time+"&departure=true";
+        try {
+            String townFrom = URLEncoder.encode(train.getTownFrom(), "utf-8");//"Tepli%C4%8Dka%20nad%20Horn%C3%A1dom";//"%C5%BDilina";
+            String townTo = URLEncoder.encode(train.getTownTo(), "utf-8"); //"Zvolen";
+            String time = URLEncoder.encode(train.getTime(), "utf-8"); //18%3A41
+            String date = URLEncoder.encode(train.getDate(), "utf-8"); //4.3.2017
+            return "lang=sk&portal=&from="+townFrom+"&to="+townTo+"&via=&date="+date+"&time="+time+"&departure=true";
+        } catch (Exception ex){
+            System.out.println(ex.toString());
+            return "";
+        }
+
     }
 
 
@@ -131,15 +134,15 @@ public class PostDataCreator {
 
             String finalstr = "ticketParam=ticketParam&"+
                     "personalData=personalData&"+
-                    Uri.encode("personalData:payerItemsList:0:field")+ "=" + Uri.encode(person.getEmail())+"&"+
-                    Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:0:field")+ "=" + Uri.encode(person.getName())+"&"+
-                    Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:1:fieldRegId")+ "=" + Uri.encode(person.getSurname())+"&"+
-                    Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:fieldRegId")+ "=" + Uri.encode(person.getRegNumber())+"&"+
+                    URLEncoder.encode("personalData:payerItemsList:0:field","utf-8")+ "=" + URLEncoder.encode(person.getEmail(), "utf-8")+"&"+
+                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:0:field", "utf-8")+ "=" + URLEncoder.encode(person.getName(), "utf-8")+"&"+
+                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:1:fieldRegId", "utf-8")+ "=" + URLEncoder.encode(person.getSurname(), "utf-8")+"&"+
+                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:fieldRegId", "utf-8")+ "=" + URLEncoder.encode(person.getRegNumber(), "utf-8")+"&"+
                     //Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:field")+ "=" + Uri.encode(person.getIDcard())+"&"+
                     //Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:3:fieldRegId")+ "=" + Uri.encode(person.getRegNumber())+"&"+
                     //Uri.encode("personalData:personalDataAgreement")+ "=" + "on&"+                  //suhlasim s podmienkami
-                    "javax.faces.ViewState"+"="+Uri.encode(value)+"&"+
-                    Uri.encode(personalData,"utf-8") + "="+Uri.encode(personalData,"utf-8");        //ticket data
+                    "javax.faces.ViewState"+"="+URLEncoder.encode(value, "utf-8")+"&"+
+                    URLEncoder.encode(personalData,"utf-8") + "="+URLEncoder.encode(personalData,"utf-8");        //ticket data
             return  finalstr;
         } catch (Exception e){
             System.out.println("CHYBA:"+e.toString());

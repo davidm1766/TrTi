@@ -1,6 +1,5 @@
 package sk.listok.zssk.zssklistok.helpers;
 
-import java.security.PublicKey;
 
 /**
  * Created by Nexi on 24.03.2017.

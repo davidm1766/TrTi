@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 
+import sk.listok.zssk.zssklistok.classloader.LoaderParser;
 import sk.listok.zssk.zssklistok.dataLayer.Town;
 
 
@@ -52,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        Button test = (Button) findViewById(R.id.buttonTestNew);
+        test.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                LoaderParser l = new LoaderParser(MainActivity.this);
+                l.runTest();
+            }
+
+        });
+
 
 
 
