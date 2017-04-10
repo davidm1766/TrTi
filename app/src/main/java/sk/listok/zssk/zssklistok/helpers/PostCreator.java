@@ -6,27 +6,30 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.net.URLEncoder;
 
-import sk.listok.zssk.zssklistok.objects.PersonInfo;
+import rx.exceptions.OnErrorNotImplementedException;
 
 /**
- * Created by Nexi on 24.03.2017.
+ *  Nepouzivat (len kvoli editacii je v projekte), samostatny .dex.
  */
-
-public class PostDataCreator {
-
+public class PostCreator implements IParserPostData{
 
 
+
+    public PostCreator(){
+        throw new OnErrorNotImplementedException(new Throwable("NEPOUZIVAT - je vykompilovana samostatne" +
+                "do bajtkodu!!"));
+    }
     /**
      * Prva stranka
      * @param train
      * @return
      */
-    public static String postFindTrains(TrainForParser train){
+    public String postFindTrains(String sTownFrom, String sTownTo, String sTime, String sDate){
         try {
-            String townFrom = URLEncoder.encode(train.getTownFrom(), "utf-8");//"Tepli%C4%8Dka%20nad%20Horn%C3%A1dom";//"%C5%BDilina";
-            String townTo = URLEncoder.encode(train.getTownTo(), "utf-8"); //"Zvolen";
-            String time = URLEncoder.encode(train.getTime(), "utf-8"); //18%3A41
-            String date = URLEncoder.encode(train.getDate(), "utf-8"); //4.3.2017
+            String townFrom = URLEncoder.encode(sTownFrom, "utf-8");//"Tepli%C4%8Dka%20nad%20Horn%C3%A1dom";//"%C5%BDilina";
+            String townTo = URLEncoder.encode(sTownTo, "utf-8"); //"Zvolen";
+            String time = URLEncoder.encode(sTime, "utf-8"); //18%3A41
+            String date = URLEncoder.encode(sDate, "utf-8"); //4.3.2017
             return "lang=sk&portal=&from="+townFrom+"&to="+townTo+"&via=&date="+date+"&time="+time+"&departure=true";
         } catch (Exception ex){
             System.out.println(ex.toString());
@@ -42,7 +45,7 @@ public class PostDataCreator {
      * @param idJourney
      * @return
      */
-    public static String postSelectTrain(String html, String idJourney){
+    public String postSelectTrain(String html, String idJourney){
         try {
             Document doc = Jsoup.parse(html);
 
@@ -81,7 +84,7 @@ public class PostDataCreator {
      * @param selectedItemIndex - je index typu - pozri post request.
      * @return
      */
-    public static String postTicketType(String html,int selectedItemIndex){
+    public String postTicketType(String html,int selectedItemIndex){
         try {
             Document doc = Jsoup.parse(html);
 
@@ -116,7 +119,7 @@ public class PostDataCreator {
 
     }
 
-    public static String postPassengerInfo(String html, PersonInfo person){
+    public String postPassengerInfo(String html, String mail, String name, String surname, String regNumber){
         try {
             //createPerson(); // nacitam data z editboxov
             Document doc = Jsoup.parse(html);
@@ -135,10 +138,10 @@ public class PostDataCreator {
 
             String finalstr = "ticketParam=ticketParam&"+
                     "personalData=personalData&"+
-                    URLEncoder.encode("personalData:payerItemsList:0:field","utf-8")+ "=" + URLEncoder.encode(person.getEmail(), "utf-8")+"&"+
-                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:0:field", "utf-8")+ "=" + URLEncoder.encode(person.getName(), "utf-8")+"&"+
-                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:1:fieldRegId", "utf-8")+ "=" + URLEncoder.encode(person.getSurname(), "utf-8")+"&"+
-                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:fieldRegId", "utf-8")+ "=" + URLEncoder.encode(person.getRegNumber(), "utf-8")+"&"+
+                    URLEncoder.encode("personalData:payerItemsList:0:field","utf-8")+ "=" + URLEncoder.encode(mail, "utf-8")+"&"+
+                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:0:field", "utf-8")+ "=" + URLEncoder.encode(name, "utf-8")+"&"+
+                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:1:fieldRegId", "utf-8")+ "=" + URLEncoder.encode(surname, "utf-8")+"&"+
+                    URLEncoder.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:fieldRegId", "utf-8")+ "=" + URLEncoder.encode(regNumber, "utf-8")+"&"+
                     //Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:2:field")+ "=" + Uri.encode(person.getIDcard())+"&"+
                     //Uri.encode("personalData:shoppingCartItemList:0:travellerItemsList:3:fieldRegId")+ "=" + Uri.encode(person.getRegNumber())+"&"+
                     //Uri.encode("personalData:personalDataAgreement")+ "=" + "on&"+                  //suhlasim s podmienkami
@@ -154,7 +157,7 @@ public class PostDataCreator {
     }
 
 
-    public static String postFinishPayment(String html){
+    public String postFinishPayment(String html){
 
         try {
             Document doc = Jsoup.parse(html);
@@ -186,7 +189,7 @@ public class PostDataCreator {
         return "";
     }
 
-    public static String postDownloadTicket(String html){
+    public String postDownloadTicket(String html){
 
         try {
             Document doc = Jsoup.parse(html);
@@ -200,7 +203,7 @@ public class PostDataCreator {
             String traveldoc = selectedLink.substring(start,end);
 
             String finalstr =
-                     "travelDocument=travelDocument&"+
+                    "travelDocument=travelDocument&"+
                             "javax.faces.ViewState"+"="+URLEncoder.encode(value,"utf-8")+"&"+
                             URLEncoder.encode(traveldoc,"utf-8") + "="+URLEncoder.encode(traveldoc,"utf-8");
             return  finalstr;
