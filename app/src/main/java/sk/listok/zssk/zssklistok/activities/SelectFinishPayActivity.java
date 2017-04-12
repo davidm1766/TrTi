@@ -36,6 +36,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
     @Override
     public void onBackPressed() {
         Provider.Instance(this).peekDataHolder();
+        super.onBackPressed();
     }
 
     @Override

@@ -41,6 +41,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
     @Override
     public void onBackPressed() {
         Provider.Instance(this).peekDataHolder();
+        super.onBackPressed();
     }
 
     private void loadSpinner(){

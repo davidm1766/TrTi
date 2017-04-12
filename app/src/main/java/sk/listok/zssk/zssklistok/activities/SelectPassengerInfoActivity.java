@@ -124,6 +124,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
     @Override
     public void onBackPressed() {
         Provider.Instance(this).peekDataHolder();
+        super.onBackPressed();
     }
 
     public Person createPerson(){

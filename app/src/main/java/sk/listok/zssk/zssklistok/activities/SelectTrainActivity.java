@@ -44,6 +44,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onBackPressed() {
         Provider.Instance(this).peekDataHolder();
+        super.onBackPressed();
     }
 
     /**
