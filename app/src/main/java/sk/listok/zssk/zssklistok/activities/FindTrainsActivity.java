@@ -38,7 +38,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
     private TimePickerFragment newTimeFragment;
     private DatePickerFragment newDateFragment;
     TrainSearchFragment fragment;
-    ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,16 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if (containerFragment != null && containerFragment.getVisibility() == View.VISIBLE){
+            containerFragment.setVisibility(View.INVISIBLE);
+            containerFragmentThis.setVisibility(View.VISIBLE);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
     /**
      * Inicializacia všetkých odchytávačov eventov.
      */
@@ -57,8 +67,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                progressDialog = ProgressDialog.show(FindTrainsActivity.this, "Vyhľadávanie vlakov", "Prosím čakajte...", true);
-                Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
+               Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
                         PostDataCreatorDynamic.Instance(FindTrainsActivity.this).postFindTrains(getTrain()));
             }
         });
@@ -94,6 +103,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
                 //po vybrati mesta prehodim fragmenty
                 containerFragment.setVisibility(View.INVISIBLE);
                 containerFragmentThis.setVisibility(View.VISIBLE);
+
                 //vybrate mesto priradim podla toho odklial bol fragment volany
                 if(isFromTown){
                     twFromTown.setText(lv.getItemAtPosition(position).toString());
@@ -188,9 +198,8 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     @Override
     public void downloaded(DataHolder dh) {
-        //DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
+
         Intent activityChangeIntent = new Intent(FindTrainsActivity.this, SelectTrainActivity.class);
-        progressDialog.dismiss();
         FindTrainsActivity.this.startActivity(activityChangeIntent);
 
     }

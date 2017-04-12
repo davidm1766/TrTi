@@ -24,42 +24,30 @@ public class TrainSearchFragment extends Fragment {
 
     private ListView lv;
     private SearchView sv;
-
-    //String statios1[] = {"Ba","KE","ZV","ZA"};
     ArrayAdapter<String> adapter;
-    ListAdapter ad;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_train_search, container, false);
-        //populatestationsList();
+
 
         lv = (ListView) rootView.findViewById(R.id.listViewTrain);
         sv = (SearchView) rootView.findViewById(R.id.searchViewTrain);
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getItems());
 
         lv.setAdapter(adapter);
-        sv.clearFocus();// requestFocus(); // hodim focus na vyhladavanie
+        sv.clearFocus();// hodim focus na vyhladavanie
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return true;
             }
-
-
-
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                //adapter.clear()
-
                 adapter.getFilter().filter(newText);
-              //  ArrayList<String> filtered = new ArrayList<String>();
-              //  filtered.add(adapter.getItem(0));
-              //  adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,filtered);
-              //  lv.setAdapter(adapter);
                 return true;
             }
         });

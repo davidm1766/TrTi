@@ -44,6 +44,9 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
         super.onBackPressed();
     }
 
+    /**
+     *  Načítanie dát do spinnera.
+     */
     private void loadSpinner(){
         //poradie sa nemoze menit, index vybratej polozky sa posiela v POST
         String[] arraySpinner = new String[] {
@@ -63,6 +66,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
         this.spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spinner.setAdapter(adapter);
     }
 
