@@ -6,7 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.net.URLEncoder;
 
-import rx.exceptions.OnErrorNotImplementedException;
+
 
 /**
  *  Nepouzivat (len kvoli editacii je v projekte), samostatny .dex.
@@ -15,13 +15,12 @@ public class PostCreator implements IParserPostData{
 
 
 
-    public PostCreator(){
-        throw new OnErrorNotImplementedException(new Throwable("NEPOUZIVAT - je vykompilovana samostatne" +
-                "do bajtkodu!!"));
+    public PostCreator() throws IllegalAccessException{
+        throw new IllegalAccessException("NEPOUZIVAT - je vykompilovana samostatne" +
+                "do bajtkodu!!");
     }
     /**
      * Prva stranka
-     * @param train
      * @return
      */
     public String postFindTrains(String sTownFrom, String sTownTo, String sTime, String sDate){

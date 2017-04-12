@@ -1,5 +1,7 @@
 package sk.listok.zssk.zssklistok.communication;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.objects.JourneyData;
@@ -10,4 +12,5 @@ import sk.listok.zssk.zssklistok.objects.JourneyData;
 
 public interface INotifyParser {
     public void parsered(ArrayList<JourneyData> data);
+    public Context getContext();
 }

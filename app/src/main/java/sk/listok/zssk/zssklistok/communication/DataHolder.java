@@ -20,30 +20,18 @@ public class DataHolder {
     private String paCookies;
 
 
-
-
-    private static DataHolder inst;
-
-    public static DataHolder getInst(){
-        if(inst == null){
-            inst = new DataHolder();
-        }
-        return inst;
-    }
-
-    /**
-     * DEPRECATED: len pre testovanie - nepouzivat
-     * @return
-     */
-    public static void setInst(DataHolder dh){
-        DataHolder.inst = dh;
-    }
-
-
     public DataHolder(){
         //singleton
     }
 
+    public DataHolder clone(){
+        DataHolder dh = new DataHolder();
+        dh.setPaCookies(this.paCookies);
+        dh.setPaHtml(this.paHtml);
+        dh.setPaUrl(this.paUrl);
+        dh.setPaPOSTdata(this.paPOSTdata);
+        return dh;
+    }
 
     public String getCookiesForConnection(){
         return this.paCookies;
@@ -85,6 +73,15 @@ public class DataHolder {
 
     public void setPaUrl(String paUrl) {
         this.paUrl = paUrl;
+    }
+
+
+    public String getPaCookies(){
+        return this.paCookies;
+    }
+
+    public void setPaCookies(String cookies){
+        this.paCookies = cookies;
     }
 
 }

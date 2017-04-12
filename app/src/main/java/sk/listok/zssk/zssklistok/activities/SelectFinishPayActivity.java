@@ -1,28 +1,16 @@
 package sk.listok.zssk.zssklistok.activities;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.io.IOException;
-import java.net.URLEncoder;
-
-import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
-import sk.listok.zssk.zssklistok.helpers.ImageHelper;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
+import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 
 
 public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader {
@@ -39,17 +27,27 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Provider.Instance(SelectFinishPayActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/payment.xhtml",
-                        PostDataCreator.postFinishPayment(Provider.getDataholder().getPaHtml()));
+                        PostDataCreatorDynamic.Instance(SelectFinishPayActivity.this).postFinishPayment(Provider.getDataholder().getPaHtml()));
             }
 
         });
     }
 
     @Override
+    public void onBackPressed() {
+        Provider.Instance(this).peekDataHolder();
+    }
+
+    @Override
     public void downloaded(DataHolder dh) {
         //stiahnutie a ulozenie obrazka
         Provider.Instance(SelectFinishPayActivity.this).doRequestDownloadImage("https://ikvc.slovakrail.sk/inet-sales-web/pages/payment/travelDocument.xhtml",
-                PostDataCreator.postDownloadTicket(Provider.getDataholder().getPaHtml()));
+                PostDataCreatorDynamic.Instance(this).postDownloadTicket(Provider.getDataholder().getPaHtml()));
 
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

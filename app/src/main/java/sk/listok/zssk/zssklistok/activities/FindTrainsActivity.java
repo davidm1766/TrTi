@@ -1,8 +1,7 @@
 package sk.listok.zssk.zssklistok.activities;
 
-//import android.app.DialogFragment;
-
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -17,11 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
 import sk.listok.zssk.zssklistok.INotifyTime;
 import sk.listok.zssk.zssklistok.R;
+import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 
@@ -59,7 +58,8 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 progressDialog = ProgressDialog.show(FindTrainsActivity.this, "Vyhľadávanie vlakov", "Prosím čakajte...", true);
-                Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml", PostDataCreator.postFindTrains(getTrain()));
+                Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
+                        PostDataCreatorDynamic.Instance(FindTrainsActivity.this).postFindTrains(getTrain()));
             }
         });
 
@@ -188,10 +188,15 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     @Override
     public void downloaded(DataHolder dh) {
-        DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
+        //DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
         Intent activityChangeIntent = new Intent(FindTrainsActivity.this, SelectTrainActivity.class);
         progressDialog.dismiss();
         FindTrainsActivity.this.startActivity(activityChangeIntent);
 
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

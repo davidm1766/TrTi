@@ -1,6 +1,10 @@
 package sk.listok.zssk.zssklistok;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,19 +14,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import android.widget.Toast;
 
 
-import sk.listok.zssk.zssklistok.classloader.LoaderParser;
-import sk.listok.zssk.zssklistok.dataLayer.Town;
+import java.util.ArrayList;
+
+import sk.listok.zssk.zssklistok.classloader.DexDownloader;
+import sk.listok.zssk.zssklistok.dataLayer.DatabaseHelper;
+import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
+import sk.listok.zssk.zssklistok.dataLayer.objects.QueryPerson;
+import sk.listok.zssk.zssklistok.dataLayer.objects.QueryTown;
+import sk.listok.zssk.zssklistok.dataLayer.objects.Town;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,9 +49,14 @@ public class MainActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(isOnline()){
+                    Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.FindTrainsActivity.class);
+                    MainActivity.this.startActivity(activityChangeIntent);
+                } else {
+                    Toast.makeText(MainActivity.this,"Skontrolujete svoje internetové pripojenie!", Toast.LENGTH_SHORT).show();
+                }
 
-                Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.FindTrainsActivity.class);
-                MainActivity.this.startActivity(activityChangeIntent);
+
             }
 
         });
@@ -57,59 +64,51 @@ public class MainActivity extends AppCompatActivity {
         Button test = (Button) findViewById(R.id.buttonTestNew);
         test.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                LoaderParser l = new LoaderParser(MainActivity.this);
-                l.runTest();
+                DexDownloader d = new DexDownloader();
             }
 
         });
 
 
 
-
+        final DatabaseHelper myhelper = new DatabaseHelper(MainActivity.this);
         Button buttondb = (Button) findViewById(R.id.buttonDB);
         buttondb.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-              /*  DatabaseHelper myhelper = new DatabaseHelper(MainActivity.this);
-                try{
-                    myhelper.createDatabase();
-                    myhelper.openDatabase();
-                    Toast.makeText(MainActivity.this,"VSETKO OK",Toast.LENGTH_SHORT).show();
-                    Cursor c = myhelper.query("TOWN",null,null,null,null,null,null);
-                    if(c.moveToFirst()){
-                        do{
-                            Toast.makeText(MainActivity.this,
-                                    "ID="+ c.getString(0) + "\n" +
-                                    "NAME="+ c.getString(1) + "\n"
-                                    ,Toast.LENGTH_SHORT).show();
-                        }while (c.moveToNext());
-
-                    }
 
 
-                }catch (Exception ex){
-                    throw new Error("CHYBA");
+           //     QueryTown qt = new QueryTown(myhelper);
+           //     Town t = qt.getTownByID(300);
+          //      Toast.makeText(MainActivity.this, t.getId() +" - "+ t.getName(), Toast.LENGTH_SHORT).show();
+
+                //qt.getAllTowns();
+                // for(Town t : qt.getAllTowns()) {
+                //     Toast.makeText(MainActivity.this, t.getId() +" - "+ t.getName(), Toast.LENGTH_SHORT).show();
+                // }
+                Person pp = new Person("David","Madaras","madaras.david1@gmail.com","1588524","AA123123");
+                QueryPerson qp = new QueryPerson(myhelper);
+                qp.addPerson(pp);
+                ArrayList<Person>  per = qp.getAllPerson();
+                for(Person ppp : per){
+                    Toast.makeText(MainActivity.this, ppp.getId() +" - "+ ppp.getName(), Toast.LENGTH_SHORT).show();
                 }
-*/
-                try{
+
+               // qp.removePerson(per.get(0));
 
 
-                    OrmLiteSqliteOpenHelper todoOpenDatabaseHelper = OpenHelperManager.getHelper(MainActivity.this,OrmLiteSqliteOpenHelper.class);
 
-                    Dao<Town, Long> todoDao = todoOpenDatabaseHelper.getDao(Town.class);
-
-                   // todoDao.create(new Town(1, "Todo Example 1 Description"));
-                   // todoDao.create(new Town(2, "Todo Example 2 Description"));
-                   // todoDao.create(new Town(3, "Todo Example 3 Description"));
-
-                    List<Town> todos = todoDao.queryForAll();
-
-                }catch (Exception e){
-                    throw new Error(e.toString());
-                }
                }
 
         });
 
+    }
+
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package sk.listok.zssk.zssklistok.activities;
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +12,12 @@ import android.widget.Spinner;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
     private Spinner spinner;
-  //  private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +30,17 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
             public void onClick(View v) {
 
             Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
-                    PostDataCreator.postTicketType(Provider.getDataholder().getPaHtml(), spinner.getSelectedItemPosition()));
-          //  progressDialog = ProgressDialog.show(SelectPassengerTypeActivity.this, "Spracúvavam údaje", "Prosím čakajte...", true);
+                    PostDataCreatorDynamic.Instance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), spinner.getSelectedItemPosition()));
 
             }
 
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Provider.Instance(this).peekDataHolder();
     }
 
     private void loadSpinner(){
@@ -65,9 +69,12 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
 
     @Override
     public void downloaded(DataHolder dh) {
-        DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
-       // progressDialog.dismiss();
         Intent activityChangeIntent = new Intent(SelectPassengerTypeActivity.this, SelectPassengerInfoActivity.class);
         SelectPassengerTypeActivity.this.startActivity(activityChangeIntent);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

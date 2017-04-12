@@ -6,7 +6,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.net.URLEncoder;
 
-import sk.listok.zssk.zssklistok.objects.PersonInfo;
+import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
+
 
 /**
  * Created by Nexi on 24.03.2017.
@@ -116,7 +117,7 @@ public class PostDataCreator {
 
     }
 
-    public static String postPassengerInfo(String html, PersonInfo person){
+    public static String postPassengerInfo(String html, Person person){
         try {
             //createPerson(); // nacitam data z editboxov
             Document doc = Jsoup.parse(html);

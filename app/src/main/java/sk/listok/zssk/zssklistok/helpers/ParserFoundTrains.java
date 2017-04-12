@@ -1,5 +1,6 @@
 package sk.listok.zssk.zssklistok.helpers;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
@@ -21,6 +22,7 @@ public class ParserFoundTrains extends AsyncTask<String,Void,ArrayList<JourneyDa
 
 
     private INotifyParser inotify;
+    private ProgressDialog progressDialog;
     public ParserFoundTrains(INotifyParser in) {
         if(in == null){
             throw new IllegalArgumentException("INotifyParser is null!");
@@ -104,7 +106,18 @@ public class ParserFoundTrains extends AsyncTask<String,Void,ArrayList<JourneyDa
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if(inotify.getContext() != null){
+            progressDialog = ProgressDialog.show(inotify.getContext(), "Spracúvavam údaje", "Prosím čakajte...", true);
+        }
+    }
+
+    @Override
     protected void onPostExecute(ArrayList<JourneyData> journeyDatas) {
         inotify.parsered(journeyDatas);
+        if(inotify.getContext() != null){
+            progressDialog.dismiss();
+        }
     }
 }

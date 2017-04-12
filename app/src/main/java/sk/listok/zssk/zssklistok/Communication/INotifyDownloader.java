@@ -8,5 +8,6 @@ import android.content.Context;
 
 public interface INotifyDownloader {
     public void downloaded(DataHolder dh);
+    public Context getContext();
     //public Context getContext();
 }

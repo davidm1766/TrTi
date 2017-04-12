@@ -1,11 +1,13 @@
 package sk.listok.zssk.zssklistok.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -20,8 +22,8 @@ import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyParser;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreator;
 import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.objects.JourneyData;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.objects.TrainData;
@@ -30,9 +32,7 @@ import sk.listok.zssk.zssklistok.communication.DataHolder;
 
 public class SelectTrainActivity extends AppCompatActivity implements View.OnClickListener,INotifyParser,INotifyDownloader {
 
-    //private DataHolder dh = DataHolder.getInst();
     private ArrayList<JourneyData> journeyData;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,10 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         loadTrains();
     }
 
+    @Override
+    public void onBackPressed() {
+        Provider.Instance(this).peekDataHolder();
+    }
 
     /**
      * Funkcia nacita vlaky. Pri nacitani sa
@@ -63,6 +67,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
             addGridToTable(jd,rowID++);
         }
     }
+
 
 
     /**
@@ -249,8 +254,19 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        int screenWidth = size.x;
-        int screenHeight = size.y;
+        int screenWidth;
+        int screenHeight;
+
+        if(getResources().getDisplayMetrics().widthPixels>getResources().getDisplayMetrics().heightPixels) {
+            //landscape - na sirku
+            screenWidth = size.y;
+            screenHeight = size.x;
+        } else {
+            //portait - na vysku
+            screenWidth = size.x;
+            screenHeight = size.y;
+        }
+
         int halfScreenWidth = (int)(screenWidth *0.5);
         int quarterScreenWidth = (int)(halfScreenWidth * 0.5);
         int rowSize = 30;
@@ -340,8 +356,8 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         String id = journeyData.get(v.getId()).getIdJourney();
         Provider.Instance(SelectTrainActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml",
-                PostDataCreator.postSelectTrain(Provider.getDataholder().getPaHtml(),id));
-        progressDialog = ProgressDialog.show(SelectTrainActivity.this, "Spracúvavam údaje", "Prosím čakajte...", true);
+                PostDataCreatorDynamic.Instance(this).postSelectTrain(Provider.getDataholder().getPaHtml(),id));
+
     }
 
 
@@ -355,9 +371,12 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void downloaded(DataHolder dh) {
-        progressDialog.dismiss();
-        //DataHolder.setInst(dh); //LEN KVOLI TESTOVANIU
         Intent activityChangeIntent = new Intent(SelectTrainActivity.this,SelectPassengerTypeActivity.class);
         SelectTrainActivity.this.startActivity(activityChangeIntent);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

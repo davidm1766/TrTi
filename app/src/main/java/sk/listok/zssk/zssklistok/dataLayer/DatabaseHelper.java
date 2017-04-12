@@ -2,7 +2,9 @@ package sk.listok.zssk.zssklistok.dataLayer;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.compat.BuildConfig;
 import android.util.Log;
@@ -19,84 +21,126 @@ import java.io.OutputStream;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    String DB_PATH = null;
-    private static String DB_NAME = "database";
-    private SQLiteDatabase myDatabse;
+    private SQLiteDatabase myDataBase;
     private final Context myContext;
-
+    private static final String DATABASE_NAME = "database";
+    public final static String DATABASE_PATH = "/data/data/sk.listok.zssk.zssklistok/databases/";
+    public static final int DATABASE_VERSION = 1;
 
     public DatabaseHelper(Context context){
-        super(context,DB_NAME,null,10);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.myContext = context;
-        this.DB_PATH = "/data/data/"+ context.getPackageName() +"/databases/";
-        Log.e("paths 1",DB_PATH);
+        try {
+            createDatabase(false);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public void createDatabase() throws IOException{
-        boolean dbExist =false;//checkDatabase();
-        if(dbExist){
 
-        }else{
+    /**
+     *
+     * @param forceCreate - natvrdo prevali DB
+     * @throws IOException
+     */
+    public void createDatabase(boolean forceCreate) throws IOException
+    {
+        boolean dbExist = checkDataBase();
+
+
+        if (forceCreate){
+            try
+            {
+                this.close();
+                copyDataBase();
+            }
+            catch (IOException e)
+            {
+                throw new Error("Error copying database");
+            }
+        }
+        if(dbExist)
+        {
+            Log.v("DB Exists", "db exists");
+            // By calling this method here onUpgrade will be called on a
+            // writeable database, but only if the version number has been
+            // bumped
+            //onUpgrade(myDataBase, DATABASE_VERSION_old, DATABASE_VERSION);
+        }
+
+        boolean dbExist1 = checkDataBase();
+        if(!dbExist1)
+        {
             this.getReadableDatabase();
-            try{
-                copydatabase();
-            }catch (IOException ex){
-                throw new Error("Chyba pri koprovani DB");
+            try
+            {
+                this.close();
+                copyDataBase();
+            }
+            catch (IOException e)
+            {
+                throw new Error("Error copying database");
             }
         }
+
+    }
+    //Check database already exist or not
+    private boolean checkDataBase()
+    {
+        boolean checkDB = false;
+        try
+        {
+            String myPath = DATABASE_PATH + DATABASE_NAME;
+            File dbfile = new File(myPath);
+            checkDB = dbfile.exists();
+        }
+        catch(SQLiteException e)
+        {
+            e.printStackTrace();
+        }
+        return checkDB;
+    }
+    //Copies your database from your local assets-folder to the just created empty database in the system folder
+    private void copyDataBase() throws IOException
+    {
+
+        InputStream mInput = myContext.getAssets().open(DATABASE_NAME);
+        String outFileName = DATABASE_PATH + DATABASE_NAME;
+        OutputStream mOutput = new FileOutputStream(outFileName);
+        byte[] mBuffer = new byte[2024];
+        int mLength;
+        while ((mLength = mInput.read(mBuffer)) > 0) {
+            mOutput.write(mBuffer, 0, mLength);
+        }
+        mOutput.flush();
+        mOutput.close();
+        mInput.close();
+    }
+    //delete database
+    public void db_delete()
+    {
+        File file = new File(DATABASE_PATH + DATABASE_NAME);
+        if(file.exists())
+        {
+            file.delete();
+            System.out.println("delete database file.");
+        }
+    }
+    //Open database
+    public void openDatabase() throws SQLException
+    {
+        String myPath = DATABASE_PATH + DATABASE_NAME;
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
-    private boolean checkDatabase(){
-        SQLiteDatabase checkDB = null;
-        try{
-            String myPath = DB_PATH + DB_NAME;
-            File file = new File(myPath);
-            if (file.exists() && !file.isDirectory()){
-
-            }
-            File dbFile = myContext.getDatabasePath(DB_NAME+"1.db");
-             dbFile.exists();
-
-
-            checkDB = SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READONLY);
-        }catch (Exception ex){
-            throw new Error("nepodarilo sa otvorit DB");
-        }
-        if (checkDB !=null){
-            checkDB.close();
-        }
-        return checkDB != null ? true : false;
-    }
-
-
-    private void copydatabase() throws IOException{
-        InputStream myInput = myContext.getAssets().open(DB_NAME);
-        String outFileName = DB_PATH + DB_NAME;
-        OutputStream myOutput = new FileOutputStream(outFileName);
-        byte[] buffer = new byte[1024];
-        int length;
-        while((length = myInput.read(buffer)) > 0){
-            myOutput.write(buffer,0,length);
-        }
-        myOutput.flush();
-        myOutput.close();
-        myInput.close();
-    }
-
-
-
-    public void openDatabase() throws IOException {
-        String myPath = DB_PATH + DB_NAME;
-        myDatabse = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-    }
-
-    @Override
-    public synchronized void close(){
-        if(myDatabse != null){
-            myDatabse.close();
-        }
+    public synchronized void closeDataBase()throws SQLException
+    {
+        if(myDataBase != null)
+            myDataBase.close();
         super.close();
     }
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -105,18 +149,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(newVersion > oldVersion){
-            try {
-                copydatabase();
-            }catch (Exception ex){
-                ex.printStackTrace();
-            }
+        if (newVersion > oldVersion)
+        {
+            Log.v("Database Upgrade", "Database version higher than old.");
+            db_delete();
+        }
+
+    }
+
+
+    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy){
+        this.openDatabase();
+        Cursor c = this.myDataBase.query(table,columns,selection,selectionArgs,groupBy,having,orderBy);
+        this.close();
+        return c;
+    }
+
+    public void executeSQL(String sql){
+
+        try {
+            this.openDatabase();
+            myDataBase.beginTransaction();
+            this.myDataBase.execSQL(sql);
+            this.myDataBase.setTransactionSuccessful();
+            this.close();
+        }catch (Exception ex ) {
+            ex.printStackTrace();
+        } finally {
+            this.myDataBase.endTransaction();
         }
     }
 
-    public Cursor query(String table, String[] coluns, String selection, String[] selectionArgs, String groupBy, String Having, String orderBy){
-        return myDatabse.query("TOWN",null,null,null,null,null,null);
-    }
 
 
     public void test(){
