@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v4.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -21,14 +22,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
+import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
  * Created by Nexi on 02.04.2017.
  */
 
-public class ImageHelper extends AsyncTask<DataHolder,Void,Bitmap> {
+public class ImageHelper extends AsyncTask<Pair<DataHolder,Ticket>,Void,Bitmap> {
 
 
+    private  INotifyImageDownloaded inotify;
+    public ImageHelper(INotifyImageDownloaded inot){
+        if(inot == null){
+            throw new IllegalArgumentException();
+        }
+        this.inotify = inot;
+    }
 
     private byte[] downloadTicketImage(DataHolder ht){
         try {
@@ -76,15 +86,9 @@ public class ImageHelper extends AsyncTask<DataHolder,Void,Bitmap> {
      * Ulozi pole bajtov predstavujuce obrazok
      * @param arr
      */
-    private void saveImageToFile(byte[] arr){
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/vlakoveListky");
-        myDir.mkdirs();
-        //timestamp
-        SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
-        String format = s.format(new Date());
-
-        File file = new File(myDir,"listok"+format+".png");
+    private void saveImageToFile(byte[] arr,Ticket ticket){
+        File myDir = FileHelper.getTicketFolder();
+        File file = new File(myDir,ticket.getFilename()+".png");
         try{
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(arr);
@@ -96,11 +100,16 @@ public class ImageHelper extends AsyncTask<DataHolder,Void,Bitmap> {
 
 
     @Override
-    protected Bitmap doInBackground(DataHolder... params) {
+    protected Bitmap doInBackground(Pair<DataHolder,Ticket>... params) {
         //najprv si stiahnem listok v .png
-        byte[] arr = downloadTicketImage(params[0]);
+        byte[] arr = downloadTicketImage(params[0].first);
         //potom ho ulozim do suboru
-        saveImageToFile(arr);
+        saveImageToFile(arr,params[0].second);
         return BitmapFactory.decodeByteArray(arr, 0, arr.length);
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        inotify.imageDownloaded(bitmap);
     }
 }

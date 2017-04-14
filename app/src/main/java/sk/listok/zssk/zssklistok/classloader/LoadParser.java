@@ -8,6 +8,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import dalvik.system.DexClassLoader;
+import sk.listok.zssk.zssklistok.helpers.FileHelper;
 
 
 /**
@@ -26,9 +27,7 @@ public class LoadParser {
 
     public Class<?> loadClassCore() {
 
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/vlakoveListky");
-        myDir.mkdirs();
+        File myDir = FileHelper.getTicketFolder();
 
         String defaultLibPath =  myDir + "/Final.dex";
         File dexOutputDir = mActivity.getDir("dex", Context.MODE_PRIVATE);
@@ -50,14 +49,14 @@ public class LoadParser {
 
     private void testAllMethods(Class<?> clazz, Object myInstance){
         try {
-           // Method postFindTrains = clazz.getDeclaredMethod("postFindTrains",new Class[]{String.class,String.class,String.class,String.class});
-            // postFindTrains.invoke(myInstance,"MestoZ","MestoDo","10:10","19.10.2016");
-
             //test druhej fcie
             //Method postSelectTrain = clazz.getDeclaredMethod("postSelectTrain",new Class[]{String.class,String.class});
             //postSelectTrain.invoke(myInstance,"param1","param2");
 
             //test tretej fcie
+           // Method postFindTrains = clazz.getDeclaredMethod("postFindTrains",new Class[]{String.class,String.class,String.class,String.class});
+            // postFindTrains.invoke(myInstance,"MestoZ","MestoDo","10:10","19.10.2016");
+
            // Method postTicketType = clazz.getDeclaredMethod("postTicketType",new Class[]{String.class,int.class});
             //postTicketType.invoke(myInstance,"param1",1);
 

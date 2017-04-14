@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
@@ -23,6 +26,7 @@ import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.objects.Ticket;
 
 
 public class FindTrainsActivity extends AppCompatActivity implements INotifyTime,INotifyDate, INotifyDownloader {
@@ -67,8 +71,13 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
-                        PostDataCreatorDynamic.Instance(FindTrainsActivity.this).postFindTrains(getTrain()));
+                TrainForParser tr = getTrain();
+                Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
+                        PostDataCreatorDynamic.Instance(FindTrainsActivity.this).postFindTrains(tr));
+                //timestamp kedy kupujem listok
+                SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
+                String format = s.format(new Date());
+                Provider.Instance(FindTrainsActivity.this).setTicket(new Ticket(tr.getTownFrom(),tr.getTownTo(),format));
             }
         });
 

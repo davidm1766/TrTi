@@ -99,7 +99,6 @@ public class ParserFoundTrains extends AsyncTask<String,Void,ArrayList<JourneyDa
                }
            }
             //String idstr = btns.get(i).select("a").last().attr("onClick");
-
         }
 
         return fullList;
@@ -109,7 +108,7 @@ public class ParserFoundTrains extends AsyncTask<String,Void,ArrayList<JourneyDa
     protected void onPreExecute() {
         super.onPreExecute();
         if(inotify.getContext() != null){
-            progressDialog = ProgressDialog.show(inotify.getContext(), "Spracúvavam údaje", "Prosím čakajte...", true);
+            progressDialog = ProgressDialog.show(inotify.getContext(), "Spracovávam údaje", "Prosím čakajte...", true);
         }
     }
 

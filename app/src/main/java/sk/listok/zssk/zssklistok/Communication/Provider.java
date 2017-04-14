@@ -2,26 +2,27 @@ package sk.listok.zssk.zssklistok.communication;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.util.Pair;
 import android.widget.Toast;
-
-
 import java.util.Stack;
-
-import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.helpers.ImageHelper;
+import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
  *  Trieda zaobaluje komunikaciu so serverom.
  */
-public class Provider implements INotifyDownloader {
+public class Provider implements INotifyDownloader, INotifyImageDownloaded {
 
     private static DataHolder dataholder;
     private static INotifyDownloader inotify;
+    private static INotifyImageDownloaded inotImg;
     private static Provider instance;
     private ProgressDialog progressDialog;
     private Stack<DataHolder> stackDataholder;
+    private Ticket ticket;
 
     public static Provider Instance(INotifyDownloader inotify) {
         if (instance == null) {
@@ -39,6 +40,7 @@ public class Provider implements INotifyDownloader {
      *  Singleton.
      */
     private Provider(){
+        ticket = null;
         stackDataholder = new Stack<>();
     }
 
@@ -51,7 +53,7 @@ public class Provider implements INotifyDownloader {
                 //nie som online tak nemozem pokracovať
                 return;
             }
-            progressDialog = ProgressDialog.show(inotify.getContext(), "Komunikujem so serverom", "Prosím čakajte...", true);
+            progressDialog = ProgressDialog.show(inotify.getContext(), "Spracovávam údaje", "Prosím čakajte...", true);
         }
 
         stackDataholder.push(dataholder.clone());
@@ -64,10 +66,18 @@ public class Provider implements INotifyDownloader {
     /**
      *  Vykona POST request na URL s POST datami v parametri.
      */
-    public void doRequestDownloadImage(String Url, String POSTdata){
+    public void doRequestDownloadImage(String Url, String POSTdata, INotifyImageDownloaded inot){
+        inotImg = inot;
+        if(inotify != null && inotify.getContext() != null){
+            if(!isOnline(inotify.getContext(),true)){
+                //nie som online tak nemozem pokracovať
+                return;
+            }
+            progressDialog = ProgressDialog.show(inotify.getContext(), "Sťahujem lístok", "Prosím čakajte...", true);
+        }
         Provider.dataholder.setPaUrl(Url);
         Provider.dataholder.setPaPOSTdata(POSTdata);
-        new ImageHelper().execute(Provider.dataholder);
+        new ImageHelper(this).execute(new Pair<>(Provider.dataholder,Provider.Instance(this).getTicket()));
     }
 
     /**
@@ -116,6 +126,23 @@ public class Provider implements INotifyDownloader {
         }
 
         return online;
+    }
+
+    public Ticket getTicket(){
+        return this.ticket;
+    }
+
+    public void setTicket(Ticket tic){
+        this.ticket = tic;
+    }
+
+    @Override
+    public void imageDownloaded(Bitmap bitmap) {
+        inotImg.imageDownloaded(bitmap);
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }
 

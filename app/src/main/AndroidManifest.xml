@@ -30,6 +30,7 @@
         <activity android:name=".activities.SelectPassengerTypeActivity" />
         <activity android:name=".activities.SelectPassengerInfoActivity" />
         <activity android:name=".activities.SelectFinishPayActivity" />
+        <activity android:name=".activities.MyTicketsActivity"></activity>
     </application>
 
 </manifest>

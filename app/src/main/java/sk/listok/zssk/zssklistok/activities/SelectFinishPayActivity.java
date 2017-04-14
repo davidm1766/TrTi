@@ -1,19 +1,23 @@
 package sk.listok.zssk.zssklistok.activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
+import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 
 
-public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader {
+public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader,INotifyImageDownloaded {
 
 
 
@@ -43,12 +47,18 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
     public void downloaded(DataHolder dh) {
         //stiahnutie a ulozenie obrazka
         Provider.Instance(SelectFinishPayActivity.this).doRequestDownloadImage("https://ikvc.slovakrail.sk/inet-sales-web/pages/payment/travelDocument.xhtml",
-                PostDataCreatorDynamic.Instance(this).postDownloadTicket(Provider.getDataholder().getPaHtml()));
+                PostDataCreatorDynamic.Instance(this).postDownloadTicket(Provider.getDataholder().getPaHtml()),this);
 
     }
 
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void imageDownloaded(Bitmap bitmap) {
+        Intent activityChangeIntent = new Intent(SelectFinishPayActivity.this,MainActivity.class);
+        SelectFinishPayActivity.this.startActivity(activityChangeIntent);
     }
 }

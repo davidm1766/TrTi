@@ -36,17 +36,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
-
-        Button button = (Button) findViewById(R.id.button1);
+        Button button = (Button) findViewById(R.id.buttonStartShopping);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(isOnline()){
@@ -56,50 +47,19 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"Skontrolujete svoje internetové pripojenie!", Toast.LENGTH_SHORT).show();
                 }
 
-
             }
 
         });
 
-        Button test = (Button) findViewById(R.id.buttonTestNew);
-        test.setOnClickListener(new View.OnClickListener() {
+        Button tick = (Button) findViewById(R.id.buttonMyTicket);
+        tick.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DexDownloader d = new DexDownloader();
+                Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.MyTicketsActivity.class);
+                MainActivity.this.startActivity(activityChangeIntent);
             }
 
         });
 
-
-
-        final DatabaseHelper myhelper = new DatabaseHelper(MainActivity.this);
-        Button buttondb = (Button) findViewById(R.id.buttonDB);
-        buttondb.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-
-           //     QueryTown qt = new QueryTown(myhelper);
-           //     Town t = qt.getTownByID(300);
-          //      Toast.makeText(MainActivity.this, t.getId() +" - "+ t.getName(), Toast.LENGTH_SHORT).show();
-
-                //qt.getAllTowns();
-                // for(Town t : qt.getAllTowns()) {
-                //     Toast.makeText(MainActivity.this, t.getId() +" - "+ t.getName(), Toast.LENGTH_SHORT).show();
-                // }
-                Person pp = new Person("David","Madaras","madaras.david1@gmail.com","1588524","AA123123");
-                QueryPerson qp = new QueryPerson(myhelper);
-                qp.addPerson(pp);
-                ArrayList<Person>  per = qp.getAllPerson();
-                for(Person ppp : per){
-                    Toast.makeText(MainActivity.this, ppp.getId() +" - "+ ppp.getName(), Toast.LENGTH_SHORT).show();
-                }
-
-               // qp.removePerson(per.get(0));
-
-
-
-               }
-
-        });
 
     }
 
