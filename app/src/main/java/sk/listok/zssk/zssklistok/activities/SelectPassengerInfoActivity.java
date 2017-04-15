@@ -64,8 +64,15 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         Button button = (Button) findViewById(R.id.button5);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               Provider.Instance(sk.listok.zssk.zssklistok.activities.SelectPassengerInfoActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/personalData.xhtml",
-                        PostDataCreatorDynamic.Instance(SelectPassengerInfoActivity.this).postPassengerInfo(Provider.getDataholder().getPaHtml(), createPerson()));
+                Person per = createPerson();
+                ArrayList<Person> pe = DatabaseProvider.Instance(SelectPassengerInfoActivity.this).
+                        worker().person().getPersonByName(per.getName(),per.getSurname());
+                if(pe== null ||pe.size()==0){
+                    DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().removePerson(per);
+                    DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().addPerson(per);
+                }
+                Provider.Instance(sk.listok.zssk.zssklistok.activities.SelectPassengerInfoActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/personalData.xhtml",
+                        PostDataCreatorDynamic.Instance(SelectPassengerInfoActivity.this).postPassengerInfo(Provider.getDataholder().getPaHtml(), per));
             }
 
         });

@@ -72,10 +72,13 @@ public class QueryPerson implements IQueryPerson {
         this.dbhelper.executeSQL(sql);
     }
 
+
+
+
     @Override
     public ArrayList<Person> getPersonByName(String name, String surname) {
         dbhelper.openDatabase();
-        Cursor c = dbhelper.query("PERSON",null,"NAME="+name+" AND SURNAME="+surname,null,null,null,null);
+        Cursor c = dbhelper.query("PERSON",null,"NAME='"+name+"' AND SURNAME='"+surname+"'",null,null,null,null);
         ArrayList<Person> p = null;
         if(c.moveToFirst()) {
             do {
