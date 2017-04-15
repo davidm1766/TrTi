@@ -26,6 +26,16 @@
             android:name="sk.listok.zssk.zssklistok.activities.TicketsFramagment"
             android:id="@+id/fragmentTicket"
             tools:layout="@layout/fragment_ticket_list" />
+
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/textViewTicketNotFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:includeFontPadding="false"
+        android:textSize="24dp"
+        android:text="Nenašli sa žiadne lístky" />
 </RelativeLayout>

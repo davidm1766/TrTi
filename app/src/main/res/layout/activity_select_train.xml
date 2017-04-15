@@ -9,6 +9,15 @@
     tools:context="sk.listok.zssk.zssklistok.activities.SelectTrainActivity">
 
 
+    <TextView
+        android:id="@+id/textViewTrainsNotFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:includeFontPadding="false"
+        android:textSize="24dp"
+        android:text="Nenašli sa žiadne spoje" />
 
 
     <ScrollView

@@ -1,5 +1,6 @@
 package sk.listok.zssk.zssklistok;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,14 +18,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.classloader.DexDownloader;
 import sk.listok.zssk.zssklistok.dataLayer.DatabaseHelper;
+import sk.listok.zssk.zssklistok.dataLayer.DatabaseProvider;
 import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
 import sk.listok.zssk.zssklistok.dataLayer.objects.QueryPerson;
 import sk.listok.zssk.zssklistok.dataLayer.objects.QueryTown;
 import sk.listok.zssk.zssklistok.dataLayer.objects.Town;
+import sk.listok.zssk.zssklistok.helpers.FileHelper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,13 +42,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        FileHelper.copyAssets(this); //skopirujem si subory...
         Button button = (Button) findViewById(R.id.buttonStartShopping);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(isOnline()){
+                    //najprv si rozbalim parser
+
+                    ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this, "Načítavam stanice", "Prosím čakajte...", true);
                     Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.FindTrainsActivity.class);
                     MainActivity.this.startActivity(activityChangeIntent);
+                    progressDialog.dismiss();
                 } else {
                     Toast.makeText(MainActivity.this,"Skontrolujete svoje internetové pripojenie!", Toast.LENGTH_SHORT).show();
                 }

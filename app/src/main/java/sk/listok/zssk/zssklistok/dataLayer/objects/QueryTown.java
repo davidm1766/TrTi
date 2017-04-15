@@ -15,10 +15,14 @@ import sk.listok.zssk.zssklistok.dataLayer.DatabaseHelper;
 public class QueryTown implements IQueryTown{
 
     private DatabaseHelper dbhelper;
+    private ArrayList<Town> cachedTowns;
 
     public QueryTown(DatabaseHelper dbhelper){
         this.dbhelper = dbhelper;
     }
+
+
+
 
     @Override
     public ArrayList<Town> getAllTowns() {
@@ -33,6 +37,14 @@ public class QueryTown implements IQueryTown{
         c.close();
         dbhelper.close();
         return all;
+    }
+
+    @Override
+    public ArrayList<Town> getCachedTowns() {
+        if(this.cachedTowns == null || this.cachedTowns.size() == 0){
+            cachedTowns = getAllTowns();
+        }
+        return cachedTowns;
     }
 
     @Override

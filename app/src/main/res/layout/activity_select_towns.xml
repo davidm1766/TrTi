@@ -17,7 +17,8 @@
             android:layout_height="match_parent"
             android:name="sk.listok.zssk.zssklistok.activities.TrainSearchFragment"
             android:id="@+id/fragment"
-            tools:layout="@layout/fragment_train_search" />
+            tools:layout="@layout/fragment_train_search"
+            />
     </FrameLayout>
 
     <FrameLayout

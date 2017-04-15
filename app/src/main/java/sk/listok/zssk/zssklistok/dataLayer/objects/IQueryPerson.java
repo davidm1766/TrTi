@@ -9,7 +9,9 @@ import java.util.ArrayList;
 public interface IQueryPerson {
     ArrayList<Person> getAllPerson();
     Person getPersonByID(int ID);
+    ArrayList<Person> getPersonByName(String name, String surname);
     void addPerson(Person person);
     void removePerson(Person person);
     void removePerson(int ID);
+
 }

@@ -8,5 +8,6 @@ import java.util.ArrayList;
 
 public interface IQueryTown {
     ArrayList<Town> getAllTowns();
+    ArrayList<Town> getCachedTowns();
     Town getTownByID(int ID);
 }

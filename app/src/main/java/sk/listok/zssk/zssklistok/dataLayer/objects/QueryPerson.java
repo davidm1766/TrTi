@@ -71,4 +71,21 @@ public class QueryPerson implements IQueryPerson {
         String sql = "DELETE FROM PERSON WHERE ID = "+ID;
         this.dbhelper.executeSQL(sql);
     }
+
+    @Override
+    public ArrayList<Person> getPersonByName(String name, String surname) {
+        dbhelper.openDatabase();
+        Cursor c = dbhelper.query("PERSON",null,"NAME="+name+" AND SURNAME="+surname,null,null,null,null);
+        ArrayList<Person> p = null;
+        if(c.moveToFirst()) {
+            do {
+                // ID, name, surname, email, regnumber, idcard
+                p.add(new Person(c.getInt(0), c.getString(1),
+                        c.getString(2),c.getString(3),c.getString(4),c.getString(5)));
+            } while (c.moveToNext());
+        }
+        c.close();
+        dbhelper.close();
+        return p;
+    }
 }

@@ -1,5 +1,7 @@
 package sk.listok.zssk.zssklistok.activities;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +52,6 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         setContentView(R.layout.activity_select_towns);
         initComponents();
         initHandlers();
-
     }
 
     @Override
@@ -186,6 +187,8 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         newTimeFragment.setINotifiable(FindTrainsActivity.this);
         this.newDateFragment = new DatePickerFragment();
         newDateFragment.setINotifiable(FindTrainsActivity.this);
+
+
         fragment = (TrainSearchFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
 
     }

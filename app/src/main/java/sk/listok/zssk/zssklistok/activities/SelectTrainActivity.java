@@ -67,6 +67,15 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         for(JourneyData jd : tr) {
             addGridToTable(jd,rowID++);
         }
+        if(tr.size()==0){
+            //ak nemam ziadne data tak zobrazim hlasku ze sa nenasli spoje
+            TextView tv = (TextView) findViewById(R.id.textViewTrainsNotFound);
+            tv.setVisibility(View.VISIBLE);
+        } else {
+            TextView tv = (TextView) findViewById(R.id.textViewTrainsNotFound);
+            tv.setVisibility(View.INVISIBLE);
+        }
+
     }
 
 

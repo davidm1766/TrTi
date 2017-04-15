@@ -57,6 +57,9 @@ public class TicketsFramagment extends Fragment {
                     }
                 });
         tickets= new ArrayList<Ticket>();
+        if(names == null){
+            return;
+        }
         for(String filename : names) {
             try {
                 tickets.add(new Ticket(filename));
@@ -64,11 +67,7 @@ public class TicketsFramagment extends Fragment {
                 //zly nazov suboru
             }
         }
-        /*
-        tickets.add(new Ticket("Zvolen","Bratislava","20171003"));
-        tickets.add(new Ticket("Bratislava","Zvolen","20171003"));
-        tickets.add(new Ticket("Bratislava","Turčianske Teplice","20171003"));
-        */
+
     }
 
 }

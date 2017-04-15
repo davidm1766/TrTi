@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -38,5 +39,13 @@ public class MyTicketsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        if (lv.getCount() == 0){
+            TextView tv = (TextView) findViewById(R.id.textViewTicketNotFound);
+            tv.setVisibility(View.VISIBLE);
+        }else {
+            TextView tv = (TextView) findViewById(R.id.textViewTicketNotFound);
+            tv.setVisibility(View.INVISIBLE);
+        }
     }
 }

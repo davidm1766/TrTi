@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import dalvik.system.DexClassLoader;
@@ -27,7 +28,8 @@ public class LoadParser {
 
     public Class<?> loadClassCore() {
 
-        File myDir = FileHelper.getTicketFolder();
+
+        File myDir = FileHelper.getTempFolder(); // FileHelper.getTicketFolder();
 
         String defaultLibPath =  myDir + "/Final.dex";
         File dexOutputDir = mActivity.getDir("dex", Context.MODE_PRIVATE);
