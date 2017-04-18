@@ -9,11 +9,12 @@ import java.lang.reflect.InvocationTargetException;
  */
 public interface IParserPostData {
 
-    String postFindTrains(String sTownFrom, String sTownTo, String sTime, String sDate) throws InvocationTargetException, IllegalAccessException;
+    String postFindTrains(String sTownFrom, String sTownTo, String sTime, String sDate);
     String postSelectTrain(String html, String idJourney);
     String postTicketType(String html,int selectedItemIndex);
     String postPassengerInfo(String html, String mail, String name, String surname, String regNumber);
     String postFinishPayment(String html);
     String postDownloadTicket(String html);
+    String checkNoMoreTickets(String html);
 
 }

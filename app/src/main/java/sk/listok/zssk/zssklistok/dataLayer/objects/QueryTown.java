@@ -29,9 +29,11 @@ public class QueryTown implements IQueryTown{
         dbhelper.openDatabase();
         Cursor c = dbhelper.query("TOWN",null,null,null,null,null,null);
         ArrayList<Town> all = new ArrayList<>();
+        int indexName =c.getColumnIndex("NAME");
+        int indexId = c.getColumnIndex("ID");
         if(c.moveToFirst()) {
-            do {
-                all.add(new Town(c.getString(1), c.getInt(0)));
+            do {        //1,0
+                all.add(new Town(c.getString(indexName), c.getInt(indexId)));
             } while (c.moveToNext());
         }
         c.close();

@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.dataLayer.DatabaseProvider;
 import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
-import sk.listok.zssk.zssklistok.dataLayer.objects.QueryPerson;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
@@ -71,8 +69,11 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
                     DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().removePerson(per);
                     DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().addPerson(per);
                 }
-                Provider.Instance(sk.listok.zssk.zssklistok.activities.SelectPassengerInfoActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/personalData.xhtml",
-                        PostDataCreatorDynamic.Instance(SelectPassengerInfoActivity.this).postPassengerInfo(Provider.getDataholder().getPaHtml(), per));
+                Provider pro = Provider.Instance(SelectPassengerInfoActivity.this);
+
+                pro.doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/personalData.xhtml",
+                        pro.getIParerInstance(SelectPassengerInfoActivity.this).postPassengerInfo(
+                                Provider.getDataholder().getPaHtml(), per.getEmail(),per.getName(),per.getSurname(),per.getRegNumber()));
             }
 
         });

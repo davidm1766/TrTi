@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,7 +26,6 @@ import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
 import sk.listok.zssk.zssklistok.INotifyTime;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.objects.Ticket;
@@ -33,6 +33,9 @@ import sk.listok.zssk.zssklistok.objects.Ticket;
 
 public class FindTrainsActivity extends AppCompatActivity implements INotifyTime,INotifyDate, INotifyDownloader {
 
+
+    public final String trainPreferences = "trainPref";
+    SharedPreferences sharedpreferences;
 
     private boolean isFromTown;
     private TextView twFromTown;
@@ -52,6 +55,11 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         setContentView(R.layout.activity_select_towns);
         initComponents();
         initHandlers();
+        sharedpreferences = getSharedPreferences(trainPreferences, Context.MODE_PRIVATE);
+
+        //nacitam zo shared preferencies posledne vyhladane spoje
+        twFromTown.setText(sharedpreferences.getString("townFrom", twFromTown.getText().toString()));
+        twToTown.setText(sharedpreferences.getString("townTo", twToTown.getText().toString()));
     }
 
     @Override
@@ -64,6 +72,18 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         }
     }
 
+    @Override
+    protected void onPause() {
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.putString("townFrom", twFromTown.getText().toString());
+        editor.putString("townTo", twToTown.getText().toString());
+        editor.commit();
+
+        super.onPause();
+    }
+
     /**
      * Inicializacia všetkých odchytávačov eventov.
      */
@@ -74,7 +94,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
             public void onClick(View v) {
                 TrainForParser tr = getTrain();
                 Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
-                        PostDataCreatorDynamic.Instance(FindTrainsActivity.this).postFindTrains(tr));
+                        Provider.getIParerInstance(FindTrainsActivity.this).postFindTrains(tr.getTownFrom(),tr.getTownTo(),tr.getTime(),tr.getDate()));
                 //timestamp kedy kupujem listok
                 SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
                 String format = s.format(new Date());

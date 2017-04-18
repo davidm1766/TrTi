@@ -41,7 +41,7 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("charset", "utf-8");
 
-            //connection.setUseCaches(false);
+            connection.setUseCaches(false);
             connection.setRequestProperty("Cookie", ht.getCookiesForConnection());
 
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());

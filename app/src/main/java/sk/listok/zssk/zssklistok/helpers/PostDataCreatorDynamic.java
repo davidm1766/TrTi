@@ -111,5 +111,16 @@ public class PostDataCreatorDynamic implements IParserPostData {
         }
     }
 
+    @Override
+    public String checkNoMoreTickets(String html) {
+        Object ret = ClassProvider.Instance(activity).getMethodResult("checkNoMoreTickets",
+                new Class[]{String.class},html);
+        if(ret == null){
+            return null;
+        }else {
+            return (String)ret;
+        }
+    }
+
 }
 

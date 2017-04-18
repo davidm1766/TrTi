@@ -15,9 +15,8 @@ public class PostCreator implements IParserPostData{
 
 
 
-    public PostCreator() throws IllegalAccessException{
-        throw new IllegalAccessException("NEPOUZIVAT - je vykompilovana samostatne" +
-                "do bajtkodu!!");
+    public PostCreator(){
+
     }
     /**
      * Prva stranka
@@ -208,7 +207,21 @@ public class PostCreator implements IParserPostData{
             return  finalstr;
         } catch (Exception e){
             System.out.println("CHYBA:"+e.toString());
+        }
+        return "";
+    }
 
+    public String checkNoMoreTickets(String html){
+        try{
+            Document doc = Jsoup.parse(html);
+            Elements notickets = doc.select(".tmp-anulation-form-false");
+            if(notickets == null || notickets.size() == 0){
+                return "";
+            } else {
+                return notickets.first().html();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
         return "";
     }

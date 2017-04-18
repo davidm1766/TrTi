@@ -1,14 +1,19 @@
 package sk.listok.zssk.zssklistok.communication;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import java.util.Stack;
+
+import sk.listok.zssk.zssklistok.helpers.IParserPostData;
 import sk.listok.zssk.zssklistok.helpers.ImageHelper;
+import sk.listok.zssk.zssklistok.helpers.PostCreator;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
@@ -135,6 +140,14 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
     public void setTicket(Ticket tic){
         this.ticket = tic;
     }
+
+
+    public static IParserPostData getIParerInstance(AppCompatActivity act){
+        //return PostDataCreatorDynamic.Instance(act);
+        return new PostCreator();
+        //
+    }
+
 
     @Override
     public void imageDownloaded(Bitmap bitmap) {

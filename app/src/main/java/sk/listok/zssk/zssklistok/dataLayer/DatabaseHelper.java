@@ -133,18 +133,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
-    public synchronized void closeDataBase()throws SQLException
-    {
-        if(myDataBase != null)
-            myDataBase.close();
-        super.close();
-    }
-
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     @Override
@@ -154,7 +145,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.v("Database Upgrade", "Database version higher than old.");
             db_delete();
         }
-
     }
 
 

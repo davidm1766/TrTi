@@ -42,11 +42,18 @@ public class QueryPerson implements IQueryPerson {
         dbhelper.openDatabase();
         Cursor c = dbhelper.query("PERSON",null,"ID="+ID,null,null,null,null);
         Person p = null;
+        int indexId = c.getColumnIndex("ID");
+        int indexName = c.getColumnIndex("NAME");
+        int indexSurn = c.getColumnIndex("SURNAME");
+        int indexEmail =  c.getColumnIndex("EMAIL");
+        int indexReg = c.getColumnIndex("REG_NUMBER");
+        int indexIdCard = c.getColumnIndex("ID_CARD");
+
         if(c.moveToFirst()) {
             do {
                 // ID, name, surname, email, regnumber, idcard
-                 p = new Person(c.getInt(0), c.getString(1),
-                        c.getString(2),c.getString(3),c.getString(4),c.getString(5));
+                 p = new Person(c.getInt(indexId), c.getString(indexName),
+                        c.getString(indexSurn),c.getString(indexEmail),c.getString(indexReg),c.getString(indexIdCard));
             } while (c.moveToNext());
         }
         c.close();
@@ -79,7 +86,7 @@ public class QueryPerson implements IQueryPerson {
     public ArrayList<Person> getPersonByName(String name, String surname) {
         dbhelper.openDatabase();
         Cursor c = dbhelper.query("PERSON",null,"NAME='"+name+"' AND SURNAME='"+surname+"'",null,null,null,null);
-        ArrayList<Person> p = null;
+        ArrayList<Person> p = new ArrayList<>();
         if(c.moveToFirst()) {
             do {
                 // ID, name, surname, email, regnumber, idcard

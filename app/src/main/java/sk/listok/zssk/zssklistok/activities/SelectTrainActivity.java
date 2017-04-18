@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyParser;
 import sk.listok.zssk.zssklistok.communication.Provider;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.objects.JourneyData;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.objects.TrainData;
@@ -366,7 +365,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         String id = journeyData.get(v.getId()).getIdJourney();
         Provider.Instance(SelectTrainActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml",
-                PostDataCreatorDynamic.Instance(this).postSelectTrain(Provider.getDataholder().getPaHtml(),id));
+                Provider.getIParerInstance(this).postSelectTrain(Provider.getDataholder().getPaHtml(),id));
 
     }
 

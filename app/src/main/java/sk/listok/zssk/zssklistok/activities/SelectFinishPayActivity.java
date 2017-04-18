@@ -14,7 +14,6 @@ import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
 import sk.listok.zssk.zssklistok.communication.Provider;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 
 
 public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader,INotifyImageDownloaded {
@@ -31,7 +30,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Provider.Instance(SelectFinishPayActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/payment.xhtml",
-                        PostDataCreatorDynamic.Instance(SelectFinishPayActivity.this).postFinishPayment(Provider.getDataholder().getPaHtml()));
+                        Provider.getIParerInstance(SelectFinishPayActivity.this).postFinishPayment(Provider.getDataholder().getPaHtml()));
             }
 
         });
@@ -47,7 +46,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
     public void downloaded(DataHolder dh) {
         //stiahnutie a ulozenie obrazka
         Provider.Instance(SelectFinishPayActivity.this).doRequestDownloadImage("https://ikvc.slovakrail.sk/inet-sales-web/pages/payment/travelDocument.xhtml",
-                PostDataCreatorDynamic.Instance(this).postDownloadTicket(Provider.getDataholder().getPaHtml()),this);
+                Provider.getIParerInstance(this).postDownloadTicket(Provider.getDataholder().getPaHtml()),this);
 
     }
 
@@ -58,7 +57,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
 
     @Override
     public void imageDownloaded(Bitmap bitmap) {
-        Intent activityChangeIntent = new Intent(SelectFinishPayActivity.this,MainActivity.class);
+        Intent activityChangeIntent = new Intent(SelectFinishPayActivity.this,MyTicketsActivity.class);
         SelectFinishPayActivity.this.startActivity(activityChangeIntent);
     }
 }

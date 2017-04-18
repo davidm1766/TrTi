@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
-import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
@@ -30,7 +30,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
             public void onClick(View v) {
 
             Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
-                    PostDataCreatorDynamic.Instance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), spinner.getSelectedItemPosition()));
+                    Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), spinner.getSelectedItemPosition()));
 
             }
 
@@ -74,6 +74,11 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
 
     @Override
     public void downloaded(DataHolder dh) {
+        if(!Provider.getIParerInstance(this).checkNoMoreTickets(dh.getPaHtml()).equals("")){
+            Toast.makeText(this,"Vyčerpaný kontigent.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent activityChangeIntent = new Intent(SelectPassengerTypeActivity.this, SelectPassengerInfoActivity.class);
         SelectPassengerTypeActivity.this.startActivity(activityChangeIntent);
     }
