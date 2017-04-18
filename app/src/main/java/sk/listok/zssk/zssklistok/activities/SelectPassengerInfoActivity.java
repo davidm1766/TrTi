@@ -56,7 +56,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         // nastavim detail z listka
         finalInfo.setText(ParserHelper.ticketDetails(Provider.getDataholder().getPaHtml()));
         // nastavim cenu
-        priceInfo.setText("Celková cena s DPH: "+ ParserHelper.ticketPrice(Provider.getDataholder().getPaHtml()));
+        priceInfo.setText(getString(R.string.PRICE_WITH_TAX)+ ParserHelper.ticketPrice(Provider.getDataholder().getPaHtml()));
 
 
         Button button = (Button) findViewById(R.id.button5);
@@ -84,7 +84,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
         this.person = DatabaseProvider.Instance(this).worker().person().getAllPerson();
         final AutoCompleteTextView textView;
-        final ArrayAdapter<Person> arrayAdapter = new ArrayAdapter<Person>(this, android.R.layout.simple_dropdown_item_1line,person);
+        final ArrayAdapter<Person> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line,person);
 
         textView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewSurname);
         textView.setAdapter(arrayAdapter);

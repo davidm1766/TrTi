@@ -10,7 +10,7 @@ import android.widget.TimePicker;
 import sk.listok.zssk.zssklistok.INotifyTime;
 
 /**
- * Created by Nexi on 05.03.2017.
+ *  Trieda na prácu s komponentom na časový picker.
  */
 
 public class TimePickerFragment extends DialogFragment  implements TimePickerDialog.OnTimeSetListener {
@@ -20,8 +20,6 @@ public class TimePickerFragment extends DialogFragment  implements TimePickerDia
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-
         if(it != null){
             it.notifyTime(hourOfDay,minute);
         }
@@ -30,9 +28,7 @@ public class TimePickerFragment extends DialogFragment  implements TimePickerDia
     public void setINotifiable(INotifyTime it){
 
         this.it = it;
-
         java.util.Calendar c = java.util.Calendar.getInstance();
-
         int hour = c.get(java.util.Calendar.HOUR_OF_DAY);
         int minute = c.get(java.util.Calendar.MINUTE);
 

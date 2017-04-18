@@ -5,5 +5,5 @@ package sk.listok.zssk.zssklistok;
  */
 
 public interface INotifyTime {
-    public void notifyTime(int hour, int minutes);
+    void notifyTime(int hour, int minutes);
 }

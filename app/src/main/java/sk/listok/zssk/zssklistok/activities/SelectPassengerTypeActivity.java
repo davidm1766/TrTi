@@ -50,21 +50,21 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
     private void loadSpinner(){
         //poradie sa nemoze menit, index vybratej polozky sa posiela v POST
         String[] arraySpinner = new String[] {
-                "OBYČAJNÝ",
-                "DIEŤA -15",
-                "ŽIAK/ŠTUDENT",
-                "JUNIOR RP",
-                "KLASIK RP",
-                "SENIOR RP",
-                "DÔCHODCA -62",
-                "OBČAN 62+",
-                "OBČAN 70+",
-                "ŤZP",
-                "ŤZP-S",
-                "PES"
+                getString(R.string.CLASSIC),
+                getString(R.string.CHILD),
+                getString(R.string.STUDENT),
+                getString(R.string.JUNIOR),
+                getString(R.string.CLASSICRP),
+                getString(R.string.SENIORRP),
+                getString(R.string.SENIOR62),
+                getString(R.string.SENIOR62PLUS),
+                getString(R.string.SENIOR70PLUS),
+                getString(R.string.TZP),
+                getString(R.string.TZPS),
+                getString(R.string.DOG)
         };
         this.spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spinner.setAdapter(adapter);
@@ -75,7 +75,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
     @Override
     public void downloaded(DataHolder dh) {
         if(!Provider.getIParerInstance(this).checkNoMoreTickets(dh.getPaHtml()).equals("")){
-            Toast.makeText(this,"Vyčerpaný kontigent.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.NO_MORE_TICKETS,Toast.LENGTH_SHORT).show();
             return;
         }
 

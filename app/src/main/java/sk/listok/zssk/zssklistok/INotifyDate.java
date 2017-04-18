@@ -1,9 +1,9 @@
 package sk.listok.zssk.zssklistok;
 
 /**
- * Created by Nexi on 05.03.2017.
+ * Slúži na oznámenie o vybratí dátumu, napr. z pickera.
  */
 
 public interface INotifyDate {
-    public void notifyDate(int day, int month,int year);
+    void notifyDate(int day, int month,int year);
 }

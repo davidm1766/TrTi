@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import java.util.Stack;
 
+import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.helpers.IParserPostData;
 import sk.listok.zssk.zssklistok.helpers.ImageHelper;
 import sk.listok.zssk.zssklistok.helpers.PostCreator;
@@ -58,7 +59,8 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
                 //nie som online tak nemozem pokracovať
                 return;
             }
-            progressDialog = ProgressDialog.show(inotify.getContext(), "Spracovávam údaje", "Prosím čakajte...", true);
+            progressDialog = ProgressDialog.show(inotify.getContext(), inotify.getContext().getString(
+                    R.string.PROCESSING_DATA), inotify.getContext().getString(R.string.PLEASE_WAIT), true);
         }
 
         stackDataholder.push(dataholder.clone());
@@ -87,7 +89,6 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
 
     /**
      * Vráti cely dataholder
-     * @return
      */
     public static DataHolder getDataholder(){
         return Provider.dataholder;
@@ -97,12 +98,11 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
     /**
      * Oznámenie o vykonení POST requestu, kde pride
      * nastavny Dataholder.
-     * @param dh
+     * @param dh Dataholder, ktorý drži informácie o stránke.
      */
     @Override
     public void downloaded(DataHolder dh) {
         //sem mi pride ked sa stihne nova html stranka
-
         inotify.downloaded(dh);
         if (progressDialog != null) {
             progressDialog.dismiss();

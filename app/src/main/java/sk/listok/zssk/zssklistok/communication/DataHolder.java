@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Nexi on 04.03.2017.
+ * Trieda drží informácie o stránke.
  */
 
 public class DataHolder {

@@ -49,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 if(isOnline()){
                     //najprv si rozbalim parser
 
-                    ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this, "Načítavam stanice", "Prosím čakajte...", true);
+                    ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this, getString(R.string.LOADING_STATIONS), getString(R.string.PLEASE_WAIT), true);
+
                     Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.FindTrainsActivity.class);
                     MainActivity.this.startActivity(activityChangeIntent);
+
                     progressDialog.dismiss();
                 } else {
-                    Toast.makeText(MainActivity.this,"Skontrolujete svoje internetové pripojenie!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.CHECK_CONNECTION, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -100,17 +102,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-   // public void onClickBtn(View v){
-
-
-
-        /*
-        WebView browser = (WebView) findViewById(R.id.webview);
-        HtmlHelper helper = new HtmlHelper(browser);
-        helper.downloadPage();
-        */
-
-   // }
 }

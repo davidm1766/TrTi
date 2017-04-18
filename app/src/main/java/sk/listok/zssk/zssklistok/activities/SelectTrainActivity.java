@@ -58,7 +58,8 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
      * Vykresli gridy do tabulky - jeden riadok v tabulke
      * moze obsahovat viacero gridov, lebo grid predstavuje
      * jeden prestup.
-     * @param tr
+     * @param tr Jecnotlive cesty, pricom kazda cesta moze predstavovat viacero
+     *           spojov.
      */
     private void createGrids(ArrayList<JourneyData> tr) {
 
@@ -83,8 +84,8 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
      * Funkcia prida cely grid do tabulky, kde jeden riadok predstavuje
      * jednu cestu z mesta x do mesta y a moze byt na nej aj niekolko
      * prestupov - stale je to jeden riadok v tabulke...
-     * @param jd
-     * @param rowID
+     * @param jd Jedna konkrétna cesta
+     * @param rowID ID riadku (v poradi)
      */
     private void addGridToTable(JourneyData jd, int rowID){
 
@@ -151,7 +152,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
 
         TextView tw = new TextView(this);
-        tw.setText(setBold("Celkový čas "+jd.getJourneyTime()));
+        tw.setText(setBold(getString(R.string.TOTAL_TIME)+jd.getJourneyTime()));
         tw.setPadding(0,0,20,0);
         tw.setLayoutParams(lp);
 
@@ -165,8 +166,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
     /**
      * Vrati string s BOLD.
-     * @param s
-     * @return
+     * @param s Retazec, ktorý sa zmeni na bold.
      */
     private SpannableString setBold(String s){
         SpannableString spanString = new SpannableString(s);
@@ -176,8 +176,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
     /**
      * Vrati string s ITALIC.
-     * @param s
-     * @return
+     * @param s Retazec, ktorý sa zmení na italic.
      */
     private SpannableString setItalic(String s){
         SpannableString spanString = new SpannableString(s);
@@ -187,9 +186,8 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
     /**
      * Vygeneruje 1 grid, ktory predstavuje cestu jednym vlakom.
-     * @param td
-     * @param yellowTrain
-     * @return
+     * @param td Informacie o jednej ceste.
+     * @param yellowTrain, či bude vlak žltý alebo nie.
      */
     private GridLayout generateGridForTrain(TrainData td, boolean yellowTrain) {
 
@@ -213,13 +211,13 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         cells[2] = new TextView(this);
         ((TextView)cells[2]).setText(setItalic(td.getFromTown() +" -> "+td.getToTown()));//"Zvolen -> Banská Bystrica"); td.getFromTown()
         cells[3] = new TextView(this);
-        ((TextView)cells[3]).setText("Odchod ");
+        ((TextView)cells[3]).setText(R.string.DEPARTURE);
         cells[4] = new TextView(this);
         ((TextView)cells[4]).setText(setBold(td.getDepartueTime()));//setBold("11:00"));
         cells[5] = new TextView(this);
         ((TextView)cells[5]).setText(td.getDepartueDate());//"01.03.2017");
         cells[6] = new TextView(this);
-        ((TextView)cells[6]).setText("Príchod ");
+        ((TextView)cells[6]).setText(R.string.ARRIVAL);
         cells[7] = new TextView(this);
         ((TextView)cells[7]).setText(setBold(td.getArrivalTime()));//setBold("13:02"));
         cells[8] = new TextView(this);
@@ -256,7 +254,6 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     /**
      *  Funkcia vrati layout params pre kazdy prvok v gride,
      *  pocet layoutparams sa musi zhodovat s poctom prvkov v gride!!!
-     * @return
      */
     private GridLayout.LayoutParams[] generateLayoutParams(){
         GridLayout.LayoutParams[] glp = new GridLayout.LayoutParams[10];

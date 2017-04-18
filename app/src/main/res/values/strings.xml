@@ -5,4 +5,25 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="CLASSIC">OBYČAJNÝ</string>
+    <string name="CHILD">DIEŤA -15</string>
+    <string name="STUDENT">ŽIAK/ŠTUDENT</string>
+    <string name="JUNIOR">JUNIOR RP</string>
+    <string name="CLASSICRP">KLASIK RP</string>
+    <string name="SENIORRP">SENIOR RP</string>
+    <string name="SENIOR62">DÔCHODCA -62</string>
+    <string name="SENIOR62PLUS">OBČAN 62+</string>
+    <string name="SENIOR70PLUS">OBČAN 70+</string>
+    <string name="TZP">ŤZP</string>
+    <string name="TZPS">ŤZP-S</string>
+    <string name="DOG">PES</string>
+    <string name="NO_MORE_TICKETS">Vyčerpaný kontigent.</string>
+    <string name="PRICE_WITH_TAX">Celková cena s DPH:</string>
+    <string name="TOTAL_TIME">Celkový čas</string>
+    <string name="DEPARTURE">Odchod</string>
+    <string name="ARRIVAL">Príchod</string>
+    <string name="PLEASE_WAIT">Prosím čakajte...</string>
+    <string name="LOADING_STATIONS">Načítavam stanice</string>
+    <string name="CHECK_CONNECTION">Skontrolujete svoje internetové pripojenie!</string>
+    <string name="PROCESSING_DATA">Spracovávam údaje</string>
 </resources>
