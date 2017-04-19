@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(isOnline()){
                     //najprv si rozbalim parser
+                    DexDownloader d = new DexDownloader();
+
 
                     ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this, getString(R.string.LOADING_STATIONS), getString(R.string.PLEASE_WAIT), true);
 

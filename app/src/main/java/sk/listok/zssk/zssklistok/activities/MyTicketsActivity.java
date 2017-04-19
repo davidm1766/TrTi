@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.helpers.FileHelper;
@@ -47,5 +48,13 @@ public class MyTicketsActivity extends AppCompatActivity {
             TextView tv = (TextView) findViewById(R.id.textViewTicketNotFound);
             tv.setVisibility(View.INVISIBLE);
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent activityChangeIntent = new Intent(MyTicketsActivity.this,MainActivity.class);
+        MyTicketsActivity.this.startActivity(activityChangeIntent);
+        //super.onBackPressed();
     }
 }
