@@ -10,6 +10,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.j256.ormlite.stmt.query.In;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
@@ -18,9 +24,10 @@ import sk.listok.zssk.zssklistok.communication.DataHolder;
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
     private Spinner spinner;
+    private HashSet<Integer> supportedIndexes = new HashSet<>(Arrays.asList(1,2,6,7,8));
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_passenger_type);
         loadSpinner();
@@ -28,9 +35,13 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
         Button button = (Button) findViewById(R.id.button4);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+            int selectedIndex = spinner.getSelectedItemPosition();
+            if(!supportedIndexes.contains(selectedIndex)){
+                Toast.makeText(SelectPassengerTypeActivity.this, R.string.NoSupportedType ,Toast.LENGTH_SHORT).show();
+                return;
+            }
             Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
-                    Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), spinner.getSelectedItemPosition()));
+                    Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), selectedIndex));
 
             }
 

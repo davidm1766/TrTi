@@ -32,11 +32,13 @@ import sk.listok.zssk.zssklistok.communication.DataHolder;
 public class SelectTrainActivity extends AppCompatActivity implements View.OnClickListener,INotifyParser,INotifyDownloader {
 
     private ArrayList<JourneyData> journeyData;
+    private boolean clicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_train);
+        clicked = false;
         loadTrains();
     }
 
@@ -360,10 +362,12 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        String id = journeyData.get(v.getId()).getIdJourney();
-        Provider.Instance(SelectTrainActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml",
-                Provider.getIParerInstance(this).postSelectTrain(Provider.getDataholder().getPaHtml(),id));
-
+        if(!clicked) {
+            clicked = true;
+            String id = journeyData.get(v.getId()).getIdJourney();
+            Provider.Instance(SelectTrainActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml",
+                    Provider.getIParerInstance(this).postSelectTrain(Provider.getDataholder().getPaHtml(), id));
+        }
     }
 
 
@@ -379,6 +383,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     public void downloaded(DataHolder dh) {
         Intent activityChangeIntent = new Intent(SelectTrainActivity.this,SelectPassengerTypeActivity.class);
         SelectTrainActivity.this.startActivity(activityChangeIntent);
+        clicked = false;
     }
 
     @Override

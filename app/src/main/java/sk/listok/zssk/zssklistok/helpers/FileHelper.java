@@ -21,7 +21,8 @@ public class FileHelper {
     private static Context context;
 
     public static File getTicketFolder(){
-        String root = Environment.getExternalStorageDirectory().toString();
+        String root = context.getFilesDir().toString(); //Environment.getExternalStorageDirectory().toString();
+        //File file = new File(context.getFilesDir());
         File myDir = new File(root + "/vlakoveListky");
         myDir.mkdirs();
         return myDir;
@@ -40,7 +41,7 @@ public class FileHelper {
 
 
     public static File getTicketImage(String filename){
-        String root = Environment.getExternalStorageDirectory().toString();
+        String root =  context.getFilesDir().toString(); //Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/vlakoveListky/"+filename);
         myDir.mkdirs();
         return myDir;

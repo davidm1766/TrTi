@@ -1,7 +1,7 @@
 package sk.listok.zssk.zssklistok;
 
 /**
- * Created by Nexi on 05.03.2017.
+ * Interface na oznámenie o zmene hodín a minút, napr. pri výbere z pickera.
  */
 
 public interface INotifyTime {

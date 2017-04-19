@@ -2,8 +2,10 @@ package sk.listok.zssk.zssklistok.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,7 @@ import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.helpers.ParserHelper;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.helpers.VerifyHelper;
 
 
 public class SelectPassengerInfoActivity extends AppCompatActivity implements INotifyDownloader {
@@ -86,6 +91,8 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         final AutoCompleteTextView textView;
         final ArrayAdapter<Person> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line,person);
 
+
+
         textView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewSurname);
         textView.setAdapter(arrayAdapter);
         textView.setOnClickListener(new View.OnClickListener() {
@@ -112,9 +119,16 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
                     textView.dismissDropDown();
                     isDispleyed = false;
                 }
-
             }
         });
+
+
+//        final AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(SelectPassengerInfoActivity.this);
+//        dlgAlert.setMessage("This is an alert with no consequence");
+//        dlgAlert.setTitle("App Title");
+//        dlgAlert.setPositiveButton("OK", null);
+//        dlgAlert.setCancelable(true);
+
 
         textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,7 +139,18 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
                 SelectPassengerInfoActivity.this.editTextSurname.setText(per.getSurname());
                 SelectPassengerInfoActivity.this.editTextEmail.setText(per.getEmail());
             }
+
         });
+
+
+//
+//        dlgAlert.setPositiveButton("Ok",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //dismiss the dialog
+//                        //ano chcem zmazat  a mazem
+//                    }
+//                });
     }
 
 
@@ -148,6 +173,12 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
     @Override
     public void downloaded(DataHolder dh) {
+        String result = VerifyHelper.checkUserInfo(dh.getPaHtml());
+        if(!result.equals("")){
+            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent activityChangeIntent = new Intent(sk.listok.zssk.zssklistok.activities.SelectPassengerInfoActivity.this,sk.listok.zssk.zssklistok.activities.SelectFinishPayActivity.class);
         SelectPassengerInfoActivity.this.startActivity(activityChangeIntent);
     }
