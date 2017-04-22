@@ -21,6 +21,7 @@ import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.helpers.AddsHelper;
+import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
@@ -39,7 +40,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
         mInterstitialAd.setAdListener(new AdListener() {
             public void onAdLoaded() {
                 if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
+                    mInterstitialAd. show();
                 }
             }
         });
@@ -55,8 +56,14 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
                 Toast.makeText(SelectPassengerTypeActivity.this, R.string.NoSupportedType ,Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            String toSend = Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), selectedIndex);
+            if(toSend == null || toSend.equals("")){
+                ErrorHelper.onError(SelectPassengerTypeActivity.this);
+                return;
+            }
             Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
-                    Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), selectedIndex));
+                    toSend);
 
             }
 

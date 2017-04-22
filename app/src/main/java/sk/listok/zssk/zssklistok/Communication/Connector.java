@@ -87,7 +87,7 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
     @Override
     protected void onPostExecute(DataHolder result) {
         // po dokonceni vysledky...
-        inotify.downloaded(result);
+           inotify.downloaded(result);
     }
 
     @Override

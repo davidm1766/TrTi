@@ -12,9 +12,11 @@ import android.widget.Toast;
 import java.util.Stack;
 
 import sk.listok.zssk.zssklistok.R;
+import sk.listok.zssk.zssklistok.classloader.ClassProvider;
 import sk.listok.zssk.zssklistok.helpers.IParserPostData;
 import sk.listok.zssk.zssklistok.helpers.ImageHelper;
 import sk.listok.zssk.zssklistok.helpers.PostCreator;
+import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
@@ -143,9 +145,17 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
 
 
     public static IParserPostData getIParerInstance(AppCompatActivity act){
-        //return PostDataCreatorDynamic.Instance(act);
-        return new PostCreator();
-        //
+        if(ClassProvider.Instance(act).isDexAvaiable()){
+            // ak je dostupny parser v dex subore tak pouzijem ten
+            return PostDataCreatorDynamic.Instance(act);
+        } else {
+            //inak pouzijem z kodu
+            return new PostCreator();
+        }
+    }
+
+    public void clearStack(){
+        this.stackDataholder.clear();
     }
 
 

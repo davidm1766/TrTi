@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.datalayer.DatabaseProvider;
@@ -20,6 +22,7 @@ import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 import sk.listok.zssk.zssklistok.helpers.ParserHelper;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.helpers.VerifyHelper;
@@ -53,9 +56,9 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
         isDispleyed = false;
         // nastavim detail z listka
-        finalInfo.setText(ParserHelper.ticketDetails(Provider.getDataholder().getPaHtml()));
+        finalInfo.setText(Provider.getIParerInstance(this).ticketDetails(Provider.getDataholder().getPaHtml()));
         // nastavim cenu
-        priceInfo.setText(getString(R.string.PRICE_WITH_TAX)+ ParserHelper.ticketPrice(Provider.getDataholder().getPaHtml()));
+        priceInfo.setText(getString(R.string.PRICE_WITH_TAX)+ Provider.getIParerInstance(this).ticketPrice(Provider.getDataholder().getPaHtml()));
 
 
         Button button = (Button) findViewById(R.id.button5);
@@ -69,10 +72,15 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
                     DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().addPerson(per);
                 }
                 Provider pro = Provider.Instance(SelectPassengerInfoActivity.this);
+                String toSend = pro.getIParerInstance(SelectPassengerInfoActivity.this).postPassengerInfo(
+                        Provider.getDataholder().getPaHtml(), per.getEmail(),per.getName(),per.getSurname(),per.getRegNumber());
+                if(toSend == null || toSend.equals("")){
+                    ErrorHelper.onError(SelectPassengerInfoActivity.this);
+                    return;
+                }
 
                 pro.doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/personalData.xhtml",
-                        pro.getIParerInstance(SelectPassengerInfoActivity.this).postPassengerInfo(
-                                Provider.getDataholder().getPaHtml(), per.getEmail(),per.getName(),per.getSurname(),per.getRegNumber()));
+                        toSend);
             }
 
         });
@@ -93,10 +101,10 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
             @Override
             public void onClick(final View arg0) {
                 if (!isDispleyed){
-                    textView.showDropDown();
+                    showDropdown(textView);
                     isDispleyed = true;
                 } else {
-                    textView.dismissDropDown();
+                    dismissDropdown(textView);
                     isDispleyed = false;
                 }
 
@@ -107,21 +115,14 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus){
-                    textView.showDropDown();
+                    showDropdown(textView);
                     isDispleyed = true;
                 } else {
-                    textView.dismissDropDown();
+                    dismissDropdown(textView);
                     isDispleyed = false;
                 }
             }
         });
-
-
-//        final AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(SelectPassengerInfoActivity.this);
-//        dlgAlert.setMessage("This is an alert with no consequence");
-//        dlgAlert.setTitle("App Title");
-//        dlgAlert.setPositiveButton("OK", null);
-//        dlgAlert.setCancelable(true);
 
 
         textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -135,17 +136,26 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
             }
 
         });
-
-
-//
-//        dlgAlert.setPositiveButton("Ok",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        //dismiss the dialog
-//                        //ano chcem zmazat  a mazem
-//                    }
-//                });
     }
+
+
+    private void showDropdown(final AutoCompleteTextView textView){
+        textView.post(new Runnable() {
+            @Override
+            public void run() {
+                textView.showDropDown();
+            }
+        });
+    }
+    private void dismissDropdown(final AutoCompleteTextView textView){
+        textView.post(new Runnable() {
+            @Override
+            public void run() {
+                textView.dismissDropDown();
+            }
+        });
+    }
+
 
 
     @Override

@@ -16,5 +16,7 @@ public interface IParserPostData {
     String postFinishPayment(String html);
     String postDownloadTicket(String html);
     String checkNoMoreTickets(String html);
+    String ticketPrice(String html);
+    String ticketDetails(String html);
 
 }

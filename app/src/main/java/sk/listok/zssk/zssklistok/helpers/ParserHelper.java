@@ -11,18 +11,5 @@ import org.jsoup.select.Elements;
 public class ParserHelper {
 
 
-    public static String ticketPrice(String html){
-        Document doc = Jsoup.parse(html);
-        return doc.getElementById("personalData:priceContainer").select("div > p > strong").html();
-    }
-
-
-    public static String ticketDetails(String html){
-        Document doc = Jsoup.parse(html);
-        Elements detailData =doc.select(".tmp-shopping-detail-data");
-        Elements journeyDetail = detailData.select("div > ul");
-        return journeyDetail.first().children().html();
-
-    }
 
 }

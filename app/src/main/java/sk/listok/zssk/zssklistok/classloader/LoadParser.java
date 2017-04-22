@@ -29,9 +29,9 @@ public class LoadParser {
     public Class<?> loadClassCore() {
 
 
-        File myDir = FileHelper.getTempFolder(); // FileHelper.getTicketFolder();
+        File myDir = FileHelper.getDexFile(); // FileHelper.getTicketFolder();
 
-        String defaultLibPath =  myDir + "/Final.dex";
+        String defaultLibPath =  myDir + "";
         File dexOutputDir = mActivity.getDir("dex", Context.MODE_PRIVATE);
         DexClassLoader dcl = new DexClassLoader(defaultLibPath,
                 dexOutputDir.getAbsolutePath(),

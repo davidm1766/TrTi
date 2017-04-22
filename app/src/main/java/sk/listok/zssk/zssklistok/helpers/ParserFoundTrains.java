@@ -115,8 +115,10 @@ public class ParserFoundTrains extends AsyncTask<String,Void,ArrayList<JourneyDa
     @Override
     protected void onPostExecute(ArrayList<JourneyData> journeyDatas) {
         inotify.parsered(journeyDatas);
-        if(inotify.getContext() != null){
+        if(inotify.getContext() != null && progressDialog !=null && progressDialog.isShowing()){
             progressDialog.dismiss();
+        }else{
+            progressDialog = null;
         }
     }
 }

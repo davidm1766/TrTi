@@ -2,12 +2,14 @@ package sk.listok.zssk.zssklistok.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -20,9 +22,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyParser;
 import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 import sk.listok.zssk.zssklistok.objects.JourneyData;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.objects.TrainData;
@@ -354,8 +358,13 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         if(!clicked) {
             clicked = true;
             String id = journeyData.get(v.getId()).getIdJourney();
+            String toSend = Provider.getIParerInstance(this).postSelectTrain(Provider.getDataholder().getPaHtml(), id);
+            if(toSend == null || toSend.equals("")){
+                ErrorHelper.onError(this);
+                return;
+            }
             Provider.Instance(SelectTrainActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml",
-                    Provider.getIParerInstance(this).postSelectTrain(Provider.getDataholder().getPaHtml(), id));
+                    toSend);
         }
     }
 

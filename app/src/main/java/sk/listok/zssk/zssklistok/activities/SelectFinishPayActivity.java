@@ -14,6 +14,7 @@ import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
 import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 
 
 public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader,INotifyImageDownloaded {
@@ -26,11 +27,17 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
         setContentView(R.layout.activity_select_finish_pay);
 
 
+
         Button button = (Button) findViewById(R.id.buttonFinish);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String toSend = Provider.getIParerInstance(SelectFinishPayActivity.this).postFinishPayment(Provider.getDataholder().getPaHtml());
+                if(toSend == null || toSend.equals("")){
+                    ErrorHelper.onError(SelectFinishPayActivity.this);
+                    return;
+                }
                 Provider.Instance(SelectFinishPayActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/payment.xhtml",
-                        Provider.getIParerInstance(SelectFinishPayActivity.this).postFinishPayment(Provider.getDataholder().getPaHtml()));
+                        toSend);
             }
 
         });

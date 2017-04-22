@@ -61,4 +61,12 @@ public class ClassProvider {
         }
     }
 
+
+    public boolean isDexAvaiable(){
+        refreshLoadedParser();
+        if(lastCache == null){
+            return false;
+        }
+        return true;
+    }
 }

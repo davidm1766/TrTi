@@ -26,6 +26,7 @@ import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
 import sk.listok.zssk.zssklistok.INotifyTime;
 import sk.listok.zssk.zssklistok.R;
+import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.objects.Ticket;
@@ -47,6 +48,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
     private TimePickerFragment newTimeFragment;
     private DatePickerFragment newDateFragment;
     TrainSearchFragment fragment;
+    private int whichFragmentOpen;
 
 
     @Override
@@ -60,6 +62,37 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         //nacitam zo shared preferencies posledne vyhladane spoje
         twFromTown.setText(sharedpreferences.getString("townFrom", twFromTown.getText().toString()));
         twToTown.setText(sharedpreferences.getString("townTo", twToTown.getText().toString()));
+
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if(savedInstanceState != null) {
+            int fragOpen =  savedInstanceState.getInt("fragmentOpen");
+            switch (fragOpen){
+                case 0:
+                    //nic nebolo otvorene som na acitvite
+                    break;
+                case 1:
+                    //bolo otvorene z mesta
+                    showFragmentFromTown();
+                    break;
+                case 2:
+                    //bolo otvorene do mesta
+                    showFragmentToTown();
+                    break;
+            }
+            whichFragmentOpen = fragOpen;
+        }
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("fragmentOpen",whichFragmentOpen);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -84,6 +117,9 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         super.onPause();
     }
 
+
+
+
     /**
      * Inicializacia všetkých odchytávačov eventov.
      */
@@ -93,8 +129,14 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TrainForParser tr = getTrain();
+                String toSend = Provider.getIParerInstance(FindTrainsActivity.this).postFindTrains(tr.getTownFrom(),tr.getTownTo(),tr.getTime(),tr.getDate());
+                if(toSend == null || toSend.equals("")){
+                    ErrorHelper.onError(FindTrainsActivity.this);
+                    return;
+                }
+
                 Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
-                        Provider.getIParerInstance(FindTrainsActivity.this).postFindTrains(tr.getTownFrom(),tr.getTownTo(),tr.getTime(),tr.getDate()));
+                        toSend);
                 //timestamp kedy kupujem listok
                 SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
                 String format = s.format(new Date());
@@ -140,6 +182,10 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
                 }else {
                     twToTown.setText(lv.getItemAtPosition(position).toString());
                 }
+                /* vratil som sa z fragmentu na vyber mesta
+                 * a preto nastavim ze nie som uz na ziadnom frag.
+                 */
+                whichFragmentOpen = 0;
             }
 
         });
@@ -148,9 +194,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         twFromTown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.clearFilter();
-                isFromTown = true;
-                displayStationsFragment();
+                showFragmentFromTown();
             }
         });
 
@@ -158,11 +202,23 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         twToTown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.clearFilter();
-                isFromTown = false;
-                displayStationsFragment();
+                showFragmentToTown();
             }
         });
+    }
+
+    private void showFragmentFromTown(){
+        fragment.clearFilter();
+        isFromTown = true;
+        whichFragmentOpen = 1;
+        displayStationsFragment();
+    }
+
+    private void showFragmentToTown(){
+        fragment.clearFilter();
+        isFromTown = false;
+        whichFragmentOpen = 2;
+        displayStationsFragment();
     }
 
 
@@ -176,6 +232,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         fragment.clearFilter();
         containerFragmentThis.setVisibility(View.INVISIBLE);
         fragmentTransaction.commit();
+
     }
 
 

@@ -53,8 +53,9 @@ public class MyTicketsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent activityChangeIntent = new Intent(MyTicketsActivity.this,MainActivity.class);
-        MyTicketsActivity.this.startActivity(activityChangeIntent);
+        Intent intent = new Intent(MyTicketsActivity.this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        MyTicketsActivity.this.startActivity(intent);
         //super.onBackPressed();
     }
 }

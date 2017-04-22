@@ -40,6 +40,9 @@
 
     <string name="banner_home_footer">ca-app-pub-9312615750092757/9181437022</string>
     <string name="interstitial_full_screen">ca-app-pub-9312615750092757/6552701428</string>
+    <string name="ERROR_MESSAGE">Vyskytla sa chyba a nie je možné pokračovať. Ak problém pretrváva kontaktuje vývojárov aplikácie.</string>
+    <string name="ERROR_TITLE">Chyba</string>
+    <string name="BUTTON_OK">OK</string>
 
 
 </resources>

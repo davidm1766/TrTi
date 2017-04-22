@@ -19,6 +19,8 @@ import java.util.ArrayList;
 public class FileHelper {
 
     private static Context context;
+    private static String dexFileName = "parser.dex";
+
 
     public static File getTicketFolder(){
         String root = Environment.getExternalStorageDirectory().toString();//context.getFilesDir().toString();
@@ -39,6 +41,32 @@ public class FileHelper {
         return new File(context.getExternalFilesDir(null), filename);
     }
 
+    public static File getDexFile(){
+        File dexFile = new File(context.getFilesDir() + "/dexfile/"+dexFileName);
+        dexFile.mkdirs();
+        return dexFile;
+    }
+
+    public static File getDexDir(){
+        File dexDir = new File(context.getFilesDir() + "/dexfile");
+        dexDir.mkdirs();
+        return dexDir;
+    }
+
+
+    public static void rewriteToDexFile(byte[] bytes){
+        try {
+            File f = getDexFile();
+            f.delete();
+
+            File file = new File(getDexDir(), dexFileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bytes);
+            fos.close();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
     public static File getTicketImage(String filename){
         String root =  Environment.getExternalStorageDirectory().toString();//context.getFilesDir().toString(); //Environment.getExternalStorageDirectory().toString();

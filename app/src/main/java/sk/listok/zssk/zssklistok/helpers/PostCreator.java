@@ -225,4 +225,19 @@ public class PostCreator implements IParserPostData{
         }
         return "";
     }
+
+
+    public String ticketPrice(String html){
+        Document doc = Jsoup.parse(html);
+        return doc.getElementById("personalData:priceContainer").select("div > p > strong").html();
+    }
+
+
+    public String ticketDetails(String html){
+        Document doc = Jsoup.parse(html);
+        Elements detailData =doc.select(".tmp-shopping-detail-data");
+        Elements journeyDetail = detailData.select("div > ul");
+        return journeyDetail.first().children().html();
+
+    }
 }

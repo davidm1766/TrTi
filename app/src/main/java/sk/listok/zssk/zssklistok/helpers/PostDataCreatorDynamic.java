@@ -40,6 +40,7 @@ public class PostDataCreatorDynamic implements IParserPostData {
     public String postFindTrains(TrainForParser train) {
         return this.postFindTrains(train.getTownFrom(),train.getTownTo(),train.getTime(),train.getDate());
     }
+
     @Override
     public String postFindTrains(String sTownFrom, String sTownTo, String sTime, String sDate) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("postFindTrains",new Class[]
@@ -114,6 +115,28 @@ public class PostDataCreatorDynamic implements IParserPostData {
     @Override
     public String checkNoMoreTickets(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("checkNoMoreTickets",
+                new Class[]{String.class},html);
+        if(ret == null){
+            return null;
+        }else {
+            return (String)ret;
+        }
+    }
+
+    @Override
+    public String ticketPrice(String html) {
+        Object ret = ClassProvider.Instance(activity).getMethodResult("ticketPrice",
+                new Class[]{String.class},html);
+        if(ret == null){
+            return null;
+        }else {
+            return (String)ret;
+        }
+    }
+
+    @Override
+    public String ticketDetails(String html) {
+        Object ret = ClassProvider.Instance(activity).getMethodResult("ticketDetails",
                 new Class[]{String.class},html);
         if(ret == null){
             return null;
