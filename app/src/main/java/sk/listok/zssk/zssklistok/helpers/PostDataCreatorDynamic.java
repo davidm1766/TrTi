@@ -3,7 +3,7 @@ package sk.listok.zssk.zssklistok.helpers;
 import android.support.v7.app.AppCompatActivity;
 
 import sk.listok.zssk.zssklistok.classloader.ClassProvider;
-import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
+import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 
 
 /**

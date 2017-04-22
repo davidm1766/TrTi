@@ -1,27 +1,19 @@
 package sk.listok.zssk.zssklistok.activities;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.dataLayer.DatabaseProvider;
-import sk.listok.zssk.zssklistok.dataLayer.objects.IQueryTown;
-import sk.listok.zssk.zssklistok.dataLayer.objects.QueryTown;
-import sk.listok.zssk.zssklistok.dataLayer.objects.Town;
-import sk.listok.zssk.zssklistok.objects.TrainStation;
+import sk.listok.zssk.zssklistok.datalayer.DatabaseProvider;
+import sk.listok.zssk.zssklistok.datalayer.objects.Town;
 
 
 public class TrainSearchFragment extends Fragment {

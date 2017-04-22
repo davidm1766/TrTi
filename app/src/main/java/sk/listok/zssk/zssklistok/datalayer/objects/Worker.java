@@ -1,8 +1,6 @@
-package sk.listok.zssk.zssklistok.dataLayer.objects;
+package sk.listok.zssk.zssklistok.datalayer.objects;
 
-import java.net.PortUnreachableException;
-
-import sk.listok.zssk.zssklistok.dataLayer.DatabaseHelper;
+import sk.listok.zssk.zssklistok.datalayer.DatabaseHelper;
 
 /**
  * Created by Nexi on 11.04.2017.

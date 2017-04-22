@@ -6,7 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.net.URLEncoder;
 
-import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
+import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 
 
 /**

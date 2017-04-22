@@ -238,17 +238,6 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
             gridLayout.addView(v);
         }
 
-/* zafarbi kazdu bunku inak
-        btn.setBackgroundColor(Color.rgb(255,0,0));
-        btn2.setBackgroundColor(Color.rgb(0,255,0));
-        btn3.setBackgroundColor(Color.rgb(0,0,255));
-        btn4.setBackgroundColor(Color.rgb(0,0,155));
-        btn5.setBackgroundColor(Color.rgb(0,155,0));
-        btn6.setBackgroundColor(Color.rgb(155,0,0));
-        btn7.setBackgroundColor(Color.rgb(60,60,0));
-        btn8.setBackgroundColor(Color.rgb(90,155,155));
-        btn9.setBackgroundColor(Color.rgb(0,0,155));
-*/
         return gridLayout;
     }
 

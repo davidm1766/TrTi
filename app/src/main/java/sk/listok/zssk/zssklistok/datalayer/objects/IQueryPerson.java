@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok.dataLayer.objects;
+package sk.listok.zssk.zssklistok.datalayer.objects;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
-package sk.listok.zssk.zssklistok.dataLayer;
+package sk.listok.zssk.zssklistok.datalayer;
 
 import android.content.Context;
 
-import sk.listok.zssk.zssklistok.dataLayer.objects.Worker;
+import sk.listok.zssk.zssklistok.datalayer.objects.Worker;
 
 /**
  * Created by Nexi on 11.04.2017.
