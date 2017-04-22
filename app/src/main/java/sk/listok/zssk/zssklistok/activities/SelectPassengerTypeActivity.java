@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -17,16 +20,31 @@ import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
     private Spinner spinner;
     private HashSet<Integer> supportedIndexes = new HashSet<>(Arrays.asList(1,2,6,7,8));
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_passenger_type);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
+        mInterstitialAd.loadAd(AddsHelper.Instance().getAdRequest());
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+            }
+        });
+
+
         loadSpinner();
 
         Button button = (Button) findViewById(R.id.button4);

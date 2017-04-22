@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import sk.listok.zssk.zssklistok.activities.Reklama;
 import sk.listok.zssk.zssklistok.classloader.DexDownloader;
 import sk.listok.zssk.zssklistok.dataLayer.DatabaseHelper;
 import sk.listok.zssk.zssklistok.dataLayer.DatabaseProvider;
@@ -30,6 +31,7 @@ import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
 import sk.listok.zssk.zssklistok.dataLayer.objects.QueryPerson;
 import sk.listok.zssk.zssklistok.dataLayer.objects.QueryTown;
 import sk.listok.zssk.zssklistok.dataLayer.objects.Town;
+import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 import sk.listok.zssk.zssklistok.helpers.FileHelper;
 
 
@@ -42,14 +44,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //load reklam
+        AddsHelper.Instance().getAdRequest();
+
         FileHelper.copyAssets(this); //skopirujem si subory...
         Button button = (Button) findViewById(R.id.buttonStartShopping);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(isOnline()){
                     //najprv si rozbalim parser
-                    DexDownloader d = new DexDownloader();
-
+                    //DexDownloader d = new DexDownloader();
+//                    Intent a = new Intent(MainActivity.this, Reklama.class);
+//                    MainActivity.this.startActivity(a);
 
                     ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this, getString(R.string.LOADING_STATIONS), getString(R.string.PLEASE_WAIT), true);
 

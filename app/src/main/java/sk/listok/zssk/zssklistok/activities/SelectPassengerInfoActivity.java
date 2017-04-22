@@ -19,6 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.dataLayer.DatabaseProvider;
@@ -26,6 +30,7 @@ import sk.listok.zssk.zssklistok.dataLayer.objects.Person;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 import sk.listok.zssk.zssklistok.helpers.ParserHelper;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.helpers.VerifyHelper;
@@ -42,11 +47,11 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
     private EditText editTextRegNumber;
     private boolean isDispleyed;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_passenger_info);
-
 
 
         editTextEmail = ((EditText)findViewById(R.id.editTextEmail));

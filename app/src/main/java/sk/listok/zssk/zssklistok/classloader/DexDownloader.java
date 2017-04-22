@@ -1,18 +1,5 @@
 package sk.listok.zssk.zssklistok.classloader;
 
-import com.microsoft.azure.storage.CloudStorageAccount;
-import com.microsoft.azure.storage.Permissions;
-import com.microsoft.azure.storage.SharedAccessAccountPermissions;
-import com.microsoft.azure.storage.SharedAccessAccountPolicy;
-import com.microsoft.azure.storage.blob.CloudBlobClient;
-import com.microsoft.azure.storage.blob.CloudBlobContainer;
-import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import com.microsoft.azure.storage.file.CloudFile;
-import com.microsoft.azure.storage.file.CloudFileClient;
-import com.microsoft.azure.storage.file.CloudFileDirectory;
-import com.microsoft.azure.storage.file.CloudFileShare;
-import com.microsoft.azure.storage.file.FileInputStream;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

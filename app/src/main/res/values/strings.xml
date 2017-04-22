@@ -27,4 +27,19 @@
     <string name="CHECK_CONNECTION">Skontrolujete svoje internetové pripojenie!</string>
     <string name="PROCESSING_DATA">Spracovávam údaje</string>
     <string name="NoSupportedType">V súčasnosti tento typ lístka nie je podporovaný.</string>
+
+
+    <!-- reklama    app   ca-app-pub-9312615750092757~2122501823-->
+
+    <string name="title_activity_second_activiy">Interstitial</string>
+    <string name="msg_welcome">Welcome to Admob. Click on the below button to launch the Interstitial ad.</string>
+    <string name="btn_fullscreen_ad">Show Fullscreen Ad</string>
+
+
+
+
+    <string name="banner_home_footer">ca-app-pub-9312615750092757/9181437022</string>
+    <string name="interstitial_full_screen">ca-app-pub-9312615750092757/6552701428</string>
+
+
 </resources>
