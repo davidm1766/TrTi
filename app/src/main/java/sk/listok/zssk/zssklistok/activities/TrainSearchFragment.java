@@ -31,7 +31,7 @@ public class TrainSearchFragment extends Fragment {
 
     private ListView lv;
     private SearchView sv;
-    ArrayAdapter<Town> adapter;
+    HRArrayAdapter<Town> adap;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +47,9 @@ public class TrainSearchFragment extends Fragment {
 
         lv = (ListView) rootView.findViewById(R.id.listViewTrain);
         sv = (SearchView) rootView.findViewById(R.id.searchViewTrain);
-        adapter = new ArrayAdapter<Town>(getActivity(),android.R.layout.simple_list_item_1,stations);
+        adap = new HRArrayAdapter<Town>(getActivity(),android.R.layout.simple_list_item_1,stations);
 
-        lv.setAdapter(adapter);
+        lv.setAdapter(adap);
         sv.clearFocus();// hodim focus na vyhladavanie
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -59,8 +59,7 @@ public class TrainSearchFragment extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-               // String clearText = Normalizer.normalize(newText, Normalizer.Form.NFD); //zrusim diakritiku
-                adapter.getFilter().filter(newText);
+                adap.getFilter().filter(newText);
                 return true;
             }
         });
@@ -71,7 +70,7 @@ public class TrainSearchFragment extends Fragment {
 
     public void clearFilter(){
         sv.setQuery("",false);
-        adapter.getFilter().filter("");
+        adap.getFilter().filter("");
     }
 
 
