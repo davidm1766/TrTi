@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,12 +13,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-/**
- * Created by Nexi on 12.04.2017.
- */
+import sk.listok.zssk.zssklistok.objects.Ticket;
 
+/**
+ *
+ */
 public class FileHelper {
 
+    public static final String DATABASE_PATH = "/data/data/sk.listok.zssk.zssklistok/databases/";
+    public static final String DATABASE_NAME = "database";
     private static Context context;
     private static String dexFileName = "parser.dex";
 
@@ -142,4 +146,17 @@ public class FileHelper {
     }
 
 
+    public static boolean deleteTicket(Ticket ticket) {
+        File f = getTicketImage(ticket.getFilename());
+        if(f != null){
+            f.delete();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static File getOutputDex(Context mActivity) {
+        return mActivity.getDir("dex", Context.MODE_PRIVATE);
+    }
 }

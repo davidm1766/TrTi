@@ -16,7 +16,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import sk.listok.zssk.zssklistok.classloader.RotationLocker;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
@@ -28,7 +28,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
 
     private Spinner spinner;
     private HashSet<Integer> supportedIndexes = new HashSet<>(Arrays.asList(1,2,6,7,8));
-    InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
 
     @Override
     public void onBackPressed() {
-        Provider.Instance(this).peekDataHolder();
+        Provider.Instance(this).popDataHolder();
         super.onBackPressed();
     }
 

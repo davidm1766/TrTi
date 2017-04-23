@@ -1,15 +1,11 @@
 package sk.listok.zssk.zssklistok.activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -22,8 +18,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-import sk.listok.zssk.zssklistok.MainActivity;
-import sk.listok.zssk.zssklistok.classloader.RotationLocker;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyParser;
 import sk.listok.zssk.zssklistok.communication.Provider;
@@ -50,7 +45,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        Provider.Instance(this).peekDataHolder();
+        Provider.Instance(this).popDataHolder();
         super.onBackPressed();
     }
 

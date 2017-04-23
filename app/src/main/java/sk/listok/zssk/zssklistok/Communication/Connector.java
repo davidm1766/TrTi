@@ -11,7 +11,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Nexi on 24.03.2017.
+ * Connector komunikuje priamo so stránkou železníc. Posiela POST požiadavky
+ * a v DataHolderi vracia celé HTML. Zo vstupného DataHoldera sa vyberie URL
+ * adresa, cookies, POST dáta a odošlu sa. Response z tejto požiadavky sa uloži
+ * do DataHoldera a vráti sa naspäť.
  */
 
 public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
@@ -27,6 +30,12 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
         inotify = in;
     }
 
+    /**
+     * Samotné odoslanie požiadavky na server.
+     * @param ht z dataholdera sa vyberú všetky potrebné
+     *           informácie na odoslanie POST requestu.
+     * @return
+     */
     private DataHolder requestToServer(DataHolder ht){
         HttpURLConnection connection = null;
         try {
@@ -90,15 +99,5 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
            inotify.downloaded(result);
     }
 
-    @Override
-    protected void onPreExecute() {
-        //pred doInBackgroud
-    }
-
-
-    @Override
-    protected void onProgressUpdate(Void... progress) {
-        //setProgressPercent(progress[0]);
-    }
 
 }

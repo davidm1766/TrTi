@@ -1,5 +1,7 @@
 package sk.listok.zssk.zssklistok.helpers;
 
+import android.text.Html;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -237,7 +239,12 @@ public class PostCreator implements IParserPostData{
         Document doc = Jsoup.parse(html);
         Elements detailData =doc.select(".tmp-shopping-detail-data");
         Elements journeyDetail = detailData.select("div > ul");
-        return journeyDetail.first().children().html();
+        StringBuilder sb = new StringBuilder();
+        for(Element el : journeyDetail){
+            sb.append(Html.fromHtml(el.children().html()).toString()+"\n");
+        }
+
+        return sb.toString();
 
     }
 }

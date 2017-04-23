@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import java.lang.reflect.Method;
 
 /**
- * Created by Nexi on 10.04.2017.
+ * Trieda, ktorá slúži na načítanie z disku do pamäte bajtkód parsera.
  */
-
 public class ClassProvider {
 
     private AppCompatActivity mActivity;
@@ -30,7 +29,14 @@ public class ClassProvider {
     private ClassProvider(){
         //singleton
     }
-    private void refreshLoadedParser(){
+
+
+    /**
+     * Pokiaľ ešte nie je načítaný bajtkód v pamäti
+     * načíta ho, ak je už zavedený do pamäte, tak
+     * nič nenačítava, len ho vráti zo svojej cache.
+     */
+    private void loadParser(){
 
         //cache nech nenatahujem stale...
         if(lastCache != null && lastCache.first != null && lastCache.second != null) {
@@ -50,9 +56,16 @@ public class ClassProvider {
     }
 
 
+    /**
+     * Zavolanie metody na načítanom bajtkóde parsera.
+     * @param methodName Názov metódy
+     * @param paramTypes Typy parametrov
+     * @param paramValues Hodnoty parametrov
+     * @return
+     */
     public Object getMethodResult(String methodName, Class[] paramTypes, Object... paramValues){
         try {
-            refreshLoadedParser(); //aktualizujem cache ak su prazdne...
+            loadParser(); //aktualizujem cache ak su prazdne...
             Method postFindTrains = lastCache.first.getDeclaredMethod(methodName, paramTypes);
             return postFindTrains.invoke(lastCache.second, paramValues);
         }catch (Exception ex ){
@@ -61,9 +74,13 @@ public class ClassProvider {
         }
     }
 
-
+    /**
+     * Funkcia skontroluje či sa podarilo načítať bajtkod
+     * parsera do pamäte a či je tam zavedený.
+     * @return true = bajtkod parsera je v pamäti
+     */
     public boolean isDexAvaiable(){
-        refreshLoadedParser();
+        loadParser();
         if(lastCache == null){
             return false;
         }

@@ -45,6 +45,10 @@ public class TicketsFramagment extends Fragment {
     }
 
 
+    /**
+     * Naplní arraylist lístkami, ktoré sú
+     * uložene v mobile.
+     */
     private void populatestationsList() {
         File dir = FileHelper.getTicketFolder();
 

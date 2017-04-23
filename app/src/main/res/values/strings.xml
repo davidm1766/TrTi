@@ -19,7 +19,7 @@
     <string name="DOG">PES</string>
     <string name="NO_MORE_TICKETS">Vyčerpaný kontigent.</string>
     <string name="PRICE_WITH_TAX">Celková cena s DPH:</string>
-    <string name="TOTAL_TIME">Celkový čas </string>
+    <string name="TOTAL_TIME">"Celkový čas "</string>
     <string name="DEPARTURE">Odchod</string>
     <string name="ARRIVAL">Príchod</string>
     <string name="PLEASE_WAIT">Prosím čakajte...</string>
@@ -27,22 +27,41 @@
     <string name="CHECK_CONNECTION">Skontrolujete svoje internetové pripojenie!</string>
     <string name="PROCESSING_DATA">Spracovávam údaje</string>
     <string name="NoSupportedType">V súčasnosti tento typ lístka nie je podporovaný.</string>
+    <string name="ERROR_TITLE">Chyba</string>
+    <string name="BUTTON_OK">OK</string>
 
 
     <!-- reklama    app   ca-app-pub-9312615750092757~2122501823-->
-
-    <string name="title_activity_second_activiy">Interstitial</string>
-    <string name="msg_welcome">Welcome to Admob. Click on the below button to launch the Interstitial ad.</string>
-    <string name="btn_fullscreen_ad">Show Fullscreen Ad</string>
-
-
-
-
     <string name="banner_home_footer">ca-app-pub-9312615750092757/9181437022</string>
     <string name="interstitial_full_screen">ca-app-pub-9312615750092757/6552701428</string>
-    <string name="ERROR_MESSAGE">Vyskytla sa chyba a nie je možné pokračovať. Ak problém pretrváva kontaktuje vývojárov aplikácie.</string>
-    <string name="ERROR_TITLE">Chyba</string>
-    <string name="BUTTON_OK">OK</string>
+    <string name="WARRNING">Upozornenie</string>
+    <string name="NO">NIE</string>
+    <string name="YES">ÁNO</string>
+    <string name="SURE_DELETE">Skutočne si prajete zmazať cestovný lístok?</string>
+    <string name="DELETE_TICKET_FAILED">Lístok sa nepodarilo zmazať.</string>
+    <string name="TICKET_DELETE_SUCCESS">Lístok bol úspešne zmazaný.</string>
+    <string name="DOWNLOAD_TICKET">Dokončiť a stiahnuť lístok</string>
+    <string name="ENTER_STATION_NAME">Zadajte názov stanice...</string>
+    <string name="BUY_TICKET">Nákup lístka</string>
+    <string name="MY_TICKET">Moje lístky</string>
+    <string name="CANNOT_FIND_TRAINS">Nenašli sa žiadne spoje</string>
+    <string name="FROM">Odkiaľ</string>
+    <string name="DEFAULT_FROM">Žilina</string>
+    <string name="TOWN_TO">Kam</string>
+    <string name="DEFAULT_TO">Zvolen</string>
+    <string name="DATE">Dátum</string>
+    <string name="TIME">Čas</string>
+    <string name="DEFAULT_TIME">12:00</string>
+    <string name="NEXT">Ďalej</string>
+    <string name="HINT_NUMBER">1323427</string>
+    <string name="REG_NUMBER">Registračné číslo</string>
+    <string name="EMAIL">e-mail</string>
+    <string name="NAME">Meno</string>
+    <string name="SURNAME">Priezvisko</string>
+    <string name="AT">\@</string>
+    <string name="DEFAULT_TEXT_PRICE">Price</string>
+    <string name="DEFAULT_TEXT_DETAILS">Details</string>
+    <string name="DEFAULT_DATE">1.1.2017</string>
 
 
 </resources>

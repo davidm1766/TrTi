@@ -1,10 +1,16 @@
 package sk.listok.zssk.zssklistok.classloader;
 
 /**
- * Created by Nexi on 22.04.2017.
+ * Status o úspešnosti sťahovania .dex
  */
-
 public enum eStatus {
+    /**
+     * Podarilo sa stiahnúť bajtkód z API.
+     */
     OK,
+
+    /**
+     * Nepodarilo sa stiahnúť bajtkód z API.
+     */
     FAILED
 }

@@ -20,16 +20,49 @@ import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
- *  Trieda zaobaluje komunikaciu so serverom.
+ *  Trieda zaobaluje komunikaciu so serverom a poskytuje všobecné služby.
  */
 public class Provider implements INotifyDownloader, INotifyImageDownloaded {
 
+    /**
+     * Aktualny dataholder, ktorý sa používa.
+     */
     private static DataHolder dataholder;
+
+    /**
+     * Na tento interface príde oznámenie o
+     * prijatí response od servera.
+     */
     private static INotifyDownloader inotify;
+
+    /**
+     * Na tento interface pride oznámenie o
+     * prijatí stiahnutého obrázku - lístok v .png
+     */
     private static INotifyImageDownloaded inotImg;
+
+    /**
+     * Inštancia Providera.
+     */
     private static Provider instance;
+
+    /**
+     * Process dialog, ktorý sa zobrazí pri každej komunikácií
+     * so serverom. Zavolá sa na contexte aktivity, ktorá používa
+     * dataholder
+     */
     private ProgressDialog progressDialog;
+
+    /**
+     * Stack do ktorého sa po konci každej aktivity uloži kópia
+     * DataHoldera. Pri backbuttone sa popne posledný a tak dostanem
+     * predchadzajúci stav.
+     */
     private Stack<DataHolder> stackDataholder;
+
+    /**
+     * Informácie o lístku, ktoré prenášam medzi aktivitami.
+     */
     private Ticket ticket;
 
     public static Provider Instance(INotifyDownloader inotify) {
@@ -113,15 +146,28 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
 
     }
 
+    /**
+     * Provider neobsahuje Kontext.
+     * @return null
+     */
     @Override
     public Context getContext()  {
         return null;
     }
 
-    public void peekDataHolder(){
+    /**
+     * Odstráni posledný Dataholder zo stacku.
+     */
+    public void popDataHolder(){
         Provider.dataholder = this.stackDataholder.pop();
     }
 
+    /**
+     * Skontroluje či je používateľ online a podla paramera môže zobraziť správu.
+     * @param context Kontext aktivity
+     * @param showMessage zobrazí Toast ak je true, inak nezobrazí nič.
+     * @return
+     */
     private boolean isOnline(Context context, boolean showMessage) {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -135,25 +181,42 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
         return online;
     }
 
+    /**
+     * Informacie o lístku, ktoré potrebujem prenášať cez viac aktivít.
+     * @return
+     */
     public Ticket getTicket(){
         return this.ticket;
     }
 
+    /**
+     * Informacie o lístku, ktoré potrebujem prenášať cez viac aktivít.
+     */
     public void setTicket(Ticket tic){
         this.ticket = tic;
     }
 
 
+    /**
+     * Vráti parser, prioritne stiahnutý bajtkód, ale ak sa ho nepodarí zaviesť
+     * do pamäte použije sa parser v projekte.
+     * @param act
+     * @return intreface parsera
+     */
     public static IParserPostData getIParerInstance(AppCompatActivity act){
         if(ClassProvider.Instance(act).isDexAvaiable()){
             // ak je dostupny parser v dex subore tak pouzijem ten
-            return PostDataCreatorDynamic.Instance(act);
+            //return PostDataCreatorDynamic.Instance(act);
+            return new PostCreator();
         } else {
             //inak pouzijem z kodu
             return new PostCreator();
         }
     }
 
+    /**
+     * Zmaže celý stack v ktorom su DataHoldre.
+     */
     public void clearStack(){
         this.stackDataholder.clear();
     }

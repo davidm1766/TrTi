@@ -39,7 +39,6 @@
         <activity android:name=".activities.SelectPassengerInfoActivity" />
         <activity android:name=".activities.SelectFinishPayActivity" />
         <activity android:name=".activities.MyTicketsActivity" />
-        <activity android:name=".activities.Reklama"></activity>
     </application>
 
 </manifest>

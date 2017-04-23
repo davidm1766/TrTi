@@ -15,5 +15,5 @@
         android:id="@+id/searchViewTrain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Zadajte názov stanice..."/>
+        android:queryHint="@string/ENTER_STATION_NAME"/>
 </FrameLayout>

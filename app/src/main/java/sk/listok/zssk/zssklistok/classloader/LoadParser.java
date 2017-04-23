@@ -2,10 +2,8 @@ package sk.listok.zssk.zssklistok.classloader;
 
 
 import android.content.Context;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import java.io.File;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import dalvik.system.DexClassLoader;
@@ -13,26 +11,26 @@ import sk.listok.zssk.zssklistok.helpers.FileHelper;
 
 
 /**
- * Created by Nexi on 06.04.2017.
+ * Samotné načítanie parsera z dátového úložiska.
  */
-
 public class LoadParser {
 
     AppCompatActivity mActivity;
-
 
     public LoadParser(AppCompatActivity act){
         this.mActivity = act;
     }
 
 
+    /**
+     * Jadro načítania bajtkódu do pamäte.
+     * @return vráti načítanu triedu parsera
+     */
     public Class<?> loadClassCore() {
 
-
         File myDir = FileHelper.getDexFile(); // FileHelper.getTicketFolder();
-
+        File dexOutputDir = FileHelper.getOutputDex(mActivity);
         String defaultLibPath =  myDir + "";
-        File dexOutputDir = mActivity.getDir("dex", Context.MODE_PRIVATE);
         DexClassLoader dcl = new DexClassLoader(defaultLibPath,
                 dexOutputDir.getAbsolutePath(),
                 null,
@@ -49,6 +47,11 @@ public class LoadParser {
     }
 
 
+    /**
+     * Pre rýchly test či je metóda v parseri OK.
+     * @param clazz
+     * @param myInstance
+     */
     private void testAllMethods(Class<?> clazz, Object myInstance){
         try {
             //test druhej fcie

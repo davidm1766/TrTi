@@ -7,12 +7,36 @@
     tools:context="sk.listok.zssk.zssklistok.activities.SelectFinishPayActivity">
 
     <Button
-        android:text="Dokončiť a stiahnuť lístok"
+        android:text="@string/DOWNLOAD_TICKET"
+        android:background="#ff684A"
+        android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:id="@+id/buttonFinish"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:drawableLeft="@drawable/downloadicon"/>
+
+    <TextView
+        android:id="@+id/textJourneyInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textPriceInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_alignEnd="@+id/textJourneyInfo"
+        android:layout_alignRight="@+id/textJourneyInfo"
+        android:layout_below="@+id/textJourneyInfo"
+        android:layout_marginTop="17dp"
+        android:text="TextView" />
 
 </RelativeLayout>

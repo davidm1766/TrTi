@@ -3,13 +3,11 @@ package sk.listok.zssk.zssklistok.helpers;
 import com.google.android.gms.ads.AdRequest;
 
 /**
- * Created by Nexi on 20.04.2017.
+ * Pomocník na prácu s reklamou.
  */
-
 public class AddsHelper {
 
     private AdRequest adRequest;
-
 
     private static AddsHelper inst;
     public static AddsHelper Instance(){
@@ -30,6 +28,5 @@ public class AddsHelper {
     public AdRequest getAdRequest(){
         return this.adRequest;
     }
-
 
 }

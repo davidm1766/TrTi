@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok.classloader;
+package sk.listok.zssk.zssklistok.helpers;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;

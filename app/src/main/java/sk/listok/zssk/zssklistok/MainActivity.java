@@ -25,6 +25,7 @@ import sk.listok.zssk.zssklistok.classloader.DexDownloader;
 import sk.listok.zssk.zssklistok.classloader.INotifyDownloadDex;
 import sk.listok.zssk.zssklistok.classloader.INotifyDownloadVersionDex;
 import sk.listok.zssk.zssklistok.classloader.eStatus;
+import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 import sk.listok.zssk.zssklistok.helpers.FileHelper;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
         setSupportActionBar(toolbar);
         sharedpreferences= getSharedPreferences("lastVersion", Context.MODE_PRIVATE);
 
+        Provider.Instance(null).clearStack();
         //load reklam
         AddsHelper.Instance().getAdRequest();
         FileHelper.copyAssets(this); //skopirujem si subory a DB ak nie je...

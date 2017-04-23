@@ -14,17 +14,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by Nexi on 20.03.2017.
- */
+import sk.listok.zssk.zssklistok.helpers.FileHelper;
 
+/**
+ * Helper pre prácu so SQLite databázou.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase myDataBase;
     private final Context myContext;
-    private static final String DATABASE_NAME = "database";
-    public final static String DATABASE_PATH = "/data/data/sk.listok.zssk.zssklistok/databases/";
-    public static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = FileHelper.DATABASE_NAME;
+    private final static String DATABASE_PATH = FileHelper.DATABASE_PATH;
+    private static final int DATABASE_VERSION = 1;
+
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,18 +38,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
     /**
-     *
-     * @param forceCreate - natvrdo prevali DB
+     *  Vytvorenie DB ak neexistuje, pokial je parameter na true,
+     *  existujúca databáza sa prepíše.
+     * @param reCreateDatabase - natvrdo prevali DB
      * @throws IOException
      */
-    public void createDatabase(boolean forceCreate) throws IOException
+    public void createDatabase(boolean reCreateDatabase) throws IOException
     {
         boolean dbExist = checkDataBase();
-
-
-        if (forceCreate){
+        if (reCreateDatabase){
             try
             {
                 this.close();
@@ -55,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             catch (IOException e)
             {
-                throw new Error("Error copying database");
+                throw new Error("Chyba pri kopírovaní databázy");
             }
         }
         if(dbExist)
@@ -78,12 +78,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             catch (IOException e)
             {
-                throw new Error("Error copying database");
+                throw new Error("Chyba pri kopírovaní databázy");
             }
         }
 
     }
-    //Check database already exist or not
+
+    /**
+     * Skontroluje či existuje databáza.
+     * @return true = existuje DB, false = neexistuje
+     */
     private boolean checkDataBase()
     {
         boolean checkDB = false;
@@ -99,10 +103,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return checkDB;
     }
-    //Copies your database from your local assets-folder to the just created empty database in the system folder
+
+
+    /**
+     * Skopíruje databázu do predvoleného umiestnenia.
+     * @throws IOException
+     */
     private void copyDataBase() throws IOException
     {
-
         InputStream mInput = myContext.getAssets().open(DATABASE_NAME);
         String outFileName = DATABASE_PATH + DATABASE_NAME;
         OutputStream mOutput = new FileOutputStream(outFileName);
@@ -115,8 +123,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mOutput.close();
         mInput.close();
     }
-    //delete database
-    public void db_delete()
+
+
+    /**
+     * Zmaže databázu.
+     */
+    public void deleteDatabase()
     {
         File file = new File(DATABASE_PATH + DATABASE_NAME);
         if(file.exists())
@@ -125,7 +137,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             System.out.println("delete database file.");
         }
     }
-    //Open database
+
+
+    /**
+     * Otvorenie databázového spojenia
+     * @throws SQLException
+     */
     public void openDatabase() throws SQLException
     {
         String myPath = DATABASE_PATH + DATABASE_NAME;
@@ -142,11 +159,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (newVersion > oldVersion)
         {
             Log.v("Database Upgrade", "Database version higher than old.");
-            db_delete();
+            deleteDatabase();
         }
     }
 
 
+    /**
+     * Vykonanie dotazu nad databázov
+     * @return vráti naplnený Cursor.
+     */
     public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy){
         this.openDatabase();
         Cursor c = this.myDataBase.query(table,columns,selection,selectionArgs,groupBy,having,orderBy);
@@ -154,6 +175,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    /**
+     * Spustenie príkazu SQL.
+     * @param sql
+     */
     public void executeSQL(String sql){
 
         try {
@@ -169,10 +194,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
-
-    public void test(){
-       // ConnectionSource connectionSource = new AndroidConnectionSource(sqliteOpenHelper);
-
-    }
 }

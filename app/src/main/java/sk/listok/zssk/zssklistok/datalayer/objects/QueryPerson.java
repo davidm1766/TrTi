@@ -7,15 +7,11 @@ import java.util.ArrayList;
 import sk.listok.zssk.zssklistok.datalayer.DatabaseHelper;
 
 /**
- * Created by Nexi on 11.04.2017.
+ * Konkretná implementácia {@link IQueryPerson}
  */
-
 public class QueryPerson implements IQueryPerson {
 
-
-
     private DatabaseHelper dbhelper;
-
     public QueryPerson(DatabaseHelper dbhelper){
         this.dbhelper = dbhelper;
     }

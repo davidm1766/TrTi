@@ -13,18 +13,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-import sk.listok.zssk.zssklistok.classloader.RotationLocker;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.datalayer.DatabaseProvider;
 import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
-import sk.listok.zssk.zssklistok.helpers.ParserHelper;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.helpers.VerifyHelper;
 
@@ -39,6 +36,8 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
     private AutoCompleteTextView editTextSurname;
     private EditText editTextRegNumber;
     private boolean isDispleyed;
+    private String ticketDetailsText;
+    private String ticketPricetText;
 
 
     @Override
@@ -57,9 +56,12 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
         isDispleyed = false;
         // nastavim detail z listka
-        finalInfo.setText(Provider.getIParerInstance(this).ticketDetails(Provider.getDataholder().getPaHtml()));
+        ticketDetailsText = Provider.getIParerInstance(this).ticketDetails(Provider.getDataholder().getPaHtml());
+        finalInfo.setText(ticketDetailsText);
         // nastavim cenu
-        priceInfo.setText(getString(R.string.PRICE_WITH_TAX)+ Provider.getIParerInstance(this).ticketPrice(Provider.getDataholder().getPaHtml()));
+        ticketPricetText = getString(R.string.PRICE_WITH_TAX)+
+                Provider.getIParerInstance(this).ticketPrice(Provider.getDataholder().getPaHtml());
+        priceInfo.setText(ticketPricetText);
 
 
         Button button = (Button) findViewById(R.id.button5);
@@ -68,7 +70,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
                 Person per = createPerson();
                 ArrayList<Person> pe = DatabaseProvider.Instance(SelectPassengerInfoActivity.this).
                         worker().person().getPersonByName(per.getName(),per.getSurname());
-                if(pe== null ||pe.size()==0){
+                if(pe == null ||pe.size()==0){
                     DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().removePerson(per);
                     DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().addPerson(per);
                 }
@@ -161,7 +163,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
     @Override
     public void onBackPressed() {
-        Provider.Instance(this).peekDataHolder();
+        Provider.Instance(this).popDataHolder();
         super.onBackPressed();
     }
 
@@ -186,6 +188,8 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         }
 
         Intent activityChangeIntent = new Intent(sk.listok.zssk.zssklistok.activities.SelectPassengerInfoActivity.this,sk.listok.zssk.zssklistok.activities.SelectFinishPayActivity.class);
+        activityChangeIntent.putExtra("price",ticketPricetText);
+        activityChangeIntent.putExtra("detail",ticketDetailsText);
         SelectPassengerInfoActivity.this.startActivity(activityChangeIntent);
     }
 

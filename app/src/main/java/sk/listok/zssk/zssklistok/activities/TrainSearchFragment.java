@@ -36,7 +36,6 @@ public class TrainSearchFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_train_search, container, false);
 
-
         lv = (ListView) rootView.findViewById(R.id.listViewTrain);
         sv = (SearchView) rootView.findViewById(R.id.searchViewTrain);
         adap = new HRArrayAdapter<Town>(getActivity(),android.R.layout.simple_list_item_1,stations);
@@ -59,19 +58,22 @@ public class TrainSearchFragment extends Fragment {
         return rootView;
     }
 
-
+    /**
+     * Vyčistenie filtra, kde používateľ píše.
+     */
     public void clearFilter(){
         sv.setQuery("",false);
         adap.getFilter().filter("");
     }
 
-
+    /**
+     * Načítanie miest z databázy do arraylistu.
+     * @return
+     */
     private ArrayList<Town> getTowns() {
-
         if(stations == null || stations.size() == 0) {
             stations = DatabaseProvider.Instance(getActivity()).worker().towns().getCachedTowns();
         }
-
         return stations;
     }
 

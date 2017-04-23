@@ -1,16 +1,33 @@
 package sk.listok.zssk.zssklistok.datalayer.objects;
 
 /**
- * Created by Nexi on 11.04.2017.
+ *  Informácie o osobných údajoch.
  */
-
 public class Person {
 
+    /**
+     * Identifikátor v databáze.
+     */
     private int id;
+    /**
+     * Email cestujúceho.
+     */
     private String email;
+    /**
+     * Prvé meno cestujúceho.
+     */
     private String name;
+    /**
+     * Priezvisko cestujúceho
+     */
     private String surname;
+    /**
+     * Číslo na kartičke na bezplatnú prepravu.
+     */
     private String regNumber;
+    /**
+     * Číslo občianskeho preukazu.
+     */
     private String idCard;
 
     // ID, name, surname, email, regnumber, idcard

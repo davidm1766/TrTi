@@ -3,9 +3,9 @@ package sk.listok.zssk.zssklistok.datalayer.objects;
 import sk.listok.zssk.zssklistok.datalayer.DatabaseHelper;
 
 /**
- * Created by Nexi on 11.04.2017.
+ * Pracuje so všetkými tabuľkami. Vytvára konkrétne inštancie
+ * IQuery interfaceov.
  */
-
 public class Worker {
 
     private IQueryPerson iperson;

@@ -1,16 +1,23 @@
 package sk.listok.zssk.zssklistok.communication;
 
 import android.content.Context;
-
 import java.util.ArrayList;
-
 import sk.listok.zssk.zssklistok.objects.JourneyData;
 
 /**
- * Created by Nexi on 28.03.2017.
+ * Notifikácia o dokončení parsovania spojov.
  */
 
 public interface INotifyParser {
-    public void parsered(ArrayList<JourneyData> data);
-    public Context getContext();
+    /**
+     * Vráti rozparsované spoje v arrayliste.
+     * @param data
+     */
+    void parsered(ArrayList<JourneyData> data);
+
+    /**
+     * Kontext aktivity, ktorá používa parser.
+     * @return
+     */
+    Context getContext();
 }

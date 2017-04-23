@@ -22,7 +22,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="10dp"
             >
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Priezvisko"
+                android:text="@string/SURNAME"
                 android:textSize="16sp"
                 android:textColor="#000000"
                 />
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:ems="10"
-                android:hint="Priezvisko"
+                android:hint="@string/SURNAME"
                  />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Meno"
+                android:text="@string/NAME"
                 android:textColor="#000000"
                  />
 
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Meno"
+                android:hint="@string/NAME"
                 />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="e-mail"
+                android:text="@string/EMAIL"
                 android:layout_marginTop="16dp"
                 android:textColor="#000000" />
 
@@ -80,13 +80,13 @@
 
                 android:ems="10"
                 android:id="@+id/editTextEmail"
-                android:text="\@"
+                android:text="@string/AT"
                 />
 
 
             <TextView
                 android:textSize="16sp"
-                android:text="Registračné číslo"
+                android:text="@string/REG_NUMBER"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -96,32 +96,28 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="1323427"
+                android:hint="@string/HINT_NUMBER"
                 android:ems="10"
-
+                android:inputType="textPersonName"
                 android:layout_marginBottom="20dp"
                 android:id="@+id/editTextRegNumber"
                 />
 
             <TextView
-                android:text="Details"
+                android:text="@string/DEFAULT_TEXT_DETAILS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewFinalDetails"
                 android:layout_marginBottom="12dp"
                 android:textColor="@color/colorPrimaryDark"
+                android:maxLines="10"
                  />
 
             <TextView
-                android:text="Price"
+                android:text="@string/DEFAULT_TEXT_PRICE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewPrice"
-                android:layout_alignBaseline="@+id/textViewFinalDetails"
-                android:layout_alignBottom="@+id/textViewFinalDetails"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_marginBottom="12dp" />
 
@@ -131,11 +127,14 @@
         </LinearLayout>
     </ScrollView>
     <Button
-        android:text="Ďalej"
+        android:text="@string/NEXT"
+        android:background="#ff684A"
+        android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button5"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="8dp"/>
 </RelativeLayout>

@@ -1,8 +1,5 @@
 package sk.listok.zssk.zssklistok.activities;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +18,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import sk.listok.zssk.zssklistok.classloader.RotationLocker;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
@@ -36,7 +33,11 @@ import sk.listok.zssk.zssklistok.objects.Ticket;
 public class FindTrainsActivity extends AppCompatActivity implements INotifyTime,INotifyDate, INotifyDownloader {
 
 
-    public final String trainPreferences = "trainPref";
+    /**
+     * Zdeilané preferencie na uloženie posledného mesta
+     * z ktorého a do ktorého používateľ dal vyhľadávať.
+     */
+    private String trainPreferences = "trainPref";
     SharedPreferences sharedpreferences;
 
     private boolean isFromTown;
@@ -208,6 +209,10 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         });
     }
 
+    /**
+     * Zobrazenie fragmentu s mestami, pričom výsledok sa
+     * uloží do "z mesta"
+     */
     private void showFragmentFromTown(){
         fragment.clearFilter();
         isFromTown = true;
@@ -215,6 +220,10 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         displayStationsFragment();
     }
 
+    /**
+     * Zobrazenie fragmentu s mestami, pričom výsledok sa
+     * uloží do "do mesta".
+     */
     private void showFragmentToTown(){
         fragment.clearFilter();
         isFromTown = false;
@@ -265,10 +274,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         newTimeFragment.setINotifiable(FindTrainsActivity.this);
         this.newDateFragment = new DatePickerFragment();
         newDateFragment.setINotifiable(FindTrainsActivity.this);
-
-
         fragment = (TrainSearchFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
-
     }
 
 

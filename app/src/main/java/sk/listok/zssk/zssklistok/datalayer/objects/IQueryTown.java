@@ -3,9 +3,9 @@ package sk.listok.zssk.zssklistok.datalayer.objects;
 import java.util.ArrayList;
 
 /**
- * Created by Nexi on 11.04.2017.
+ *  Interface na základné operácie s tabuľkou železničných
+ *  staníc.
  */
-
 public interface IQueryTown {
     ArrayList<Town> getAllTowns();
     ArrayList<Town> getCachedTowns();

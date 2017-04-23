@@ -14,9 +14,21 @@ import java.util.Map;
 public class DataHolder {
 
 
+    /**
+     * URL adresa stránky s ktorou komunikujem.
+     */
     private String paUrl;
+    /**
+     * POST dáta, ktoré odosielam v requeste.
+     */
     private String paPOSTdata;
+    /**
+     * Obsah HTML stránky
+     */
     private String paHtml;
+    /**
+     * Cookies
+     */
     private String paCookies;
 
 

@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import sk.listok.zssk.zssklistok.datalayer.DatabaseHelper;
 
 /**
- * Created by Nexi on 11.04.2017.
+ * Konkretná implementácia {@link IQueryTown}
  */
-
 public class QueryTown implements IQueryTown{
 
     private DatabaseHelper dbhelper;
+    /**
+     * Cachovanie železničných zastávok.
+     */
     private ArrayList<Town> cachedTowns;
 
     public QueryTown(DatabaseHelper dbhelper){

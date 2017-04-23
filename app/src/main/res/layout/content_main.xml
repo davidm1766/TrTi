@@ -16,7 +16,7 @@
         android:padding="50dp"
         android:textSize="24dp"
         android:gravity="center"
-        android:text="Nákup lístka"
+        android:text="@string/BUY_TICKET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/buynewticket"
@@ -34,7 +34,7 @@
     <Button
         android:padding="50dp"
         android:textSize="24dp"
-        android:text="Moje lístky"
+        android:text="@string/MY_TICKET"
         android:background="#ff684A"
         android:drawableLeft="@drawable/ticketicon"
         android:layout_width="match_parent"

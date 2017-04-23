@@ -25,6 +25,10 @@ public class TimePickerFragment extends DialogFragment  implements TimePickerDia
         }
     }
 
+    /**
+     * Nastavenie notifikácií pre zmenu času.
+     * @param it Interface, kde bude zmena oznámená.
+     */
     public void setINotifiable(INotifyTime it){
 
         this.it = it;

@@ -5,9 +5,8 @@ import android.content.Context;
 import sk.listok.zssk.zssklistok.datalayer.objects.Worker;
 
 /**
- * Created by Nexi on 11.04.2017.
+ * Zastrešuje prácu sa databázou.
  */
-
 public class DatabaseProvider {
 
 
@@ -25,8 +24,6 @@ public class DatabaseProvider {
         }
         return inst;
     }
-
-
 
     private DatabaseProvider(){
         //singleton

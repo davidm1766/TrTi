@@ -8,13 +8,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Nexi on 22.04.2017.
+ * Trieda, ktorá v druhom vlákne skontroluje číslo aktuálnej
+ * verzie bajtkódu parsera na API a vráti ho v podobe Stringu.
  */
-
 public class DexCheckVersion extends AsyncTask<Void,Void,String> {
 
     private INotifyDownloadVersionDex inot;
 
+    /**
+     * Na interface v parametri zavolá metódu downloaded, kde
+     * v Stringu bude aktuálne číslo verzie bajtkódu parsera.
+     */
     public DexCheckVersion(INotifyDownloadVersionDex inot){
         this.inot = inot;
     }

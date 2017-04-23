@@ -21,9 +21,8 @@ import dalvik.system.DexClassLoader;
 import sk.listok.zssk.zssklistok.helpers.FileHelper;
 
 /**
- * Created by Nexi on 10.04.2017.
+ * Trieda, ktorá má za úlohu stiahnutie .dex súboru z API.
  */
-
 public class DexDownloader  extends AsyncTask<Void,Void,DexDownloadInfo>{
 
     private INotifyDownloadDex inot;
@@ -48,13 +47,6 @@ public class DexDownloader  extends AsyncTask<Void,Void,DexDownloadInfo>{
             }
 
             dInfo.setDexBytes(output.toByteArray());
-
-            //ulozim staihnuty dex file
-//            File myDir = FileHelper.getTicketFolder();
-//            File file = new File(myDir,"final.dex");
-//            FileOutputStream fos = new FileOutputStream(file);
-//            fos.write(output.toByteArray());
-//            fos.close();
 
             dInfo.setStatus(eStatus.OK);
         }catch (Exception e){

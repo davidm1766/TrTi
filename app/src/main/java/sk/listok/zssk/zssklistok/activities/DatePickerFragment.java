@@ -12,14 +12,20 @@ import java.util.Calendar;
 import sk.listok.zssk.zssklistok.INotifyDate;
 
 /**
- * Created by Nexi on 05.03.2017.
+ * Fragment na výber dátumu.
  */
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 
+
     private INotifyDate ind;
 
+    /**
+     * Nastavenie interfaceu, ktorý bude prijímať oznámenia.
+     * @param ind na tento interface sa odošle oznámenie,
+     *            keď sa vyberie dátum
+     */
     public void setINotifiable(INotifyDate ind){
         this.ind = ind;
         Calendar c = Calendar.getInstance();
@@ -39,8 +45,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return new DatePickerDialog(getActivity(), this,year,month,day);
     }
 
+    /**
+     * Po nastavení dátumu sa pomocou INotifyDate interface,
+     * dá vedieť, že dátum bol zmenený.
+     */
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
         if(ind != null){
             ind.notifyDate(day,month+1,year);
         }
