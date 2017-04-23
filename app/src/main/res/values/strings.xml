@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lístok</string>
+    <string name="app_name">Lístok na vlak</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_passenger_type">PassengerTypeActivity</string>
 
@@ -18,7 +18,7 @@
     <string name="TZPS">ŤZP-S</string>
     <string name="DOG">PES</string>
     <string name="NO_MORE_TICKETS">Vyčerpaný kontigent.</string>
-    <string name="PRICE_WITH_TAX">Celková cena s DPH:</string>
+    <string name="PRICE_WITH_TAX">"Celková cena s DPH: "</string>
     <string name="TOTAL_TIME">"Celkový čas "</string>
     <string name="DEPARTURE">Odchod</string>
     <string name="ARRIVAL">Príchod</string>
@@ -62,6 +62,8 @@
     <string name="DEFAULT_TEXT_PRICE">Price</string>
     <string name="DEFAULT_TEXT_DETAILS">Details</string>
     <string name="DEFAULT_DATE">1.1.2017</string>
+    <string name="DEFAULT_TEXTVIEW">TextView</string>
+    <string name="INFO_TICKET_TEXT">Informácie o lístku</string>
 
 
 </resources>

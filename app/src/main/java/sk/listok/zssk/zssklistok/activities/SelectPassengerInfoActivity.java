@@ -15,13 +15,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
 import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.datalayer.DatabaseProvider;
 import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
-import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.helpers.VerifyHelper;
 
@@ -78,7 +78,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
                 String toSend = pro.getIParerInstance(SelectPassengerInfoActivity.this).postPassengerInfo(
                         Provider.getDataholder().getPaHtml(), per.getEmail(),per.getName(),per.getSurname(),per.getRegNumber());
                 if(toSend == null || toSend.equals("")){
-                    ErrorHelper.onError(SelectPassengerInfoActivity.this);
+                    AlertDialogHelper.onError(SelectPassengerInfoActivity.this);
                     return;
                 }
                 RotationLocker.lockRotateScreen(SelectPassengerInfoActivity.this);
@@ -163,8 +163,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
     @Override
     public void onBackPressed() {
-        Provider.Instance(this).popDataHolder();
-        super.onBackPressed();
+        AlertDialogHelper.onCancelPurchase(this);
     }
 
     public Person createPerson(){

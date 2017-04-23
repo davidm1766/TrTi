@@ -215,9 +215,10 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
     }
 
     /**
-     * Zmaže celý stack v ktorom su DataHoldre.
+     * Zmaže celý stack v ktorom su DataHoldre a tiez aktualny.
      */
-    public void clearStack(){
+    public void clearStackAndResetHolder() {
+        dataholder = new DataHolder();
         this.stackDataholder.clear();
     }
 

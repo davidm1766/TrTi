@@ -20,7 +20,7 @@ public class Ticket {
             String[] splited = filename.split("-");
             this.townFrom = splited[1];
             this.townTo = splited[2];
-            this.boughtTime = splited[3];
+            this.boughtTime = splited[0];
         }catch (Exception ex){
             throw new IllegalArgumentException();
         }
@@ -39,18 +39,21 @@ public class Ticket {
     }
 
     public String getFilename(){
-         return "listok-"+townFrom+"-"+townTo+"-"+boughtTime;
+         return boughtTime+"-"+townFrom+"-"+townTo;
     }
 
     @Override
     public String toString() {
-        return this.townFrom + " -> "+this.townTo + "\n" + timestampToString(this.boughtTime);
+        return this.townFrom + " -> "+this.townTo + "\n" + "zakúpený "+timestampToString(this.boughtTime);
     }
 
     private String timestampToString(String timestamp){
-        String year = timestamp.substring(0,4);
-        String month = timestamp.substring(4,6);
-        String day = timestamp.substring(6,8);
-        return day + "."+month+"."+year;
+        String year = timestamp.substring(0,2);
+        String month = timestamp.substring(2,4);
+        String day = timestamp.substring(4,6);
+        String hour = timestamp.substring(6,8);
+        String minute = timestamp.substring(8,10);
+        String sec = timestamp.substring(10,12);
+        return day + "."+month+"."+year +"  ("+hour+":"+minute+":"+sec +")";
     }
 }

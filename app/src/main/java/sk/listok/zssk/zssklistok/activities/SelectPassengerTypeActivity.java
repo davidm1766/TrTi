@@ -22,7 +22,7 @@ import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.helpers.AddsHelper;
-import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
 
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
@@ -60,7 +60,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
 
             String toSend = Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), selectedIndex);
             if(toSend == null || toSend.equals("")){
-                ErrorHelper.onError(SelectPassengerTypeActivity.this);
+                AlertDialogHelper.onError(SelectPassengerTypeActivity.this);
                 return;
             }
             RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);

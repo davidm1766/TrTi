@@ -18,11 +18,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
 import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyParser;
 import sk.listok.zssk.zssklistok.communication.Provider;
-import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 import sk.listok.zssk.zssklistok.objects.JourneyData;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.objects.TrainData;
@@ -357,7 +357,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
             String id = journeyData.get(v.getId()).getIdJourney();
             String toSend = Provider.getIParerInstance(this).postSelectTrain(Provider.getDataholder().getPaHtml(), id);
             if(toSend == null || toSend.equals("")){
-                ErrorHelper.onError(this);
+                AlertDialogHelper.onError(this);
                 return;
             }
             RotationLocker.lockRotateScreen(this);

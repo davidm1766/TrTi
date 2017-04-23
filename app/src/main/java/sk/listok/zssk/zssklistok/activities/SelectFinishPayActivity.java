@@ -10,12 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import sk.listok.zssk.zssklistok.R;
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
 import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
 import sk.listok.zssk.zssklistok.communication.Provider;
-import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
 
 
 public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader,INotifyImageDownloaded {
@@ -52,7 +52,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
             public void onClick(View v) {
                 String toSend = Provider.getIParerInstance(SelectFinishPayActivity.this).postFinishPayment(Provider.getDataholder().getPaHtml());
                 if(toSend == null || toSend.equals("")){
-                    ErrorHelper.onError(SelectFinishPayActivity.this);
+                    AlertDialogHelper.onError(SelectFinishPayActivity.this);
                     return;
                 }
                 RotationLocker.lockRotateScreen(SelectFinishPayActivity.this);

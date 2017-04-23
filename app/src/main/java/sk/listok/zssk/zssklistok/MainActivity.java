@@ -1,15 +1,12 @@
 package sk.listok.zssk.zssklistok;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
         setSupportActionBar(toolbar);
         sharedpreferences= getSharedPreferences("lastVersion", Context.MODE_PRIVATE);
 
-        Provider.Instance(null).clearStack();
+        Provider.Instance(null).clearStackAndResetHolder();
         //load reklam
         AddsHelper.Instance().getAdRequest();
         FileHelper.copyAssets(this); //skopirujem si subory a DB ak nie je...
@@ -67,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.MyTicketsActivity.class);
                 MainActivity.this.startActivity(activityChangeIntent);
+
             }
 
         });

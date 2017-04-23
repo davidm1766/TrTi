@@ -96,4 +96,8 @@ public class DataHolder {
         this.paCookies = cookies;
     }
 
+    public void clearCookies(){
+        this.paCookies = "";
+    }
+
 }

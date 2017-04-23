@@ -24,7 +24,7 @@ import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
 import sk.listok.zssk.zssklistok.INotifyTime;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.helpers.ErrorHelper;
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
 import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.objects.Ticket;
@@ -133,7 +133,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
                 TrainForParser tr = getTrain();
                 String toSend = Provider.getIParerInstance(FindTrainsActivity.this).postFindTrains(tr.getTownFrom(),tr.getTownTo(),tr.getTime(),tr.getDate());
                 if(toSend == null || toSend.equals("")){
-                    ErrorHelper.onError(FindTrainsActivity.this);
+                    AlertDialogHelper.onError(FindTrainsActivity.this);
                     return;
                 }
                 RotationLocker.lockRotateScreen(FindTrainsActivity.this);

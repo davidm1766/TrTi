@@ -6,6 +6,48 @@
     android:layout_height="match_parent"
     tools:context="sk.listok.zssk.zssklistok.activities.SelectFinishPayActivity">
 
+
+    <TextView
+        android:textColor="#000000"
+        android:id="@+id/InfoTicketText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="12dp"
+        android:textSize="18dp"
+        android:text="@string/INFO_TICKET_TEXT" />
+
+
+    <TextView
+        android:id="@+id/textJourneyInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/DEFAULT_TEXTVIEW"
+        android:layout_below="@+id/InfoTicketText"
+        android:textSize="14dp"
+        android:layout_gravity="center_horizontal|center"
+        android:gravity="left"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textPriceInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textSize="14dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/textJourneyInfo"
+        android:layout_marginTop="5dp"
+        android:text="@string/DEFAULT_TEXTVIEW" />
+
+
     <Button
         android:text="@string/DOWNLOAD_TICKET"
         android:background="#ff684A"
@@ -18,25 +60,5 @@
         android:layout_centerHorizontal="true"
         android:padding="5dp"
         android:drawableLeft="@drawable/downloadicon"/>
-
-    <TextView
-        android:id="@+id/textJourneyInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textPriceInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_alignEnd="@+id/textJourneyInfo"
-        android:layout_alignRight="@+id/textJourneyInfo"
-        android:layout_below="@+id/textJourneyInfo"
-        android:layout_marginTop="17dp"
-        android:text="TextView" />
 
 </RelativeLayout>
