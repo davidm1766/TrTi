@@ -21,6 +21,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import sk.listok.zssk.zssklistok.classloader.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
@@ -134,7 +135,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
                     ErrorHelper.onError(FindTrainsActivity.this);
                     return;
                 }
-
+                RotationLocker.lockRotateScreen(FindTrainsActivity.this);
                 Provider.Instance(FindTrainsActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/portal.xhtml",
                         toSend);
                 //timestamp kedy kupujem listok
@@ -287,7 +288,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     @Override
     public void downloaded(DataHolder dh) {
-
+        RotationLocker.unlockRotateScreen(FindTrainsActivity.this);
         Intent activityChangeIntent = new Intent(FindTrainsActivity.this, SelectTrainActivity.class);
         FindTrainsActivity.this.startActivity(activityChangeIntent);
 

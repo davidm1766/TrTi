@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.MainActivity;
+import sk.listok.zssk.zssklistok.classloader.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyParser;
 import sk.listok.zssk.zssklistok.communication.Provider;
@@ -43,6 +44,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_train);
         clicked = false;
+        RotationLocker.lockRotateScreen(this);
         loadTrains();
     }
 
@@ -363,6 +365,7 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
                 ErrorHelper.onError(this);
                 return;
             }
+            RotationLocker.lockRotateScreen(this);
             Provider.Instance(SelectTrainActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml",
                     toSend);
         }
@@ -374,14 +377,16 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         //prislo mi to rozpasovane...
         this.journeyData = data;
         createGrids(this.journeyData);
+        RotationLocker.unlockRotateScreen(this);
     }
 
 
     @Override
     public void downloaded(DataHolder dh) {
+        RotationLocker.unlockRotateScreen(this);
+        clicked = false;
         Intent activityChangeIntent = new Intent(SelectTrainActivity.this,SelectPassengerTypeActivity.class);
         SelectTrainActivity.this.startActivity(activityChangeIntent);
-        clicked = false;
     }
 
     @Override

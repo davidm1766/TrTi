@@ -16,6 +16,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import sk.listok.zssk.zssklistok.classloader.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
@@ -40,7 +41,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
         mInterstitialAd.setAdListener(new AdListener() {
             public void onAdLoaded() {
                 if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd. show();
+                    mInterstitialAd.show();
                 }
             }
         });
@@ -62,6 +63,7 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
                 ErrorHelper.onError(SelectPassengerTypeActivity.this);
                 return;
             }
+            RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);
             Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
                     toSend);
 
@@ -109,11 +111,13 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
     public void downloaded(DataHolder dh) {
         if(!Provider.getIParerInstance(this).checkNoMoreTickets(dh.getPaHtml()).equals("")){
             Toast.makeText(this, R.string.NO_MORE_TICKETS,Toast.LENGTH_SHORT).show();
-            return;
+            RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);
+        } else {
+            Intent activityChangeIntent = new Intent(SelectPassengerTypeActivity.this, SelectPassengerInfoActivity.class);
+            RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);
+            SelectPassengerTypeActivity.this.startActivity(activityChangeIntent);
         }
 
-        Intent activityChangeIntent = new Intent(SelectPassengerTypeActivity.this, SelectPassengerInfoActivity.class);
-        SelectPassengerTypeActivity.this.startActivity(activityChangeIntent);
     }
 
     @Override

@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import sk.listok.zssk.zssklistok.classloader.RotationLocker;
 import sk.listok.zssk.zssklistok.datalayer.DatabaseProvider;
 import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 import sk.listok.zssk.zssklistok.R;
@@ -78,7 +79,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
                     ErrorHelper.onError(SelectPassengerInfoActivity.this);
                     return;
                 }
-
+                RotationLocker.lockRotateScreen(SelectPassengerInfoActivity.this);
                 pro.doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/personalData.xhtml",
                         toSend);
             }
@@ -178,6 +179,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
     @Override
     public void downloaded(DataHolder dh) {
         String result = VerifyHelper.checkUserInfo(dh.getPaHtml());
+        RotationLocker.unlockRotateScreen(SelectPassengerInfoActivity.this);
         if(!result.equals("")){
             Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             return;

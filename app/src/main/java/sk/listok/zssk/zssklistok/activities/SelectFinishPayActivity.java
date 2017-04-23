@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.R;
+import sk.listok.zssk.zssklistok.classloader.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
@@ -36,6 +37,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
                     ErrorHelper.onError(SelectFinishPayActivity.this);
                     return;
                 }
+                RotationLocker.lockRotateScreen(SelectFinishPayActivity.this);
                 Provider.Instance(SelectFinishPayActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/payment.xhtml",
                         toSend);
             }
@@ -65,6 +67,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
     @Override
     public void imageDownloaded(Bitmap bitmap) {
         Intent activityChangeIntent = new Intent(SelectFinishPayActivity.this,MyTicketsActivity.class);
+        RotationLocker.unlockRotateScreen(this);
         SelectFinishPayActivity.this.startActivity(activityChangeIntent);
     }
 }
