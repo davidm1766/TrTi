@@ -15,14 +15,19 @@ import sk.listok.zssk.zssklistok.objects.JourneyData;
 import sk.listok.zssk.zssklistok.objects.TrainData;
 
 /**
- * Created by Nexi on 24.03.2017.
+ * Parser na vytvorenie objektov ciest vlakov z html.
+ * Je to naročnejšia operácia preto beži na pozadí.
  */
-
 public class ParserFoundTrains extends AsyncTask<String,Void,ArrayList<JourneyData>> {
 
 
     private INotifyParser inotify;
     private ProgressDialog progressDialog;
+
+    /**
+     * Na interface vrátim oznámenie keď sa
+     * parsovanie dokočí
+     */
     public ParserFoundTrains(INotifyParser in) {
         if(in == null){
             throw new IllegalArgumentException("INotifyParser is null!");

@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.widget.TextView;
 
 import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.R;
@@ -23,20 +27,33 @@ public class AlertDialogHelper {
      * a vymaže sa stack s dataholdermi.
      */
     public static void onError(final AppCompatActivity context){
-        Spanned errorMessage = Html.fromHtml("Vyskytla sa chyba a nie je možné pokračovať."+
-                                                "Najčastejšie príčiny vyskytu tejto chyby sú:<br>"+
-                                                "<b>1. Na daný vlak nie je možné kúpiť bezplatný lístok<br>"+
-                                                "2. Vyplnené údaje nie sú správne</b><br><br>"+
-                                                "Ak problém pretrváva, prosím kontaktuje vývojárov aplikácie na <a href=\"mailto:aplikaciavlaky@gmail.com\" target=\"_top\">aplikaciavlaky@gmail.com</a>.");
+
+        TextView message = new TextView(context);
+        message.setPadding(30,30,30,30);
+
+        Spanned errorMessage = Html.fromHtml("Vyskytla sa chyba a nie je možné pokračovať. "+
+                "Najčastejšie príčiny vyskytu tejto chyby sú:<br>"+
+                "<b>1. Na daný vlak nie je možné kúpiť bezplatný lístok<br>"+
+                "2. Vyplnené údaje nie sú správne</b><br><br>"+
+                "Ak problém pretrváva, prosím kontaktuje vývojárov aplikácie na <a href=\"mailto:aplikaciavlaky@gmail.com\" target=\"_top\">aplikaciavlaky@gmail.com</a>.");
+
+        final SpannableString s =
+                new SpannableString(errorMessage);
+        Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES);
+        message.setText(s);
+
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+
+
         AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(context);
-        dlgAlert.setMessage(errorMessage);
-        //Linkify.addLinks(errorMessage, Linkify.EMAIL_ADDRESSES);
+
+        dlgAlert.setView(message);
         dlgAlert.setTitle(R.string.ERROR_TITLE);
         dlgAlert.setPositiveButton(R.string.BUTTON_OK,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //dismiss the dialog
-                       // AlertDialogHelper.restartApp(context);
+                        //tu to nemusim riesit lebo sa to riesi v ondismiss
+                         //AlertDialogHelper.restartApp(context);
                     }
                 });
         dlgAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {

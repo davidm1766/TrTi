@@ -206,11 +206,11 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
     public static IParserPostData getIParerInstance(AppCompatActivity act){
         if(ClassProvider.Instance(act).isDexAvaiable()){
             // ak je dostupny parser v dex subore tak pouzijem ten
-            //return PostDataCreatorDynamic.Instance(act);
-            return new PostCreator();
+            return PostDataCreatorDynamic.Instance(act);
         } else {
             //inak pouzijem z kodu
-            return new PostCreator();
+            throw new RuntimeException("Nenasiel sa parser");
+            //return new PostCreator();
         }
     }
 

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
- *
+ * Pomocník na prácu so súbormi.
  */
 public class FileHelper {
 
@@ -26,14 +26,19 @@ public class FileHelper {
     private static String dexFileName = "parser.dex";
 
 
+    /**
+     * Vráti priečinok kde sú uložené stiahnuté lístky
+     */
     public static File getTicketFolder(){
-        String root = Environment.getExternalStorageDirectory().toString();//context.getFilesDir().toString();
-        //File file = new File(context.getFilesDir());
+        String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/vlakoveListky");
         myDir.mkdirs();
         return myDir;
     }
 
+    /**
+     * Vráti umiestnenie temp foldera.
+     */
     public static File getTempFolder(){
         String root = context.getCacheDir().toString();
         File myDir = new File(root + "/tmp");
@@ -41,16 +46,19 @@ public class FileHelper {
         return myDir;
     }
 
-    public static File getAssetsFolder(String filename){
-        return new File(context.getExternalFilesDir(null), filename);
-    }
 
+    /**
+     * Vráti .dex súbor(bajtkód) parsera
+     */
     public static File getDexFile(){
         File dexFile = new File(context.getFilesDir() + "/dexfile/"+dexFileName);
         dexFile.mkdirs();
         return dexFile;
     }
 
+    /**
+     * Vráti adresár kde sa .dex nachádza
+     */
     public static File getDexDir(){
         File dexDir = new File(context.getFilesDir() + "/dexfile");
         dexDir.mkdirs();
@@ -58,6 +66,9 @@ public class FileHelper {
     }
 
 
+    /**
+     * Prepíše existujúci .dex súbor, novým bajtkódom.
+     */
     public static void rewriteToDexFile(byte[] bytes){
         try {
             File f = getDexFile();
@@ -72,13 +83,18 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Vráti súbor lístka podľa mena.
+     */
     public static File getTicketImage(String filename){
         String root =  Environment.getExternalStorageDirectory().toString();//context.getFilesDir().toString(); //Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/vlakoveListky/"+filename);
-        myDir.mkdirs();
         return myDir;
     }
 
+    /**
+     * Skopíruje assets.
+     */
     public static void copyAssets(Context context) {
         FileHelper.context = context;
 
@@ -137,6 +153,10 @@ public class FileHelper {
             }
         }
     }
+
+    /**
+     * Skopíruje súbor z - do
+     */
     private static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
@@ -145,7 +165,9 @@ public class FileHelper {
         }
     }
 
-
+    /**
+     * Vymaže lístok z fyzickej pamäte.
+     */
     public static boolean deleteTicket(Ticket ticket) {
         File f = getTicketImage(ticket.getFilename());
         if(f != null){
@@ -156,6 +178,9 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Vráti priečinok kde sa môže bajtkód nakopírovať, pri loade.
+     */
     public static File getOutputDex(Context mActivity) {
         return mActivity.getDir("dex", Context.MODE_PRIVATE);
     }

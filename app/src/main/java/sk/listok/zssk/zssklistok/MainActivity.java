@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -73,33 +71,39 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
     }
 
 
-
+    /**
+     * Funkcia na zistenie či je používateľ online.
+     * @return true ak je online, false ak nie je pripojený na internet
+     */
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void nextActivity(){
+    /**
+     * Spustím prvú aktivitu na nákup lístka.
+     */
+    private void startBuyingActivity(){
         Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.FindTrainsActivity.class);
         progressDialog.dismiss();
         MainActivity.this.startActivity(activityChangeIntent);
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
 
         }
 
-        nextActivity();
+        startBuyingActivity();
     }
 
 
@@ -129,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
             editor.putString("version", newVersionNumber);
             editor.commit();
         }
-        nextActivity();
+        startBuyingActivity();
 
     }
 }

@@ -18,12 +18,16 @@ public class AddsHelper {
     }
 
 
+    /**
+     * Vytvorím add request
+     */
     private AddsHelper(){
         this.adRequest = new AdRequest.Builder()
                 //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("E8AAF6D1FAACD33793ACBCFC167B405F")
                 .build();
     }
+
 
     public AdRequest getAdRequest(){
         return this.adRequest;

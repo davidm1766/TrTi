@@ -7,9 +7,8 @@ import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 
 
 /**
- * Created by Nexi on 10.04.2017.
+ * Implementácia parsera nad .dex file. Popis metód je na interface.
  */
-
 public class PostDataCreatorDynamic implements IParserPostData {
 
     private AppCompatActivity activity;
@@ -137,6 +136,17 @@ public class PostDataCreatorDynamic implements IParserPostData {
     @Override
     public String ticketDetails(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("ticketDetails",
+                new Class[]{String.class},html);
+        if(ret == null){
+            return null;
+        }else {
+            return (String)ret;
+        }
+    }
+
+    @Override
+    public String checkUserInfo(String html) {
+        Object ret = ClassProvider.Instance(activity).getMethodResult("checkUserInfo",
                 new Class[]{String.class},html);
         if(ret == null){
             return null;

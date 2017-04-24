@@ -8,11 +8,13 @@ import android.view.Display;
 import android.view.Surface;
 
 /**
- * Created by Nexi on 23.04.2017.
+ * Pomocník pre uzamknutie otáčania displeja.
  */
-
 public class RotationLocker {
 
+    /**
+     * Uzamkne otáčanie displeja. Odomknutie je nutné spraviť explicitne funkciou unlock.
+     */
     public static void lockRotateScreen(AppCompatActivity activity){
             Display display = activity.getWindowManager().getDefaultDisplay();
             int rotation = display.getRotation();
@@ -54,6 +56,10 @@ public class RotationLocker {
             }
     }
 
+
+    /**
+     * Odomknutie otáčania displeja.
+     */
     public static void unlockRotateScreen(AppCompatActivity activity){
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }

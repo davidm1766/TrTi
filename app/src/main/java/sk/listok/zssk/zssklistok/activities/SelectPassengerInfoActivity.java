@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +24,6 @@ import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
-import sk.listok.zssk.zssklistok.helpers.VerifyHelper;
 
 
 public class SelectPassengerInfoActivity extends AppCompatActivity implements INotifyDownloader {
@@ -56,7 +56,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
         isDispleyed = false;
         // nastavim detail z listka
-        ticketDetailsText = Provider.getIParerInstance(this).ticketDetails(Provider.getDataholder().getPaHtml());
+        ticketDetailsText = Html.fromHtml(Provider.getIParerInstance(this).ticketDetails(Provider.getDataholder().getPaHtml())).toString();
         finalInfo.setText(ticketDetailsText);
         // nastavim cenu
         ticketPricetText = getString(R.string.PRICE_WITH_TAX)+
@@ -179,10 +179,10 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
     @Override
     public void downloaded(DataHolder dh) {
-        String result = VerifyHelper.checkUserInfo(dh.getPaHtml());
+        String result = Provider.getIParerInstance(this).checkUserInfo(dh.getPaHtml());
         RotationLocker.unlockRotateScreen(SelectPassengerInfoActivity.this);
         if(!result.equals("")){
-            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, result, Toast.LENGTH_LONG).show();
             return;
         }
 

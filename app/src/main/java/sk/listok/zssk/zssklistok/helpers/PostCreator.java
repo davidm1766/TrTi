@@ -1,7 +1,5 @@
 package sk.listok.zssk.zssklistok.helpers;
 
-import android.text.Html;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,15 +9,13 @@ import java.net.URLEncoder;
 
 
 /**
- *  Nepouzivat (len kvoli editacii je v projekte), samostatny .dex.
+ *  Konkrétna implementácia parsera, prioritne sa však použije
+ *  .dex, tento parser sa použije ak nie je dostupný .dex.
  */
 public class PostCreator implements IParserPostData{
 
 
 
-    public PostCreator(){
-
-    }
     /**
      * Prva stranka
      * @return
@@ -241,10 +237,25 @@ public class PostCreator implements IParserPostData{
         Elements journeyDetail = detailData.select("div > ul");
         StringBuilder sb = new StringBuilder();
         for(Element el : journeyDetail){
-            sb.append(Html.fromHtml(el.children().html()).toString()+"\n");
+            sb.append(el.children().html()+"<br>");
         }
 
         return sb.toString();
 
+    }
+
+    @Override
+    public String checkUserInfo(String html) {
+        try {
+            Document doc = Jsoup.parse(html);
+
+            Elements errors = doc.select(".tmp-anulation-form-false");
+            if (errors != null && errors.size() != 0) {
+                return errors.first().html();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
     }
 }

@@ -2,6 +2,7 @@ package sk.listok.zssk.zssklistok.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,6 +22,8 @@ import sk.listok.zssk.zssklistok.objects.Ticket;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -71,7 +74,19 @@ public class TicketsFramagment extends Fragment {
                 //zly nazov suboru
             }
         }
+        /**
+         * zotriedm listky tak aby boli
+         * od najnovsie kupenych po nastarsie
+         */
+        Collections.sort(tickets, new Comparator<Ticket>() {
+            @Override
+            public int compare(Ticket tic1, Ticket tic2)
+            {
+                return  tic2.getFilename().compareTo(tic1.getFilename());
+            }
+        });
 
     }
+
 
 }

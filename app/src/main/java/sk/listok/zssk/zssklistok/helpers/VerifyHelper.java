@@ -5,9 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 /**
- * Created by Nexi on 19.04.2017.
+ *
  */
-
 public class VerifyHelper {
 
     public static String checkUserInfo(String html){

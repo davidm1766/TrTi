@@ -26,7 +26,7 @@ import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
- * Created by Nexi on 02.04.2017.
+ * Helper na stiahnutie obrázku lístka.
  */
 
 public class ImageHelper extends AsyncTask<Pair<DataHolder,Ticket>,Void,Bitmap> {
@@ -88,7 +88,7 @@ public class ImageHelper extends AsyncTask<Pair<DataHolder,Ticket>,Void,Bitmap> 
      */
     private void saveImageToFile(byte[] arr,Ticket ticket){
         File myDir = FileHelper.getTicketFolder();
-        File file = new File(myDir,ticket.getFilename()+".png");
+        File file = new File(myDir,ticket.getFilename());
         try{
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(arr);
@@ -107,6 +107,7 @@ public class ImageHelper extends AsyncTask<Pair<DataHolder,Ticket>,Void,Bitmap> 
         saveImageToFile(arr,params[0].second);
         return BitmapFactory.decodeByteArray(arr, 0, arr.length);
     }
+
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {

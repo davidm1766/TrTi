@@ -1,18 +1,48 @@
 package sk.listok.zssk.zssklistok.objects;
 
 /**
- * Created by Nexi on 28.02.2017.
+ * Informácie o jednom vlaku.
  */
-
 public class TrainData {
 
+    /**
+     * Mesto z kadial chcem cestovať.
+     */
     private String fromTown;
+
+    /**
+     * Mesto kam chcem cestovať.
+     */
     private String toTown;
+
+    /**
+     * Dátum odchodu vlaku
+     */
     private String departueDate;
+
+    /**
+     * Dátum príchodu vlaku
+     */
     private String arrivalDate;
+
+    /**
+     * Čas odchodu vlaku
+     */
     private String departueTime;
+
+    /**
+     * Čas príchodu vlaku
+     */
     private String arrivalTime;
+
+    /**
+     * Celkový čas cestovania.
+     */
     private String journeyTime;
+
+    /**
+     * Názov vlaku
+     */
     private String nameTrain;
 
 
