@@ -62,8 +62,8 @@ public class LoadParser {
            // Method postFindTrains = clazz.getDeclaredMethod("postFindTrains",new Class[]{String.class,String.class,String.class,String.class});
             // postFindTrains.invoke(myInstance,"MestoZ","MestoDo","10:10","19.10.2016");
 
-           // Method postTicketType = clazz.getDeclaredMethod("postTicketType",new Class[]{String.class,int.class});
-            //postTicketType.invoke(myInstance,"param1",1);
+           // Method postTicketType.txt = clazz.getDeclaredMethod("postTicketType.txt",new Class[]{String.class,int.class});
+            //postTicketType.txt.invoke(myInstance,"param1",1);
 
             //test stvrtej fcie
             //Method postPassengerInfo = clazz.getDeclaredMethod("postPassengerInfo",new Class[]{String.class, String.class,String.class,String.class,String.class});

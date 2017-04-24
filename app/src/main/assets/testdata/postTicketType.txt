@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk"><head>
+		<title>Železničný cestovný poriadok a predaj lístkov
+		</title>
+
+        <link rel="icon" type="image/x-icon" href="/inet-sales-web/javax.faces.resource/images/favicon.ico.xhtml" />
+        <link rel="shortcut icon" type="image/x-icon" href="/inet-sales-web/javax.faces.resource/images/favicon.ico.xhtml" />
+
+
+
+		<meta charset="utf-8" />
+		<meta name="generator" content="TYPO3 4.5 CMS" />
+		<meta name="description" content="Zeleznicna spolocnost Slovensko a.s." />
+		<meta name="author" content="MONOGRAM" />
+		<meta name="keywords" content="vlak,zeleznica,spolocnos?,IC,EC" />
+		<meta name="robots" content="index,follow" />
+		<meta name="copyright" content="www.slovakrail.sk" />
+		<meta name="google-site-verification" content="44pUrnKWYQnK0D4jmSg-ay78Fuw6idiVoU3m73D3px4" />
+		<meta property="og:title" content="SK | ZSSK Slovakrail" />
+
+	    <script>
+	    	if (navigator.cookieEnabled == 0) {
+	        	alert("Aby aplikácia správne pracovala, potrebujete ma? povolené cookies !");
+	        }
+	    </script>
+
+		<script type="text/javascript">
+			// decrypt spam-protected emails
+			function linkTo_UnCryptMailto(s)	{
+				location.href = decryptString(s,3);
+			}
+		</script>
+
+		<script type="text/javascript">
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-489820-9', 'auto');
+		  ga('send', 'pageview');
+		</script>
+
+		<script type="text/javascript">
+			var formSubmitted = false;
+			function onSubmitButton() {
+			    if (!formSubmitted) {
+			        formSubmitted = true;
+			        // zobrazime loader, zabranime upravam udajov, kym dojde k reloadu
+			        $('#ajaxProgress').show();
+			    } else {
+			        // disable event propagation if form is already submitted
+			        event.preventDefault();
+			    }
+			}
+		</script>
+		<script type="text/javascript">
+
+		//inicializacia placeholders
+		function initPlaceholders () {
+			//odkial
+			bindHtmlPlaceholder("#searchParamForm\\:fromInput", "Zadajte mesto alebo obec");
+			//kam
+			bindHtmlPlaceholder("#searchParamForm\\:toInput", "Zadajte mesto alebo obec");
+			//cez
+			bindHtmlPlaceholder("#searchParamForm\\:viaInput", "Zadajte mesto alebo obec");
+		}
+
+		//jazykove verzie pre ziskanie dni
+		function getWeekDay(date) {
+		    var days = ['Nedeľa', 'Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota'];
+		    return days[date.getDay()];
+		}
+
+		//jazykove verzie pre prepinac detailu
+		function getDetailSwitchLabel(labelIndex) {
+		    var labels = ['Zobraziť detail', 'Skryť detail'];
+		    return labels[labelIndex];
+		}
+
+		//jazykove verzie pre prepinac umiestnenia
+		function getPlaceSwitchLabel(labelIndex) {
+		    var labels = ['Voľba miesta', 'Skryť voľbu miesta'];
+		    return labels[labelIndex];
+		}
+		</script>
+
+		<link rel="stylesheet" type="text/css" href="https://www.slovakrail.sk/fileadmin/templates/styles/allpages.css" media="all" />
+
+		<link rel="stylesheet" type="text/css" href="https://www.slovakrail.sk/fileadmin/templates/styles/css3.css" media="all" />
+
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,300italic,400italic,700italic&amp;subset=latin,latin-ext" /><!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="https://www.slovakrail.sk/fileadmin/templates/styles/ie8down.css"/><![endif]--><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/form.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/reset.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/allpages.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css3.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/jscal2.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/border-radius.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/jquery-ui.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/jquery.datetimepicker.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/reset.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/fancySelect.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/jquery.range.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/style.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/style-ikvc.css.xhtml?ln=mill" /><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jsf.js.xhtml?ln=javax.faces"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery.js.xhtml"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/richfaces.js.xhtml"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/richfaces-base-component.js.xhtml"></script><link type="text/css" rel="stylesheet" href="/inet-sales-web/rfRes/panel.ecss.xhtml?db=eAHjW!XqPQAE!QKS&amp;ln=org.richfaces" /><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/richfaces-queue.js.xhtml"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery.position.js.xhtml"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/richfaces-event.js.xhtml"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/popup.js.xhtml?ln=org.richfaces"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/tooltip.js.xhtml?ln=org.richfaces"></script><link type="text/css" rel="stylesheet" href="/inet-sales-web/rfRes/tooltip.ecss.xhtml?db=eAHjW!XqPQAE!QKS&amp;ln=org.richfaces" /><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/component-control.js.xhtml?ln=org.richfaces"></script></head><body>
+
+	 			<script type="text/javascript" src="https://ikvc.slovakrail.sk/iam/pages/menu.xhtml?lang=sk"></script>
+
+				<iframe id="rp" sandbox="allow-scripts allow-top-navigation allow-same-origin" style="visibility:hidden;display:none" height="0" width="0" src="/inet-sales-web/pages/login/rp.xhtml?"></iframe>
+
+				<script type="text/javascript">
+					jQuery(document).ready(function(){
+						// Pridanie login/logout menu z IAMu
+						try{
+							$('div[class=log_area]').html($('#my_log_area'));
+							$("#popupLink").attr("href", (!location.origin ? (location.protocol + '//' + location.hostname + (location.port ? (':' + location.port) : '')) : location.origin) + "/inet-sales-web/pages" + ($("#popupLink")[0].pathname.charAt(0) == '/' ? $("#popupLink")[0].pathname : ('/' + $("#popupLink")[0].pathname)));
+						} catch(e){}
+
+						// Nastavenie login linku v personalData
+						try{
+							if ($("#personalDataLogin").length) {
+								$("#personalDataLogin").attr("href", (!location.origin ? (location.protocol + '//' + location.hostname + (location.port ? (':' + location.port) : '')) : location.origin) + "/inet-sales-web/pages" + ($("#personalDataLogin")[0].pathname.charAt(0) == '/' ? $("#personalDataLogin")[0].pathname : ('/' + $("#personalDataLogin")[0].pathname)));
+							}
+						} catch(e){
+						}
+					});
+				</script>
+				<style type="text/css">
+				/* override style vcd */
+
+					table#tmp-table-parameters input.tmp-txt-default {
+					    border: 1px solid #bbb;
+					    color: #303030;
+					    font-family: "open_sanssemibold";
+					    font-size: 14px;
+					    height: 34px;
+					    line-height: 34px;
+					    border-spacing: 0;
+					    width: 150px;
+					    margin: 0;
+					}
+					table#tmp-table-parameters {
+					border-collapse: separate;
+					    border-spacing: 5px;
+					}
+					table#tmp-table-parameters label {
+					border-spacing: 0;
+					}
+					table#tmp-table-parameters tr td { margin: 5px; vertical-align: middle; }
+
+					#tmp-step-container .tmp-connection-step .tmp-white-block .tmp-parameters-tickets .tmp-all-connections tr td:first-child, #tmp-nosteps-container .tmp-connection-step .tmp-white-block .tmp-parameters-tickets .tmp-all-connections tr td:first-child, #tmp-step-container .tmp-single-page .tmp-white-block .tmp-parameters-tickets .tmp-all-connections tr td:first-child, #tmp-nosteps-container .tmp-single-page .tmp-white-block .tmp-parameters-tickets .tmp-all-connections .vcdTable tr td:first-child
+						{
+							width:auto;
+		    		 	}
+				</style>
+
+				<script type="text/javascript">
+				//<![CDATA[
+					$(document).ready(function() {
+						radioButtonStyle();
+						reservationTypeRadioButtonStyle();
+					});
+
+					function radioButtonStyle() {
+						$("input[type=radio]")
+								.each(
+										function() {
+											//fix pre radiobuttony pre priceOption tabulku (IC upsale)
+											//nezmazeme is stav
+											var id = $(this).attr('id').toString();
+
+											if(id.indexOf("totalPrice_") < 0) {
+												$(this).prop("checked",false);
+											}
+
+											if ($(this).is(':checked')) {
+												$("label[for='"	+ $(this).attr('id')+ "']").addClass("tmp-radio-lbl radGroup1 radGroup1 tmp-chk");
+											}
+
+											else {
+												$("label[for='"+ $(this).attr('id')+ "']").addClass("tmp-radio-lbl radGroup1 radGroup1 tmp-clr");
+											}
+
+											$(this).addClass("tmp-radio");
+
+									});
+
+					}
+
+					function reservationTypeRadioButtonStyle() {
+						$(".reservation-type-row input[type=radio]").each(
+							function() {
+								var id = $(this).attr('id').toString();
+								var selector = $("label[for='"+ $(this).attr('id')+ "']");
+								selector.removeClass();
+								if (id.indexOf("a") != -1) {
+									selector.addClass("tmp-radio-lbl tmp-chk");
+								} else {
+									selector.addClass("tmp-radio-lbl tmp-clr");
+								}
+							});
+					}
+					//]]>
+				</script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/jquery-ui-1.11.2.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/jquery.datetimepicker.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/chkbox-jspatch.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/fancySelect.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/jquery.rs.carousel.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/jquery.range.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/script.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/script-ikvc.js.xhtml?ln=mill&amp;rev=2.36.1"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/jquery.localscroll.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/jquery.tooltip.min.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/jquery.fancybox-1.3.4.pack.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/slides.min.jquery.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/common-slovakrail.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/script-slovakrail.js.xhtml?ln=mill"></script>
+
+
+			<div id="ajaxProgress" style="position: fixed !important; left: 0px; top: 0px; right: 0; bottom: 0; z-index: 1000; display: none;">
+				<img id="ajaxProgressImage" src="/inet-sales-web/javax.faces.resource/mill/img/preloader.gif.xhtml" style="position: fixed" />
+			</div><div class="rf-p " id="j_idt49" style="display:none;"><div class="rf-p-b " id="j_idt49_body"></div></div>
+				<script type="text/javascript" src="https://www.slovakrail.sk/sk/nakup-top.html"></script>
+
+
+			<div class="tmp-custom">
+				<div id="tmp-step-container">
+					<div id="tmp-jqtabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+<form id="cartForm" name="cartForm" method="post" action="/inet-sales-web/pages/shopping/ticketVCD.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="cartForm" value="cartForm" />
+
+	        <div id="tabContainer" class="tmp-steps ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"><div id="cartForm:cartPanelSummary" class="cart">
+					<span id="cart-ico"></span>
+					<span><a href="#" onclick="mojarra.jsfcljs(document.getElementById('cartForm'),{'cartForm:j_idt64':'cartForm:j_idt64'},'');return false">Košík</a>
+					</span>
+					<span>je prázdny
+					</span>
+					<span id="price">
+					</span></div>
+
+	        </div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="1454431919705269996:5633326681237997671" autocomplete="off" />
+</form>
+
+				<div id="tmp-payment" class="tmp-connection-step">
+
+
+
+
+
+
+
+
+                    <div class="tmp-clr tmp-white-block">
+<form id="ticketParam" name="ticketParam" method="post" action="/inet-sales-web/pages/shopping/ticketVCD.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="ticketParam" value="ticketParam" />
+<div id="ticketParam:formWrap" class="tmp-parameters-tickets">
+									<div class="tmp-anulation-form-alert-info">
+										<p class="tmp-anulation-form-info">
+<strong>InterCity</strong> vlaky Bratislava - Ko&#x161;ice za 4 hodiny 42 min&#xFA;t! Najr&#xFD;chlej&#x161;ie spojenie u&#x17E; <strong>od 15,90 &#x20AC;.</strong>
+
+										</p>
+									</div>
+
+							<h2 class="tmp-shopping-header">Nákup cestovného dokladu s výberom počtu cestujúcich</h2>
+            <table class="tmp-shopping-route-info">
+                <tr>
+                    <td>Zo stanice <strong>Zvolen os.st.</strong></td>
+                    <td>Dátum <strong>25.04.2017</strong></td>
+                    <td>Odchod <strong>07:00</strong></td>
+                    <td><strong>2hod 6min</strong> / 117 km</td>
+                </tr>
+                <tr>
+                    <td>Do stanice <strong>Žilina</strong></td>
+                    <td>Dátum <strong>25.04.2017</strong></td>
+                    <td>Príchod <strong>09:06</strong></td>
+                    <td>1 prestup </td>
+                </tr>
+                <tr class="tmp-last-row">
+                    <td colspan="4">
+                            <strong>Os</strong>
+       						7308
+
+						→
+                            <strong>R</strong>
+       						942
+       						Turiec
+
+                    </td>
+                </tr>
+            </table>
+									<table class="tmp-group-passenger-list">
+	                                    <tbody>
+	                                    	<tr>
+	                                        	<td class="tmp-valign-top tmp-info-btns"><a id="ticketParam:j_idt105" href="#" onclick="mojarra.ab(this,event,'action','ticketParam:formWrap','ticketParam',{'onevent':function(data) { listenerOnForm(data, 'radioButtonStyle') }});return false" class="tmp-favorite-cest tmp-btn-basic tmp-r-block tmp-isActive">Jednotliví cestujúci</a><a id="ticketParam:j_idt106" href="#" onclick="mojarra.ab(this,event,'action','ticketParam:formWrap','ticketParam',{'onevent':function(data) { listenerOnForm(data, 'radioButtonStyle') }});return false" class="tmp-favorite-cest tmp-btn-basic tmp-r-block ">Skupina</a>
+
+													<div class="tooltip-wraper">
+														<div class="tmp-tooltip-wrap-contents" style="display: none;">
+															<span>Ak cestujete spolu ako skupina šiestich až dvadsiatich osôb, zvoľte možnosť &quot;Skupina&quot;. Získate tým zľavu 25% z ceny obyčajného cestovného.</span>
+															<span class="tmp-tooltip-arrow-discount"></span>
+														</div>
+														<span class="tmp-help-tooltip-icon clickbtn"></span>
+													</div>
+	                                        	</td>
+	                                   		</tr>
+	                                   	</tbody>
+	                                </table>
+
+
+								<div class="tmp-group-passenger-wrap">
+
+			<table id="tmp-table-parameters" class="tmp-passenger-type tmp-connection-infos">
+				<tr>
+					<th><span class="tmp-drl-lbl">Typ cestujúceho</span></th>
+					<th></th>
+				</tr>
+						<tr>
+							<td><select id="ticketParam:passenger:0:j_idt117" name="ticketParam:passenger:0:j_idt117" class="tmp-drl-passenger-type" size="1" onchange="mojarra.ab(this,event,'change','ticketParam:formWrap','ticketParam:formWrap',{'onevent':function(data) { listenerOnForm(data, 'radioButtonStyle') }})">	<option value="">Zvoľte typ cestujúceho</option>
+	<option value="0" selected="selected">OBYČAJNÝ</option>
+	<option value="1">DIEŤA -15</option>
+	<option value="2">ŽIAK/ŠTUDENT</option>
+	<option value="3">JUNIOR RP</option>
+	<option value="4">KLASIK RP</option>
+	<option value="5">SENIOR RP</option>
+	<option value="6">DÔCHODCA -62</option>
+	<option value="7">OBČAN 62+</option>
+	<option value="8">OBČAN 70+</option>
+	<option value="9">ŤZP</option>
+	<option value="10">ŤZP-S</option>
+	<option value="11">PES</option>
+</select>
+							</td>
+							<td>
+
+							</td>
+						</tr>
+			</table><a id="ticketParam:j_idt141" href="#" onclick="mojarra.ab(this,event,'click','ticketParam:formWrap','ticketParam:formWrap',{'onevent':function(data) { listenerOnForm(data, 'radioButtonStyle') }});return false">+ Pridať ďaľšieho cestujúceho</a>
+								</div><div id="ticketParam:vcdrender">
+			<table id="train-no-XYZ" class="tmp-all-connections">
+
+			<thead>
+				<tr>
+					<th colspan="4" class="tmp-bold">
+						Os
+						7308
+						 / (Dopravca ZSSK)</th>
+					<th class="tmp-r-align">
+						<strong>0 hod 31 min
+						</strong> / 21 km
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+
+				<tr>
+
+					<td class="tmp-des tmp-valign-top">
+						Zvolen os.st.<br />
+						Banská Bystrica
+					</td>
+
+
+					<td class="tmp-valign-top">25.04.2017 <br />25.04.2017
+					</td>
+
+
+					<td class="tmp-valign-top">
+						Odchod
+						<span class="tmp-bold">07:00
+						</span><br />
+						Príchod
+						<span class="tmp-bold">07:31
+						</span>
+					</td>
+
+
+					<td class="tmp-valign-top tmp-r-align">
+					</td>
+				</tr>
+				<tr>
+
+					<td colspan="5">
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="5">
+						<p class="tmp-seats tmp-clr">
+						<label class="tmp-lbl-option" style="float:left !important; margin: 11px 15px 0px 0px; width: 130px;">Trieda</label>
+									<a class="tmp-btn-inactive">2.tr.</a>
+
+							<div class="tooltip-wraper">
+								<div class="tmp-tooltip-wrap-contents" style="display: none;">
+									<span>Zvoľte si vozňovú triedu, v ktorej chcete cestovať. Miesto na sedenie nie je v prípade vyčerpania kapacity vlaku vo vybranej triede garantované.</span>
+									<span class="tmp-tooltip-arrow-discount"></span>
+								</div>
+								<span class="tmp-help-tooltip-icon clickbtn"></span>
+							</div>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+
+			<thead>
+				<tr>
+					<th colspan="4" class="tmp-bold">
+						R
+						942
+						Turiec / (Dopravca ZSSK)</th>
+					<th class="tmp-r-align">
+						<strong>1 hod 32 min
+						</strong> / 96 km
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+
+				<tr>
+
+					<td class="tmp-des tmp-valign-top">
+						Banská Bystrica<br />
+						Žilina
+					</td>
+
+
+					<td class="tmp-valign-top">25.04.2017 <br />25.04.2017
+					</td>
+
+
+					<td class="tmp-valign-top">
+						Odchod
+						<span class="tmp-bold">07:34
+						</span><br />
+						Príchod
+						<span class="tmp-bold">09:06
+						</span>
+					</td>
+
+
+					<td class="tmp-valign-top tmp-r-align">
+					</td>
+				</tr>
+				<tr>
+
+					<td colspan="5">
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="5">
+						<p class="tmp-seats tmp-clr">
+						<label class="tmp-lbl-option" style="float:left !important; margin: 11px 15px 0px 0px; width: 130px;">Trieda</label><a id="ticketParam:inputOptionsItemTic:1:j_idt229:0:j_idt231" href="#" onclick="mojarra.ab(this,event,'action','ticketParam:formWrap','ticketParam:formWrap',{'onevent':function(data) { listenerOnForm(data, 'radioButtonStyle') }});return false" class="tmp-btn-active">2.tr.</a><a id="ticketParam:inputOptionsItemTic:1:j_idt229:1:j_idt231" href="#" onclick="mojarra.ab(this,event,'action','ticketParam:formWrap','ticketParam:formWrap',{'onevent':function(data) { listenerOnForm(data, 'radioButtonStyle') }});return false" class="tmp-btn-basic">1.tr.</a>
+
+							<div class="tooltip-wraper">
+								<div class="tmp-tooltip-wrap-contents" style="display: none;">
+									<span>Zvoľte si vozňovú triedu, v ktorej chcete cestovať. Miesto na sedenie nie je v prípade vyčerpania kapacity vlaku vo vybranej triede garantované.</span>
+									<span class="tmp-tooltip-arrow-discount"></span>
+								</div>
+								<span class="tmp-help-tooltip-icon clickbtn"></span>
+							</div>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+			</table></div></div>
+	                        <div class="tmp-white-block">
+		                        <div class="tmp-connections-move tmp-clr"><a href="#" onclick="mojarra.jsfcljs(document.getElementById('ticketParam'),{'ticketParam:j_idt601':'ticketParam:j_idt601'},'');return false" class="tmp-btn-basic tmp-prev tmp-l-block">Návrat na vyhľadané spojenia</a><a href="#" onclick="jsf.util.chain(this,event,'onSubmitButton();','mojarra.jsfcljs(document.getElementById(\'ticketParam\'),{\'ticketParam:j_idt602\':\'ticketParam:j_idt602\'},\'\')');return false" class="tmp-btn-action tmp-next-red tmp-r-block">Pokračovať v nákupe</a><a href="#" onclick="jsf.util.chain(this,event,'onSubmitButton();','mojarra.jsfcljs(document.getElementById(\'ticketParam\'),{\'ticketParam:j_idt603\':\'ticketParam:j_idt603\'},\'\')');return false" class="tmp-btn-action tmp-checkout tmp-r-block">Rýchly nákup</a>
+							</div>
+	                        </div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="1454431919705269996:5633326681237997671" autocomplete="off" />
+</form>
+                    </div>
+                    </div>
+					</div>
+				</div>
+	        </div>
+			<script type="text/javascript" src="https://www.slovakrail.sk/sk/nakup-bottom.html"></script></body>
+</html>

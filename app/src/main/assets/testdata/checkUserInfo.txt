@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk"><head>
+		<title>Železničný cestovný poriadok a predaj lístkov
+		</title>
+
+        <link rel="icon" type="image/x-icon" href="/inet-sales-web/javax.faces.resource/images/favicon.ico.xhtml" />
+        <link rel="shortcut icon" type="image/x-icon" href="/inet-sales-web/javax.faces.resource/images/favicon.ico.xhtml" />
+
+
+
+		<meta charset="utf-8" />
+		<meta name="generator" content="TYPO3 4.5 CMS" />
+		<meta name="description" content="Zeleznicna spolocnost Slovensko a.s." />
+		<meta name="author" content="MONOGRAM" />
+		<meta name="keywords" content="vlak,zeleznica,spolocnos?,IC,EC" />
+		<meta name="robots" content="index,follow" />
+		<meta name="copyright" content="www.slovakrail.sk" />
+		<meta name="google-site-verification" content="44pUrnKWYQnK0D4jmSg-ay78Fuw6idiVoU3m73D3px4" />
+		<meta property="og:title" content="SK | ZSSK Slovakrail" />
+
+	    <script>
+	    	if (navigator.cookieEnabled == 0) {
+	        	alert("Aby aplikácia správne pracovala, potrebujete ma? povolené cookies !");
+	        }
+	    </script>
+
+		<script type="text/javascript">
+			// decrypt spam-protected emails
+			function linkTo_UnCryptMailto(s)	{
+				location.href = decryptString(s,3);
+			}
+		</script>
+
+		<script type="text/javascript">
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-489820-9', 'auto');
+		  ga('send', 'pageview');
+		</script>
+
+		<script type="text/javascript">
+			var formSubmitted = false;
+			function onSubmitButton() {
+			    if (!formSubmitted) {
+			        formSubmitted = true;
+			        // zobrazime loader, zabranime upravam udajov, kym dojde k reloadu
+			        $('#ajaxProgress').show();
+			    } else {
+			        // disable event propagation if form is already submitted
+			        event.preventDefault();
+			    }
+			}
+		</script>
+		<script type="text/javascript">
+
+		//inicializacia placeholders
+		function initPlaceholders () {
+			//odkial
+			bindHtmlPlaceholder("#searchParamForm\\:fromInput", "Zadajte mesto alebo obec");
+			//kam
+			bindHtmlPlaceholder("#searchParamForm\\:toInput", "Zadajte mesto alebo obec");
+			//cez
+			bindHtmlPlaceholder("#searchParamForm\\:viaInput", "Zadajte mesto alebo obec");
+		}
+
+		//jazykove verzie pre ziskanie dni
+		function getWeekDay(date) {
+		    var days = ['Nedeľa', 'Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota'];
+		    return days[date.getDay()];
+		}
+
+		//jazykove verzie pre prepinac detailu
+		function getDetailSwitchLabel(labelIndex) {
+		    var labels = ['Zobraziť detail', 'Skryť detail'];
+		    return labels[labelIndex];
+		}
+
+		//jazykove verzie pre prepinac umiestnenia
+		function getPlaceSwitchLabel(labelIndex) {
+		    var labels = ['Voľba miesta', 'Skryť voľbu miesta'];
+		    return labels[labelIndex];
+		}
+		</script>
+
+		<link rel="stylesheet" type="text/css" href="https://www.slovakrail.sk/fileadmin/templates/styles/allpages.css" media="all" />
+
+		<link rel="stylesheet" type="text/css" href="https://www.slovakrail.sk/fileadmin/templates/styles/css3.css" media="all" />
+
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,300italic,400italic,700italic&amp;subset=latin,latin-ext" /><!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="https://www.slovakrail.sk/fileadmin/templates/styles/ie8down.css"/><![endif]--><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/form.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/reset.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/allpages.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css3.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/jscal2.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/border-radius.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/jquery-ui.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/jquery.datetimepicker.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/reset.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/fancySelect.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/plugins/jquery.range.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/style.css.xhtml?ln=mill" /><link type="text/css" rel="stylesheet" href="/inet-sales-web/javax.faces.resource/css/style-ikvc.css.xhtml?ln=mill" /><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jsf.js.xhtml?ln=javax.faces"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery.js.xhtml"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/richfaces.js.xhtml"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/richfaces-base-component.js.xhtml"></script><link type="text/css" rel="stylesheet" href="/inet-sales-web/rfRes/panel.ecss.xhtml?db=eAHjW!XqPQAE!QKS&amp;ln=org.richfaces" /></head><body>
+
+	 			<script type="text/javascript" src="https://ikvc.slovakrail.sk/iam/pages/menu.xhtml?lang=sk"></script>
+
+				<iframe id="rp" sandbox="allow-scripts allow-top-navigation allow-same-origin" style="visibility:hidden;display:none" height="0" width="0" src="/inet-sales-web/pages/login/rp.xhtml?"></iframe>
+
+				<script type="text/javascript">
+					jQuery(document).ready(function(){
+						// Pridanie login/logout menu z IAMu
+						try{
+							$('div[class=log_area]').html($('#my_log_area'));
+							$("#popupLink").attr("href", (!location.origin ? (location.protocol + '//' + location.hostname + (location.port ? (':' + location.port) : '')) : location.origin) + "/inet-sales-web/pages" + ($("#popupLink")[0].pathname.charAt(0) == '/' ? $("#popupLink")[0].pathname : ('/' + $("#popupLink")[0].pathname)));
+						} catch(e){}
+
+						// Nastavenie login linku v personalData
+						try{
+							if ($("#personalDataLogin").length) {
+								$("#personalDataLogin").attr("href", (!location.origin ? (location.protocol + '//' + location.hostname + (location.port ? (':' + location.port) : '')) : location.origin) + "/inet-sales-web/pages" + ($("#personalDataLogin")[0].pathname.charAt(0) == '/' ? $("#personalDataLogin")[0].pathname : ('/' + $("#personalDataLogin")[0].pathname)));
+							}
+						} catch(e){
+						}
+					});
+				</script>
+			<script type="text/javascript">
+				$(function() {
+					//nastavenie id a selectorov
+					var $formId = 'paymentForm'; // id vygenerovaneho formulara modelu
+					var $formSelector = 'input:radio[name="' + $formId
+							+ '\\:bankList"]'; // selector pre model
+					var $radios = $('#' + $formId + ' input:radio[name="'
+							+ $formId + '\\:bankList"]'); // radio modelu
+					var $find;
+
+					//zoznam komponentov (radiobuttonov) / view = id radio elementu v dummy, model = id radio elemetu v modeli (bez #)
+					var $components = [ {
+						"view" : "#tatrapay",
+						"model" : "paymentForm:bankList:0"
+					}, {
+						"view" : "#sporopay",
+						"model" : "paymentForm:bankList:1"
+					}, {
+						"view" : "#eplatbyvub",
+						"model" : "paymentForm:bankList:2"
+					}, {
+						"view" : "#gp-webpay",
+						"model" : "paymentForm:bankList:3"
+					}, {
+						"view" : "#zakaznickekonto",
+						"model" : "paymentForm:bankList:4"
+					} ];
+
+					//dyamicky bindneme click event na dummy radiobuttony
+					$
+							.each(
+									$components,
+									function(i, v) {
+										var radioButtonPath = $components[i].model;
+										var radioButtonView = $components[i].view;
+
+										//dovoli zakliknut, len ak je prazdny
+										$(radioButtonView)
+												.click(
+														function() {
+															if (!$(
+																	document
+																			.getElementById(radioButtonPath))
+																	.is(
+																			":checked")) {
+																$(
+																		document
+																				.getElementById(radioButtonPath))
+																		.prop(
+																				"checked",
+																				true);
+															}
+														});
+									});
+
+					//existuje default checked element?
+					if ($radios.is($formSelector + ':checked') === false) {
+
+						//vyhladanie a vypnutie vsetkych dummy ak su nahodou zakliknute a model je cisty
+						$($radios).each(function() {
+							$find = $(this).attr('id');
+
+							$.each($components, function(i, v) {
+								if (v.model == $find) {
+									$(v.view).prop("checked", false);
+								}
+							});
+						});
+					} else {
+						$defaultChecked = $($formSelector + ':checked',
+								'#' + $formId).attr('id');
+
+						//nastavime checknuty radio v dummy podla modelu defaultChecked
+						$.each($components, function(i, v) {
+							if (v.model == $defaultChecked) {
+								$(v.view).prop("checked", true);
+							}
+						});
+
+					}
+				});
+			</script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/jquery-ui-1.11.2.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/jquery.datetimepicker.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/chkbox-jspatch.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/fancySelect.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/jquery.rs.carousel.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/plugins/jquery.range.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/script.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/script-ikvc.js.xhtml?ln=mill&amp;rev=2.36.1"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/jquery.localscroll.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/jquery.tooltip.min.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/jquery.fancybox-1.3.4.pack.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/jquery/slides.min.jquery.js.xhtml?ln=js"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/common-slovakrail.js.xhtml?ln=mill"></script><script type="text/javascript" src="/inet-sales-web/javax.faces.resource/js/script-slovakrail.js.xhtml?ln=mill"></script>
+
+
+			<div id="ajaxProgress" style="position: fixed !important; left: 0px; top: 0px; right: 0; bottom: 0; z-index: 1000; display: none;">
+				<img id="ajaxProgressImage" src="/inet-sales-web/javax.faces.resource/mill/img/preloader.gif.xhtml" style="position: fixed" />
+			</div><div class="rf-p " id="j_idt49" style="display:none;"><div class="rf-p-b " id="j_idt49_body"></div></div>
+				<script type="text/javascript" src="https://www.slovakrail.sk/sk/nakup-top.html"></script>
+
+
+			<div class="tmp-custom">
+				<div id="tmp-step-container">
+					<div id="tmp-jqtabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+<form id="cartForm" name="cartForm" method="post" action="/inet-sales-web/pages/shopping/payment.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="cartForm" value="cartForm" />
+
+	        <div id="tabContainer" class="tmp-steps ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+						<div class="step completed"><span class="number"></span>
+							<span><a href="#" onclick="mojarra.jsfcljs(document.getElementById('cartForm'),{'cartForm:j_idt55:0:j_idt59':'cartForm:j_idt55:0:j_idt59'},'');return false">Prihlásenie alebo registrácia
+										<span class="clickable-step-overlap">
+										</span></a>
+							</span>
+						</div>
+						<div class="step completed"><span class="number"></span>
+							<span><a href="#" onclick="mojarra.jsfcljs(document.getElementById('cartForm'),{'cartForm:j_idt55:1:j_idt59':'cartForm:j_idt55:1:j_idt59'},'');return false">Údaje cestujúcich
+										<span class="clickable-step-overlap">
+										</span></a>
+							</span>
+						</div>
+						<div class="step active"><span class="number">3</span>
+							<span><span>Spôsob úhrady a platba</span>
+							</span>
+						</div>
+						<div class="step inactive"><span class="number">4</span>
+							<span><span>Vystavenie lístka</span>
+							</span>
+						</div><div id="cartForm:cartPanelSummary" class="cart">
+					<span id="cart-ico"></span>
+					<span><a href="#" onclick="mojarra.jsfcljs(document.getElementById('cartForm'),{'cartForm:j_idt64':'cartForm:j_idt64'},'');return false">Košík</a>
+					</span>
+					<span>1ks
+					</span>
+					<span id="price">0.00 EUR
+					</span></div>
+
+	        </div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="-5693711575524245704:-3163150893023164853" autocomplete="off" />
+</form>
+
+			<div id="tmp-connection" class="tmp-connection-step ui-tabs-panel ui-widget-content ui-corner-bottom">
+<form id="paymentForm" name="paymentForm" method="post" action="/inet-sales-web/pages/shopping/payment.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="paymentForm" value="paymentForm" />
+
+					<div id="tmp-payment" class="tmp-clr tmp-white-block">
+						<div class="tmp-shopping-payment">
+
+			<div class="tmp-shopping-cart-total">
+				<h2 class="tmp-shopping-header">Sumarizácia nákupu a výber spôsobu úhrady</h2>
+
+				<div class="tmp-shopping-cart-info">
+					<p>V nákupnom košíku sa nachádzajú tieto položky:</p>
+					<p>
+								<strong class="tmp-information-icon-dot"> 1 x CESTOVNÝ LÍSTOK NA BEZPLATNÚ PREPRAVU</strong>
+								<br />
+					</p>
+				</div>
+				<div class="tmp-price-wrapper-discount"><div id="paymentForm:priceContainer" class="tmp-price-panel">
+
+        		<p>
+					Celková cena s DPH: <strong>0.00 EUR </strong>
+				</p>
+				<span>(cena je platná pre nákup cez internet)</span></div>
+				</div>
+			</div>
+
+
+							<div class="tmp-shopping-payer-info">
+								<span class="tmp-bold">Údaje o platiteľovi</span>
+
+								<div class="tmp-l-block">
+									<p class="tmp-clr">
+										<span>eMail</span> <span class="tmp-bold">madaras.david1@gmail.com</span>
+									</p>
+								</div>
+							</div><div id="paymentForm:j_idt99:0:shoppingContainer" class="                 tmp-shopping-ticket-reservation">
+
+
+
+		<table class="tmp-all-connections">
+			<thead>
+				<tr>
+					<th colspan="2" class="tmp-bold">1.CESTOVNÝ LÍSTOK NA BEZPLATNÚ PREPRAVU</th>
+					<th></th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+				<tr>
+					<td class="tmp-valign-top">Zo stanice
+						<span class="tmp-bold">Zvolen os.st. </span> <br />Do stanice <span class="tmp-bold">Žilina</span>
+					</td>
+					<td class="tmp-valign-top">117 km <br />JEDNOSMERNÁ CESTA
+					</td>
+					<td class="tmp-valign-top">25.04.17 - 26.04.17 12:00 <br />ŽIAK/ŠTUDENT: 1
+					 </td>
+				</tr>
+				<tr class="tmp-facelift-shopping-footer-inactive">
+					<td><a href="#" class="shoppingItemDetailTrigger">Zobraziť detail</a></td>
+					<td><span style="font-weight:bold">Os </span>7308   / <span style="font-weight:bold">R </span>942 Turiec
+					</td>
+					<td colspan="2" style="font-weight: bold;">Cena s DPH: <span class="tmp-final-price">0.00 EUR</span></td>
+				</tr>
+				<tr>
+					<td colspan="3" id="shopCartItemPaymentOverride">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="tmp-shopping-detail-data">
+				<span class="tmp-bold">Detaily cestovného lístka</span>
+
+				<ul>
+    	        				<li class="tmp-information-icon-dot">Zvolen os.st. - Banská Bystrica, 21 km, 2.tr., NO, Os 7308, 07:00 - 07:31</li>
+    	        				<li class="tmp-information-icon-dot">Banská Bystrica - Žilina, 96 km, 2.tr., NO, R 942 Turiec, 07:34 - 09:06</li>
+				</ul>
+				<span class="tmp-bold">Poznámky</span>
+				<ul>
+						<li class="tmp-information-icon-dot">
+								Cest. lístok platí len s prísluš.preukazom.
+
+						</li>
+						<li class="tmp-information-icon-dot">
+								Nástup cesty možný len v 1.deň platnosti. Bezplatný CL a miestenka cez t.č. 18 188
+
+						</li>
+				</ul>
+		</div>
+
+		<div class="tmp-shopping-traveler-info">
+             <span>Údaje o cestujúcom</span>
+               <p class="tmp-bold">
+
+					Dávid
+					Madaras
+               </p>
+        </div></div>
+
+
+
+							<div class="tmp-shopping-accept">
+								<div class="tmp-payment-methods tmp-clr"><table id="paymentForm:bankList" style="display: none;">
+	<tr>
+<td>
+<input type="radio" name="paymentForm:bankList" id="paymentForm:bankList:0" value="tatraPay" disabled="disabled" /><label for="paymentForm:bankList:0"> Tatra Pay - Platobný kanál je z technických príčin na strane banky nefunkčný</label></td>
+<td>
+<input type="radio" name="paymentForm:bankList" id="paymentForm:bankList:1" value="sporoPay" /><label for="paymentForm:bankList:1"> Sporo Pay</label></td>
+<td>
+<input type="radio" name="paymentForm:bankList" id="paymentForm:bankList:2" value="vubPay" /><label for="paymentForm:bankList:2"> ePLATBY VÚB</label></td>
+<td>
+<input type="radio" name="paymentForm:bankList" id="paymentForm:bankList:3" value="muzoPay" /><label for="paymentForm:bankList:3"> Platba kartami</label></td>
+<td>
+<input type="radio" name="paymentForm:bankList" id="paymentForm:bankList:4" value="kreditPay" disabled="disabled" /><label for="paymentForm:bankList:4"> Platba kreditom zo Zákazníckeho konta</label></td>
+	</tr>
+</table>
+								</div>
+
+
+									<p class="tmp-clr"><input id="paymentForm:SendConfirmation" type="checkbox" name="paymentForm:SendConfirmation" checked="checked" class="tmp-chbox" /><label for="paymentForm:SendConfirmation" class="tmp-chkb-lbl tmp-clr">Požadujem zaslanie internetového dokladu (ITD) na mnou uvedenú e-mailovú adresu.</label>
+
+										<span class="tmp-small-payment">ITD bude zaslaný ako príloha e-mailu vo formáte PDF bez šifrovania. ZSSK nenesie zodpovednosť za bezpečnosť osobných údajov zasielaných formou e-mailovej správy podľa § 15 zákona č. 122/2013 Z. z. o ochrane osobných údajov a o zmene a doplnení niektorých zákonov.</span>
+									</p>
+
+
+									<p class="tmp-clr"><input id="paymentForm:PersonalDataFormDirect" type="checkbox" name="paymentForm:PersonalDataFormDirect" class="tmp-chbox" /><label for="paymentForm:PersonalDataFormDirect" class="tmp-chkb-lbl tmp-clr">Súhlasím s obchodnými podmienkami</label>
+										<span class="tmp-small-payment"><a href="http://www.slovakrail.sk/fileadmin/Dokumenty2/predaj/conditions.pdf" target="_blank">Obchodné podmienky internetového predaja cestovných dokladov Železničnej spoločnosti Slovensko, a.s.</a>
+										</span>
+									</p>
+							</div>
+						</div>
+
+
+						<div class="tmp-connections-move tmp-clr"><a href="#" onclick="jsf.util.chain(this,event,'$(\'#ajaxProgress\').show();onSubmitButton();','mojarra.jsfcljs(document.getElementById(\'paymentForm\'),{\'paymentForm:j_idt268\':\'paymentForm:j_idt268\'},\'\')');return false" class="tmp-btn-basic tmp-prev tmp-l-block">Zrušiť nákup</a><a href="#" onclick="jsf.util.chain(this,event,'$(\'#ajaxProgress\').show();onSubmitButton();','mojarra.jsfcljs(document.getElementById(\'paymentForm\'),{\'paymentForm:j_idt269\':\'paymentForm:j_idt269\'},\'\')');return false" class="tmp-btn-action tmp-next-red tmp-r-block">Pokračovať v nákupe</a>
+						</div>
+					</div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="-5693711575524245704:-3163150893023164853" autocomplete="off" />
+</form>
+			</div>
+					</div>
+				</div>
+	        </div>
+			<script type="text/javascript" src="https://www.slovakrail.sk/sk/nakup-bottom.html"></script></body>
+</html>

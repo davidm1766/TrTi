@@ -64,7 +64,7 @@ public class PostDataCreatorDynamic implements IParserPostData {
 
     @Override
     public String postTicketType(String html, int selectedItemIndex) {
-        Object ret = ClassProvider.Instance(activity).getMethodResult("postTicketType",new Class[]{String.class,int.class},html,selectedItemIndex);
+        Object ret = ClassProvider.Instance(activity).getMethodResult("postTicketType.txt",new Class[]{String.class,int.class},html,selectedItemIndex);
         if(ret == null){
             return null;
         }else {
