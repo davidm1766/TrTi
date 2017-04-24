@@ -125,7 +125,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
      */
     private void initHandlers() {
         //tlacidlo pokracovat dalej
-        Button button = (Button) findViewById(R.id.button2);
+        Button button = (Button) findViewById(R.id.nextButtonFind);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TrainForParser tr = getTrain();
@@ -266,7 +266,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         this.twToTown = (TextView) findViewById(R.id.textViewToTown);
         this.containerFragment = (FrameLayout) findViewById(R.id.container_fragment);
         containerFragment.setVisibility(View.INVISIBLE);
-        this.containerFragmentThis = (FrameLayout) findViewById(R.id.container_fragment1);
+        this.containerFragmentThis = (FrameLayout) findViewById(R.id.container_fragment_another);
         this.twTime = (TextView) findViewById(R.id.textViewTime);
         this.twDate = (TextView) findViewById(R.id.textViewDate);
         this.newTimeFragment = new TimePickerFragment();

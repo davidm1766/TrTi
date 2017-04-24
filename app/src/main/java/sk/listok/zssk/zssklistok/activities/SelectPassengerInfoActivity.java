@@ -64,7 +64,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         priceInfo.setText(ticketPricetText);
 
 
-        Button button = (Button) findViewById(R.id.button5);
+        Button button = (Button) findViewById(R.id.nextButtonPassengerInfo);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Person per = createPerson();
