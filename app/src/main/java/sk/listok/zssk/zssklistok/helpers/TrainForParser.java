@@ -12,8 +12,7 @@ public class TrainForParser {
     private String date;
 
 
-
-    public TrainForParser(String townFrom, String townTo, String time, String date){
+    public TrainForParser(String townFrom, String townTo, String time, String date) {
         this.townFrom = townFrom;
         this.townTo = townTo;
         this.time = time;

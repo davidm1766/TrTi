@@ -1,7 +1,7 @@
 package sk.listok.zssk.zssklistok.datalayer.objects;
 
 /**
- *  Informácie o osobných údajoch.
+ * Informácie o osobných údajoch.
  */
 public class Person {
 
@@ -31,7 +31,7 @@ public class Person {
     private String idCard;
 
     // ID, name, surname, email, regnumber, idcard
-    public Person(int id, String name, String surname, String email, String regNumber, String idCard){
+    public Person(int id, String name, String surname, String email, String regNumber, String idCard) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -40,7 +40,7 @@ public class Person {
         this.idCard = idCard;
     }
 
-    public Person(String name, String surname, String email, String regNumber, String idCard){
+    public Person(String name, String surname, String email, String regNumber, String idCard) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -48,7 +48,7 @@ public class Person {
         this.idCard = idCard;
     }
 
-    public Person(String name, String surname, String email, String regNumber){
+    public Person(String name, String surname, String email, String regNumber) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -81,6 +81,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return surname + " " + name + " (" +email+ ")";
+        return surname + " " + name + " (" + email + ")";
     }
 }

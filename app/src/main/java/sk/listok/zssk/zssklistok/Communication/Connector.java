@@ -3,9 +3,7 @@ package sk.listok.zssk.zssklistok.communication;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -17,14 +15,15 @@ import java.net.URL;
  * do DataHoldera a vráti sa naspäť.
  */
 
-public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
+public class Connector extends AsyncTask<DataHolder, Void, DataHolder> {
 
 
     private INotifyDownloader inotify;
+
     public Connector(INotifyDownloader in) {
-        if(android.os.Debug.isDebuggerConnected())
+        if (android.os.Debug.isDebuggerConnected())
             android.os.Debug.waitForDebugger();
-        if(in == null){
+        if (in == null) {
             throw new IllegalArgumentException("INotifyDownloader is null!");
         }
         inotify = in;
@@ -32,11 +31,12 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
 
     /**
      * Samotné odoslanie požiadavky na server.
+     *
      * @param ht z dataholdera sa vyberú všetky potrebné
      *           informácie na odoslanie POST requestu.
      * @return
      */
-    private DataHolder requestToServer(DataHolder ht){
+    private DataHolder requestToServer(DataHolder ht) {
         HttpURLConnection connection = null;
         try {
 
@@ -78,7 +78,7 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
             e.printStackTrace();
             ht.setPaHtml("");
         } finally {
-            if (connection != null){
+            if (connection != null) {
                 connection.disconnect();
             }
         }
@@ -96,7 +96,7 @@ public class Connector extends AsyncTask<DataHolder,Void,DataHolder> {
     @Override
     protected void onPostExecute(DataHolder result) {
         // po dokonceni vysledky...
-           inotify.downloaded(result);
+        inotify.downloaded(result);
     }
 
 

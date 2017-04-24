@@ -9,7 +9,7 @@ import org.jsoup.select.Elements;
  */
 public class VerifyHelper {
 
-    public static String checkUserInfo(String html){
+    public static String checkUserInfo(String html) {
         try {
             Document doc = Jsoup.parse(html);
 
@@ -17,7 +17,7 @@ public class VerifyHelper {
             if (errors != null && errors.size() != 0) {
                 return errors.first().html();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";

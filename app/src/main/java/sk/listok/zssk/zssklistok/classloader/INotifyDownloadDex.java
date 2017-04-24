@@ -6,6 +6,7 @@ package sk.listok.zssk.zssklistok.classloader;
 public interface INotifyDownloadDex {
     /**
      * Po skončení sťahovania z API vráti výsledok v dexDownloadInfo
+     *
      * @param dexDownloadInfo výsledok sťahovania .dex
      */
     void DownloadedDex(DexDownloadInfo dexDownloadInfo);

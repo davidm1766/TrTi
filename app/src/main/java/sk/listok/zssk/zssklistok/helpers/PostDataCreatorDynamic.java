@@ -14,144 +14,145 @@ public class PostDataCreatorDynamic implements IParserPostData {
     private AppCompatActivity activity;
 
     private static PostDataCreatorDynamic inst;
-    public static PostDataCreatorDynamic Instance(AppCompatActivity act){
-        if(inst == null){
+
+    public static PostDataCreatorDynamic Instance(AppCompatActivity act) {
+        if (inst == null) {
             inst = new PostDataCreatorDynamic(act);
         }
         // ak sa zmenila aktivita aktualizujem to...
-        if(inst.activity != act){
+        if (inst.activity != act) {
             inst.activity = act;
         }
 
         return inst;
     }
 
-    private PostDataCreatorDynamic(){
+    private PostDataCreatorDynamic() {
         //singleton
     }
 
 
-    public PostDataCreatorDynamic(AppCompatActivity activity){
+    public PostDataCreatorDynamic(AppCompatActivity activity) {
         this.activity = activity;
     }
 
 
     public String postFindTrains(TrainForParser train) {
-        return this.postFindTrains(train.getTownFrom(),train.getTownTo(),train.getTime(),train.getDate());
+        return this.postFindTrains(train.getTownFrom(), train.getTownTo(), train.getTime(), train.getDate());
     }
 
     @Override
     public String postFindTrains(String sTownFrom, String sTownTo, String sTime, String sDate) {
-        Object ret = ClassProvider.Instance(activity).getMethodResult("postFindTrains",new Class[]
-                {String.class,String.class,String.class,String.class},sTownFrom,sTownTo,sTime,sDate);
-        if(ret == null){
+        Object ret = ClassProvider.Instance(activity).getMethodResult("postFindTrains", new Class[]
+                {String.class, String.class, String.class, String.class}, sTownFrom, sTownTo, sTime, sDate);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
 
     }
 
     @Override
     public String postSelectTrain(String html, String idJourney) {
-        Object ret = ClassProvider.Instance(activity).getMethodResult("postSelectTrain",new Class[]{String.class,String.class},html,idJourney);
-        if(ret == null){
+        Object ret = ClassProvider.Instance(activity).getMethodResult("postSelectTrain", new Class[]{String.class, String.class}, html, idJourney);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 
     @Override
     public String postTicketType(String html, int selectedItemIndex) {
-        Object ret = ClassProvider.Instance(activity).getMethodResult("postTicketType.txt",new Class[]{String.class,int.class},html,selectedItemIndex);
-        if(ret == null){
+        Object ret = ClassProvider.Instance(activity).getMethodResult("postTicketType.txt", new Class[]{String.class, int.class}, html, selectedItemIndex);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
 
     }
 
     public String postPassengerInfo(String html, Person person) {
-        return this.postPassengerInfo(html,person.getEmail(),person.getName(),person.getSurname(),person.getRegNumber());
+        return this.postPassengerInfo(html, person.getEmail(), person.getName(), person.getSurname(), person.getRegNumber());
     }
 
     @Override
     public String postPassengerInfo(String html, String mail, String name, String surname, String regNumber) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("postPassengerInfo",
-                new Class[]{String.class, String.class,String.class,String.class,String.class},
-                html,mail,name,surname,regNumber);
-        if(ret == null){
+                new Class[]{String.class, String.class, String.class, String.class, String.class},
+                html, mail, name, surname, regNumber);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 
     @Override
     public String postFinishPayment(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("postFinishPayment",
-                new Class[]{String.class},html);
-        if(ret == null){
+                new Class[]{String.class}, html);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 
     @Override
     public String postDownloadTicket(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("postDownloadTicket",
-                new Class[]{String.class},html);
-        if(ret == null){
+                new Class[]{String.class}, html);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 
     @Override
     public String checkNoMoreTickets(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("checkNoMoreTickets",
-                new Class[]{String.class},html);
-        if(ret == null){
+                new Class[]{String.class}, html);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 
     @Override
     public String ticketPrice(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("ticketPrice",
-                new Class[]{String.class},html);
-        if(ret == null){
+                new Class[]{String.class}, html);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 
     @Override
     public String ticketDetails(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("ticketDetails",
-                new Class[]{String.class},html);
-        if(ret == null){
+                new Class[]{String.class}, html);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 
     @Override
     public String checkUserInfo(String html) {
         Object ret = ClassProvider.Instance(activity).getMethodResult("checkUserInfo",
-                new Class[]{String.class},html);
-        if(ret == null){
+                new Class[]{String.class}, html);
+        if (ret == null) {
             return null;
-        }else {
-            return (String)ret;
+        } else {
+            return (String) ret;
         }
     }
 

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-
 import android.widget.DatePicker;
 
 import java.util.Calendar;
@@ -18,22 +17,22 @@ import sk.listok.zssk.zssklistok.INotifyDate;
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 
-
     private INotifyDate ind;
 
     /**
      * Nastavenie interfaceu, ktorý bude prijímať oznámenia.
+     *
      * @param ind na tento interface sa odošle oznámenie,
      *            keď sa vyberie dátum
      */
-    public void setINotifiable(INotifyDate ind){
+    public void setINotifiable(INotifyDate ind) {
         this.ind = ind;
         Calendar c = Calendar.getInstance();
 
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-        ind.notifyDate(day,month+1,year);
+        ind.notifyDate(day, month + 1, year);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getActivity(), this,year,month,day);
+        return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     /**
@@ -50,8 +49,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
      * dá vedieť, že dátum bol zmenený.
      */
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        if(ind != null){
-            ind.notifyDate(day,month+1,year);
+        if (ind != null) {
+            ind.notifyDate(day, month + 1, year);
         }
     }
 

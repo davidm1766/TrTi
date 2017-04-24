@@ -16,14 +16,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
-import sk.listok.zssk.zssklistok.helpers.RotationLocker;
-import sk.listok.zssk.zssklistok.datalayer.DatabaseProvider;
-import sk.listok.zssk.zssklistok.datalayer.objects.Person;
 import sk.listok.zssk.zssklistok.R;
+import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
-import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.datalayer.DatabaseProvider;
+import sk.listok.zssk.zssklistok.datalayer.objects.Person;
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 
 
 public class SelectPassengerInfoActivity extends AppCompatActivity implements INotifyDownloader {
@@ -46,10 +46,10 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         setContentView(R.layout.activity_select_passenger_info);
 
 
-        editTextEmail = ((EditText)findViewById(R.id.editTextEmail));
+        editTextEmail = ((EditText) findViewById(R.id.editTextEmail));
         editTextName = ((EditText) findViewById(R.id.editTextName));
-        editTextSurname = ((AutoCompleteTextView)findViewById(R.id.autoCompleteTextViewSurname));
-        editTextRegNumber = ((EditText)findViewById(R.id.editTextRegNumber));
+        editTextSurname = ((AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewSurname));
+        editTextRegNumber = ((EditText) findViewById(R.id.editTextRegNumber));
 
         finalInfo = (TextView) findViewById(R.id.textViewFinalDetails);
         priceInfo = (TextView) findViewById(R.id.textViewPrice);
@@ -59,7 +59,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         ticketDetailsText = Html.fromHtml(Provider.getIParerInstance(this).ticketDetails(Provider.getDataholder().getPaHtml())).toString();
         finalInfo.setText(ticketDetailsText);
         // nastavim cenu
-        ticketPricetText = getString(R.string.PRICE_WITH_TAX)+
+        ticketPricetText = getString(R.string.PRICE_WITH_TAX) +
                 Provider.getIParerInstance(this).ticketPrice(Provider.getDataholder().getPaHtml());
         priceInfo.setText(ticketPricetText);
 
@@ -69,15 +69,15 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
             public void onClick(View v) {
                 Person per = createPerson();
                 ArrayList<Person> pe = DatabaseProvider.Instance(SelectPassengerInfoActivity.this).
-                        worker().person().getPersonByName(per.getName(),per.getSurname());
-                if(pe == null ||pe.size()==0){
+                        worker().person().getPersonByName(per.getName(), per.getSurname());
+                if (pe == null || pe.size() == 0) {
                     DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().removePerson(per);
                     DatabaseProvider.Instance(SelectPassengerInfoActivity.this).worker().person().addPerson(per);
                 }
                 Provider pro = Provider.Instance(SelectPassengerInfoActivity.this);
                 String toSend = pro.getIParerInstance(SelectPassengerInfoActivity.this).postPassengerInfo(
-                        Provider.getDataholder().getPaHtml(), per.getEmail(),per.getName(),per.getSurname(),per.getRegNumber());
-                if(toSend == null || toSend.equals("")){
+                        Provider.getDataholder().getPaHtml(), per.getEmail(), per.getName(), per.getSurname(), per.getRegNumber());
+                if (toSend == null || toSend.equals("")) {
                     AlertDialogHelper.onError(SelectPassengerInfoActivity.this);
                     return;
                 }
@@ -89,13 +89,9 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         });
 
 
-
-
-
         this.person = DatabaseProvider.Instance(this).worker().person().getAllPerson();
         final AutoCompleteTextView textView;
-        final ArrayAdapter<Person> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line,person);
-
+        final ArrayAdapter<Person> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, person);
 
 
         textView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewSurname);
@@ -103,7 +99,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View arg0) {
-                if (!isDispleyed){
+                if (!isDispleyed) {
                     showDropdown(textView);
                     isDispleyed = true;
                 } else {
@@ -117,7 +113,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
+                if (hasFocus) {
                     showDropdown(textView);
                     isDispleyed = true;
                 } else {
@@ -131,7 +127,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
         textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Person per = (Person)parent.getAdapter().getItem(position);
+                Person per = (Person) parent.getAdapter().getItem(position);
                 SelectPassengerInfoActivity.this.editTextRegNumber.setText(per.getRegNumber());
                 SelectPassengerInfoActivity.this.editTextName.setText(per.getName());
                 SelectPassengerInfoActivity.this.editTextSurname.setText(per.getSurname());
@@ -142,7 +138,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
     }
 
 
-    private void showDropdown(final AutoCompleteTextView textView){
+    private void showDropdown(final AutoCompleteTextView textView) {
         textView.post(new Runnable() {
             @Override
             public void run() {
@@ -150,7 +146,8 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
             }
         });
     }
-    private void dismissDropdown(final AutoCompleteTextView textView){
+
+    private void dismissDropdown(final AutoCompleteTextView textView) {
         textView.post(new Runnable() {
             @Override
             public void run() {
@@ -160,19 +157,18 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
     }
 
 
-
     @Override
     public void onBackPressed() {
         AlertDialogHelper.onCancelPurchase(this);
     }
 
-    public Person createPerson(){
+    public Person createPerson() {
         String email = editTextEmail.getText().toString();
         String name = editTextName.getText().toString();
-        String surname = editTextSurname.getText().toString() ;
+        String surname = editTextSurname.getText().toString();
         String regNum = editTextRegNumber.getText().toString();
 
-        return new Person(name,surname,email,regNum);
+        return new Person(name, surname, email, regNum);
 
     }
 
@@ -181,14 +177,14 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
     public void downloaded(DataHolder dh) {
         String result = Provider.getIParerInstance(this).checkUserInfo(dh.getPaHtml());
         RotationLocker.unlockRotateScreen(SelectPassengerInfoActivity.this);
-        if(!result.equals("")){
+        if (!result.equals("")) {
             Toast.makeText(this, result, Toast.LENGTH_LONG).show();
             return;
         }
 
-        Intent activityChangeIntent = new Intent(sk.listok.zssk.zssklistok.activities.SelectPassengerInfoActivity.this,sk.listok.zssk.zssklistok.activities.SelectFinishPayActivity.class);
-        activityChangeIntent.putExtra("price",ticketPricetText);
-        activityChangeIntent.putExtra("detail",ticketDetailsText);
+        Intent activityChangeIntent = new Intent(sk.listok.zssk.zssklistok.activities.SelectPassengerInfoActivity.this, sk.listok.zssk.zssklistok.activities.SelectFinishPayActivity.class);
+        activityChangeIntent.putExtra("price", ticketPricetText);
+        activityChangeIntent.putExtra("detail", ticketDetailsText);
         SelectPassengerInfoActivity.this.startActivity(activityChangeIntent);
     }
 

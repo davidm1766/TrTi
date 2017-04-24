@@ -18,19 +18,19 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import sk.listok.zssk.zssklistok.helpers.RotationLocker;
-import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
-import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.INotifyDate;
 import sk.listok.zssk.zssklistok.INotifyTime;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
-import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
+import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
+import sk.listok.zssk.zssklistok.helpers.TrainForParser;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 
-public class FindTrainsActivity extends AppCompatActivity implements INotifyTime,INotifyDate, INotifyDownloader {
+public class FindTrainsActivity extends AppCompatActivity implements INotifyTime, INotifyDate, INotifyDownloader {
 
 
     /**
@@ -70,9 +70,9 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        if(savedInstanceState != null) {
-            int fragOpen =  savedInstanceState.getInt("fragmentOpen");
-            switch (fragOpen){
+        if (savedInstanceState != null) {
+            int fragOpen = savedInstanceState.getInt("fragmentOpen");
+            switch (fragOpen) {
                 case 0:
                     //nic nebolo otvorene som na acitvite
                     break;
@@ -93,16 +93,16 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("fragmentOpen",whichFragmentOpen);
+        outState.putInt("fragmentOpen", whichFragmentOpen);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onBackPressed() {
-        if (containerFragment != null && containerFragment.getVisibility() == View.VISIBLE){
+        if (containerFragment != null && containerFragment.getVisibility() == View.VISIBLE) {
             containerFragment.setVisibility(View.INVISIBLE);
             containerFragmentThis.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -120,19 +120,17 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
     }
 
 
-
-
     /**
      * Inicializacia všetkých odchytávačov eventov.
      */
-    private void initHandlers(){
+    private void initHandlers() {
         //tlacidlo pokracovat dalej
         Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TrainForParser tr = getTrain();
-                String toSend = Provider.getIParerInstance(FindTrainsActivity.this).postFindTrains(tr.getTownFrom(),tr.getTownTo(),tr.getTime(),tr.getDate());
-                if(toSend == null || toSend.equals("")){
+                String toSend = Provider.getIParerInstance(FindTrainsActivity.this).postFindTrains(tr.getTownFrom(), tr.getTownTo(), tr.getTime(), tr.getDate());
+                if (toSend == null || toSend.equals("")) {
                     AlertDialogHelper.onError(FindTrainsActivity.this);
                     return;
                 }
@@ -142,7 +140,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
                 //timestamp kedy kupujem listok
                 SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
                 String format = s.format(new Date());
-                Provider.Instance(FindTrainsActivity.this).setTicket(new Ticket(tr.getTownFrom(),tr.getTownTo(),format));
+                Provider.Instance(FindTrainsActivity.this).setTicket(new Ticket(tr.getTownFrom(), tr.getTownTo(), format));
             }
         });
 
@@ -151,7 +149,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         etTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newTimeFragment.show( getFragmentManager(), "timePicker");
+                newTimeFragment.show(getFragmentManager(), "timePicker");
             }
         });
 
@@ -160,13 +158,13 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newDateFragment.show( getFragmentManager(), "datePicker");
+                newDateFragment.show(getFragmentManager(), "datePicker");
             }
         });
 
         //odchytenie vybrateho mesta
         final ListView lv = (ListView) findViewById(R.id.listViewTrain);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 
             @Override
@@ -179,9 +177,9 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
                 containerFragmentThis.setVisibility(View.VISIBLE);
 
                 //vybrate mesto priradim podla toho odklial bol fragment volany
-                if(isFromTown){
+                if (isFromTown) {
                     twFromTown.setText(lv.getItemAtPosition(position).toString());
-                }else {
+                } else {
                     twToTown.setText(lv.getItemAtPosition(position).toString());
                 }
                 /* vratil som sa z fragmentu na vyber mesta
@@ -213,7 +211,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
      * Zobrazenie fragmentu s mestami, pričom výsledok sa
      * uloží do "z mesta"
      */
-    private void showFragmentFromTown(){
+    private void showFragmentFromTown() {
         fragment.clearFilter();
         isFromTown = true;
         whichFragmentOpen = 1;
@@ -224,7 +222,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
      * Zobrazenie fragmentu s mestami, pričom výsledok sa
      * uloží do "do mesta".
      */
-    private void showFragmentToTown(){
+    private void showFragmentToTown() {
         fragment.clearFilter();
         isFromTown = false;
         whichFragmentOpen = 2;
@@ -235,7 +233,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
     /**
      * Zobrazenie fragmentu so stanicami.
      */
-    private void displayStationsFragment(){
+    private void displayStationsFragment() {
         containerFragment.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -248,23 +246,24 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     /**
      * Vráti vyplnené údaje v aktivite v podobe objektu.
+     *
      * @return
      */
-    public TrainForParser getTrain(){
+    public TrainForParser getTrain() {
         String townFrom = twFromTown.getText().toString();
         String townTo = twToTown.getText().toString();
         String time = twTime.getText().toString();
         String date = twDate.getText().toString();
-        return new TrainForParser(townFrom,townTo,time, date);
+        return new TrainForParser(townFrom, townTo, time, date);
     }
 
 
     /**
      * Inicializácia komponentov
      */
-    private void initComponents(){
+    private void initComponents() {
         this.twFromTown = (TextView) findViewById(R.id.textViewFromTown);
-        this.twToTown =  (TextView) findViewById(R.id.textViewToTown);
+        this.twToTown = (TextView) findViewById(R.id.textViewToTown);
         this.containerFragment = (FrameLayout) findViewById(R.id.container_fragment);
         containerFragment.setVisibility(View.INVISIBLE);
         this.containerFragmentThis = (FrameLayout) findViewById(R.id.container_fragment1);
@@ -274,22 +273,22 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         newTimeFragment.setINotifiable(FindTrainsActivity.this);
         this.newDateFragment = new DatePickerFragment();
         newDateFragment.setINotifiable(FindTrainsActivity.this);
-        fragment = (TrainSearchFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment = (TrainSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     }
 
 
     @Override
     public void notifyTime(int hour, int minutes) {
-        if (minutes < 10){
-            twTime.setText(hour+":0"+ minutes);
+        if (minutes < 10) {
+            twTime.setText(hour + ":0" + minutes);
         } else {
-            twTime.setText(hour+":"+ minutes);
+            twTime.setText(hour + ":" + minutes);
         }
     }
 
     @Override
     public void notifyDate(int day, int month, int year) {
-        twDate.setText(day+"."+month+"."+ year);
+        twDate.setText(day + "." + month + "." + year);
     }
 
     @Override

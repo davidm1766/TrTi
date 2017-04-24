@@ -32,11 +32,11 @@ public class DataHolder {
     private String paCookies;
 
 
-    public DataHolder(){
+    public DataHolder() {
         //singleton
     }
 
-    public DataHolder clone(){
+    public DataHolder clone() {
         DataHolder dh = new DataHolder();
         dh.setPaCookies(this.paCookies);
         dh.setPaHtml(this.paHtml);
@@ -45,11 +45,11 @@ public class DataHolder {
         return dh;
     }
 
-    public String getCookiesForConnection(){
+    public String getCookiesForConnection() {
         return this.paCookies;
     }
 
-    public void setCookies(Map<String, List<String>> headerFields){
+    public void setCookies(Map<String, List<String>> headerFields) {
         CookieManager paCookiemng = new CookieManager();
         String COOKIES_HEADER = "Set-Cookie";
         List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
@@ -59,7 +59,7 @@ public class DataHolder {
             }
         }
         if (paCookiemng.getCookieStore().getCookies().size() > 0) {
-            this.paCookies =  TextUtils.join(";",  paCookiemng.getCookieStore().getCookies());
+            this.paCookies = TextUtils.join(";", paCookiemng.getCookieStore().getCookies());
         }
     }
 
@@ -88,15 +88,15 @@ public class DataHolder {
     }
 
 
-    public String getPaCookies(){
+    public String getPaCookies() {
         return this.paCookies;
     }
 
-    public void setPaCookies(String cookies){
+    public void setPaCookies(String cookies) {
         this.paCookies = cookies;
     }
 
-    public void clearCookies(){
+    public void clearCookies() {
         this.paCookies = "";
     }
 

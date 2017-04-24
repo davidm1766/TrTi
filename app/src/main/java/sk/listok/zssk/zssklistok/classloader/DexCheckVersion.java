@@ -11,7 +11,7 @@ import java.net.URL;
  * Trieda, ktorá v druhom vlákne skontroluje číslo aktuálnej
  * verzie bajtkódu parsera na API a vráti ho v podobe Stringu.
  */
-public class DexCheckVersion extends AsyncTask<Void,Void,String> {
+public class DexCheckVersion extends AsyncTask<Void, Void, String> {
 
     private INotifyDownloadVersionDex inot;
 
@@ -19,7 +19,7 @@ public class DexCheckVersion extends AsyncTask<Void,Void,String> {
      * Na interface v parametri zavolá metódu downloaded, kde
      * v Stringu bude aktuálne číslo verzie bajtkódu parsera.
      */
-    public DexCheckVersion(INotifyDownloadVersionDex inot){
+    public DexCheckVersion(INotifyDownloadVersionDex inot) {
         this.inot = inot;
     }
 
@@ -41,7 +41,7 @@ public class DexCheckVersion extends AsyncTask<Void,Void,String> {
             }
             return builder.toString().trim().split("\"")[1];
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }

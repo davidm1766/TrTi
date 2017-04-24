@@ -38,7 +38,7 @@ public class TrainSearchFragment extends Fragment {
 
         lv = (ListView) rootView.findViewById(R.id.listViewTrain);
         sv = (SearchView) rootView.findViewById(R.id.searchViewTrain);
-        adap = new HRArrayAdapter<Town>(getActivity(),android.R.layout.simple_list_item_1,stations);
+        adap = new HRArrayAdapter<Town>(getActivity(), android.R.layout.simple_list_item_1, stations);
 
         lv.setAdapter(adap);
         sv.clearFocus();// hodim focus na vyhladavanie
@@ -48,6 +48,7 @@ public class TrainSearchFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 adap.getFilter().filter(newText);
@@ -61,17 +62,18 @@ public class TrainSearchFragment extends Fragment {
     /**
      * Vyčistenie filtra, kde používateľ píše.
      */
-    public void clearFilter(){
-        sv.setQuery("",false);
+    public void clearFilter() {
+        sv.setQuery("", false);
         adap.getFilter().filter("");
     }
 
     /**
      * Načítanie miest z databázy do arraylistu.
+     *
      * @return
      */
     private ArrayList<Town> getTowns() {
-        if(stations == null || stations.size() == 0) {
+        if (stations == null || stations.size() == 0) {
             stations = DatabaseProvider.Instance(getActivity()).worker().towns().getCachedTowns();
         }
         return stations;

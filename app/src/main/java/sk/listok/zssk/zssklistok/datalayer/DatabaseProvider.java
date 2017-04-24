@@ -14,22 +14,22 @@ public class DatabaseProvider {
     private static Context context;
     private static Worker worker;
 
-    public static DatabaseProvider Instance(Context con){
-        if(inst==null){
+    public static DatabaseProvider Instance(Context con) {
+        if (inst == null) {
             inst = new DatabaseProvider();
         }
-        if(DatabaseProvider.context != con){
+        if (DatabaseProvider.context != con) {
             DatabaseProvider.context = con;
             DatabaseProvider.worker = new Worker(new DatabaseHelper(con));
         }
         return inst;
     }
 
-    private DatabaseProvider(){
+    private DatabaseProvider() {
         //singleton
     }
 
-    public Worker worker(){
+    public Worker worker() {
         return worker;
     }
 }

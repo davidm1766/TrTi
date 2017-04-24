@@ -16,18 +16,18 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import sk.listok.zssk.zssklistok.helpers.RotationLocker;
-import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
-import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
+import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 
 public class SelectPassengerTypeActivity extends AppCompatActivity implements INotifyDownloader {
 
     private Spinner spinner;
-    private HashSet<Integer> supportedIndexes = new HashSet<>(Arrays.asList(1,2,6,7,8));
+    private HashSet<Integer> supportedIndexes = new HashSet<>(Arrays.asList(1, 2, 6, 7, 8));
     private InterstitialAd mInterstitialAd;
 
     @Override
@@ -52,20 +52,20 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
         Button button = (Button) findViewById(R.id.button4);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            int selectedIndex = spinner.getSelectedItemPosition();
-            if(!supportedIndexes.contains(selectedIndex)){
-                Toast.makeText(SelectPassengerTypeActivity.this, R.string.NoSupportedType ,Toast.LENGTH_SHORT).show();
-                return;
-            }
+                int selectedIndex = spinner.getSelectedItemPosition();
+                if (!supportedIndexes.contains(selectedIndex)) {
+                    Toast.makeText(SelectPassengerTypeActivity.this, R.string.NoSupportedType, Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            String toSend = Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), selectedIndex);
-            if(toSend == null || toSend.equals("")){
-                AlertDialogHelper.onError(SelectPassengerTypeActivity.this);
-                return;
-            }
-            RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);
-            Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
-                    toSend);
+                String toSend = Provider.getIParerInstance(SelectPassengerTypeActivity.this).postTicketType(Provider.getDataholder().getPaHtml(), selectedIndex);
+                if (toSend == null || toSend.equals("")) {
+                    AlertDialogHelper.onError(SelectPassengerTypeActivity.this);
+                    return;
+                }
+                RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);
+                Provider.Instance(SelectPassengerTypeActivity.this).doRequest("https://ikvc.slovakrail.sk/inet-sales-web/pages/shopping/ticketVCD.xhtml",
+                        toSend);
 
             }
 
@@ -80,11 +80,11 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
     }
 
     /**
-     *  Načítanie dát do spinnera.
+     * Načítanie dát do spinnera.
      */
-    private void loadSpinner(){
+    private void loadSpinner() {
         //poradie sa nemoze menit, index vybratej polozky sa posiela v POST
-        String[] arraySpinner = new String[] {
+        String[] arraySpinner = new String[]{
                 getString(R.string.CLASSIC),
                 getString(R.string.CHILD),
                 getString(R.string.STUDENT),
@@ -106,11 +106,10 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
     }
 
 
-
     @Override
     public void downloaded(DataHolder dh) {
-        if(!Provider.getIParerInstance(this).checkNoMoreTickets(dh.getPaHtml()).equals("")){
-            Toast.makeText(this, R.string.NO_MORE_TICKETS,Toast.LENGTH_SHORT).show();
+        if (!Provider.getIParerInstance(this).checkNoMoreTickets(dh.getPaHtml()).equals("")) {
+            Toast.makeText(this, R.string.NO_MORE_TICKETS, Toast.LENGTH_SHORT).show();
             RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);
         } else {
             Intent activityChangeIntent = new Intent(SelectPassengerTypeActivity.this, SelectPassengerInfoActivity.class);

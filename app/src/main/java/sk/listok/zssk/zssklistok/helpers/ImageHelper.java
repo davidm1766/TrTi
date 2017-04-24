@@ -1,25 +1,17 @@
 package sk.listok.zssk.zssklistok.helpers;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.v4.util.Pair;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
@@ -29,18 +21,19 @@ import sk.listok.zssk.zssklistok.objects.Ticket;
  * Helper na stiahnutie obrázku lístka.
  */
 
-public class ImageHelper extends AsyncTask<Pair<DataHolder,Ticket>,Void,Bitmap> {
+public class ImageHelper extends AsyncTask<Pair<DataHolder, Ticket>, Void, Bitmap> {
 
 
-    private  INotifyImageDownloaded inotify;
-    public ImageHelper(INotifyImageDownloaded inot){
-        if(inot == null){
+    private INotifyImageDownloaded inotify;
+
+    public ImageHelper(INotifyImageDownloaded inot) {
+        if (inot == null) {
             throw new IllegalArgumentException();
         }
         this.inotify = inot;
     }
 
-    private byte[] downloadTicketImage(DataHolder ht){
+    private byte[] downloadTicketImage(DataHolder ht) {
         try {
 
             URL url = new URL(ht.getPaUrl());
@@ -61,7 +54,7 @@ public class ImageHelper extends AsyncTask<Pair<DataHolder,Ticket>,Void,Bitmap> 
             wr.flush();
             wr.close();
 
-           // ht.setCookies(connection.getHeaderFields());
+            // ht.setCookies(connection.getHeaderFields());
 
 
             InputStream is = connection.getInputStream();
@@ -84,27 +77,28 @@ public class ImageHelper extends AsyncTask<Pair<DataHolder,Ticket>,Void,Bitmap> 
 
     /**
      * Ulozi pole bajtov predstavujuce obrazok
+     *
      * @param arr
      */
-    private void saveImageToFile(byte[] arr,Ticket ticket){
+    private void saveImageToFile(byte[] arr, Ticket ticket) {
         File myDir = FileHelper.getTicketFolder();
-        File file = new File(myDir,ticket.getFilename());
-        try{
+        File file = new File(myDir, ticket.getFilename());
+        try {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(arr);
             fos.close();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.toString());
         }
     }
 
 
     @Override
-    protected Bitmap doInBackground(Pair<DataHolder,Ticket>... params) {
+    protected Bitmap doInBackground(Pair<DataHolder, Ticket>... params) {
         //najprv si stiahnem listok v .png
         byte[] arr = downloadTicketImage(params[0].first);
         //potom ho ulozim do suboru
-        saveImageToFile(arr,params[0].second);
+        saveImageToFile(arr, params[0].second);
         return BitmapFactory.decodeByteArray(arr, 0, arr.length);
     }
 

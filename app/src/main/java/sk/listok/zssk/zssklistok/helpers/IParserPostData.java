@@ -1,11 +1,7 @@
 package sk.listok.zssk.zssklistok.helpers;
 
-import java.lang.reflect.InvocationTargetException;
-
-
-
 /**
- *   Tento interface sluzi zobrazenie dostupných  funkcii, ktore obsahuje parser.
+ * Tento interface sluzi zobrazenie dostupných  funkcii, ktore obsahuje parser.
  */
 public interface IParserPostData {
 
@@ -22,7 +18,7 @@ public interface IParserPostData {
     /**
      * Vytvorí reťazec s POST dátami pre vybratý typ lístka.
      */
-    String postTicketType(String html,int selectedItemIndex);
+    String postTicketType(String html, int selectedItemIndex);
 
     /**
      * Vytvorí reťazec s POST dátami pre informácie o zákazníkovi.

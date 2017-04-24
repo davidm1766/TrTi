@@ -23,7 +23,7 @@ public class DexDownloadInfo {
 
 
     public eStatus getStatus() {
-        if(dexBytes == null || dexBytes.length == 0 ){
+        if (dexBytes == null || dexBytes.length == 0) {
             this.status = eStatus.FAILED;
         }
         return status;

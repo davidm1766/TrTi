@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,7 +28,7 @@ public class FileHelper {
     /**
      * Vráti priečinok kde sú uložené stiahnuté lístky
      */
-    public static File getTicketFolder(){
+    public static File getTicketFolder() {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/vlakoveListky");
         myDir.mkdirs();
@@ -39,7 +38,7 @@ public class FileHelper {
     /**
      * Vráti umiestnenie temp foldera.
      */
-    public static File getTempFolder(){
+    public static File getTempFolder() {
         String root = context.getCacheDir().toString();
         File myDir = new File(root + "/tmp");
         myDir.mkdirs();
@@ -50,8 +49,8 @@ public class FileHelper {
     /**
      * Vráti .dex súbor(bajtkód) parsera
      */
-    public static File getDexFile(){
-        File dexFile = new File(context.getFilesDir() + "/dexfile/"+dexFileName);
+    public static File getDexFile() {
+        File dexFile = new File(context.getFilesDir() + "/dexfile/" + dexFileName);
         dexFile.mkdirs();
         return dexFile;
     }
@@ -59,7 +58,7 @@ public class FileHelper {
     /**
      * Vráti adresár kde sa .dex nachádza
      */
-    public static File getDexDir(){
+    public static File getDexDir() {
         File dexDir = new File(context.getFilesDir() + "/dexfile");
         dexDir.mkdirs();
         return dexDir;
@@ -69,7 +68,7 @@ public class FileHelper {
     /**
      * Prepíše existujúci .dex súbor, novým bajtkódom.
      */
-    public static void rewriteToDexFile(byte[] bytes){
+    public static void rewriteToDexFile(byte[] bytes) {
         try {
             File f = getDexFile();
             f.delete();
@@ -78,7 +77,7 @@ public class FileHelper {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.close();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -86,9 +85,9 @@ public class FileHelper {
     /**
      * Vráti súbor lístka podľa mena.
      */
-    public static File getTicketImage(String filename){
-        String root =  Environment.getExternalStorageDirectory().toString();//context.getFilesDir().toString(); //Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/vlakoveListky/"+filename);
+    public static File getTicketImage(String filename) {
+        String root = Environment.getExternalStorageDirectory().toString();//context.getFilesDir().toString(); //Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/vlakoveListky/" + filename);
         return myDir;
     }
 
@@ -117,12 +116,12 @@ public class FileHelper {
         }
 
         // ak nemam ziadne subory koncim...
-        if(files == null){
+        if (files == null) {
             return;
         }
 
         for (String filename : files) {
-            if(filesInTemp.contains(filename)){
+            if (filesInTemp.contains(filename)) {
                 continue;
             }
             InputStream in = null;
@@ -132,10 +131,9 @@ public class FileHelper {
                 File outFile = new File(FileHelper.getTempFolder(), filename);
                 out = new FileOutputStream(outFile);
                 copyFile(in, out);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 Log.e("tag", "Failed to copy asset file: " + filename, e);
-            }
-            finally {
+            } finally {
                 if (in != null) {
                     try {
                         in.close();
@@ -160,7 +158,7 @@ public class FileHelper {
     private static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
-        while((read = in.read(buffer)) != -1){
+        while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
     }
@@ -170,10 +168,10 @@ public class FileHelper {
      */
     public static boolean deleteTicket(Ticket ticket) {
         File f = getTicketImage(ticket.getFilename());
-        if(f != null){
+        if (f != null) {
             f.delete();
             return true;
-        }else{
+        } else {
             return false;
         }
     }

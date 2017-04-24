@@ -1,7 +1,21 @@
 package sk.listok.zssk.zssklistok.activities;
 
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /*
  * Copyright (C) 2006 The Android Open Source Project
  *
@@ -18,36 +32,22 @@ import android.widget.Filterable;
  * limitations under the License.
  */
 
-import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Comparator;
-import java.util.Collections;
-
 /**
  * A ListAdapter that manages a ListView backed by an array of arbitrary
  * objects.  By default this class expects that the provided resource id references
  * a single TextView.  If you want to use a more complex layout, use the constructors that
  * also takes a field id.  That field id should reference a TextView in the larger layout
  * resource.
- *
+ * <p>
  * However the TextView is referenced, it will be filled with the toString() of each object in
  * the array. You can add lists or arrays of custom objects. Override the toString() method
  * of your objects to determine what text will be displayed for the item in the list.
- *
+ * <p>
  * To use something other than TextViews for the array display, for instance, ImageViews,
  * or to have some of data besides toString() results fill the views,
  * override {@link #getView(int, View, ViewGroup)} to return the type of view you want.
+ * <p>
+ * Inšpirované: http://stackoverflow.com/questions/4869392/diacritics-international-characters-in-autocompletetextview
  */
 public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
     /**
@@ -99,9 +99,9 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
     /**
      * Constructor
      *
-     * @param context The current context.
+     * @param context            The current context.
      * @param textViewResourceId The resource ID for a layout file containing a TextView to use when
-     *                 instantiating views.
+     *                           instantiating views.
      */
     public HRArrayAdapter(Context context, int textViewResourceId) {
         init(context, textViewResourceId, 0, new ArrayList<T>());
@@ -110,9 +110,9 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
     /**
      * Constructor
      *
-     * @param context The current context.
-     * @param resource The resource ID for a layout file containing a layout to use when
-     *                 instantiating views.
+     * @param context            The current context.
+     * @param resource           The resource ID for a layout file containing a layout to use when
+     *                           instantiating views.
      * @param textViewResourceId The id of the TextView within the layout resource to be populated
      */
     public HRArrayAdapter(Context context, int resource, int textViewResourceId) {
@@ -122,10 +122,10 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
     /**
      * Constructor
      *
-     * @param context The current context.
+     * @param context            The current context.
      * @param textViewResourceId The resource ID for a layout file containing a TextView to use when
-     *                 instantiating views.
-     * @param objects The objects to represent in the ListView.
+     *                           instantiating views.
+     * @param objects            The objects to represent in the ListView.
      */
     public HRArrayAdapter(Context context, int textViewResourceId, T[] objects) {
         init(context, textViewResourceId, 0, Arrays.asList(objects));
@@ -134,11 +134,11 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
     /**
      * Constructor
      *
-     * @param context The current context.
-     * @param resource The resource ID for a layout file containing a layout to use when
-     *                 instantiating views.
+     * @param context            The current context.
+     * @param resource           The resource ID for a layout file containing a layout to use when
+     *                           instantiating views.
      * @param textViewResourceId The id of the TextView within the layout resource to be populated
-     * @param objects The objects to represent in the ListView.
+     * @param objects            The objects to represent in the ListView.
      */
     public HRArrayAdapter(Context context, int resource, int textViewResourceId, T[] objects) {
         init(context, resource, textViewResourceId, Arrays.asList(objects));
@@ -147,10 +147,10 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
     /**
      * Constructor
      *
-     * @param context The current context.
+     * @param context            The current context.
      * @param textViewResourceId The resource ID for a layout file containing a TextView to use when
-     *                 instantiating views.
-     * @param objects The objects to represent in the ListView.
+     *                           instantiating views.
+     * @param objects            The objects to represent in the ListView.
      */
     public HRArrayAdapter(Context context, int textViewResourceId, List<T> objects) {
         init(context, textViewResourceId, 0, objects);
@@ -159,11 +159,11 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
     /**
      * Constructor
      *
-     * @param context The current context.
-     * @param resource The resource ID for a layout file containing a layout to use when
-     *                 instantiating views.
+     * @param context            The current context.
+     * @param resource           The resource ID for a layout file containing a layout to use when
+     *                           instantiating views.
      * @param textViewResourceId The id of the TextView within the layout resource to be populated
-     * @param objects The objects to represent in the ListView.
+     * @param objects            The objects to represent in the ListView.
      */
     public HRArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects) {
         init(context, resource, textViewResourceId, objects);
@@ -190,7 +190,7 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
      * Inserts the specified object at the specified index in the array.
      *
      * @param object The object to insert into the array.
-     * @param index The index at which the object must be inserted.
+     * @param index  The index at which the object must be inserted.
      */
     public void insert(T object, int index) {
         if (mOriginalValues != null) {
@@ -238,7 +238,7 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
      * Sorts the content of this adapter using the specified comparator.
      *
      * @param comparator The comparator used to sort the objects contained
-     *        in this adapter.
+     *                   in this adapter.
      */
     public void sort(Comparator<? super T> comparator) {
         Collections.sort(mObjects, comparator);
@@ -260,7 +260,7 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
      * {@link #notifyDataSetChanged}.  If set to false, caller must
      * manually call notifyDataSetChanged() to have the changes
      * reflected in the attached view.
-     *
+     * <p>
      * The default is true, and calling notifyDataSetChanged()
      * resets the flag to true.
      *
@@ -274,7 +274,7 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
 
     private void init(Context context, int resource, int textViewResourceId, List<T> objects) {
         mContext = context;
-        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mResource = mDropDownResource = resource;
         mObjects = objects;
         mFieldId = textViewResourceId;
@@ -308,7 +308,6 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
      * Returns the position of the specified item in the array.
      *
      * @param item The item to retrieve the position of.
-     *
      * @return The position of the specified item.
      */
     public int getPosition(T item) {
@@ -381,10 +380,9 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
      * Creates a new ArrayAdapter from external resources. The content of the array is
      * obtained through {@link android.content.res.Resources#getTextArray(int)}.
      *
-     * @param context The application's environment.
+     * @param context        The application's environment.
      * @param textArrayResId The identifier of the array to use as the data source.
-     * @param textViewResId The identifier of the layout used to create views.
-     *
+     * @param textViewResId  The identifier of the layout used to create views.
      * @return An ArrayAdapter<CharSequence>.
      */
     public static HRArrayAdapter<CharSequence> createFromResource(Context context,
@@ -475,11 +473,11 @@ public class HRArrayAdapter<T> extends BaseAdapter implements Filterable {
 
         /**
          * Slovenská diakritika
+         *
          * @param original reťazec
          * @return reťazec bez diakritiky
          */
-        private String toNoPalatals( String original )
-        {
+        private String toNoPalatals(String original) {
 
             original = original.replace("Á", "A");
             original = original.replace("Ä", "A");

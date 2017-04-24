@@ -5,5 +5,5 @@ package sk.listok.zssk.zssklistok;
  */
 
 public interface INotifyDate {
-    void notifyDate(int day, int month,int year);
+    void notifyDate(int day, int month, int year);
 }

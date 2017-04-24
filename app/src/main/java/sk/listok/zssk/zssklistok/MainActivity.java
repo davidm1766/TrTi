@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 import sk.listok.zssk.zssklistok.classloader.DexCheckVersion;
 import sk.listok.zssk.zssklistok.classloader.DexDownloadInfo;
 import sk.listok.zssk.zssklistok.classloader.DexDownloader;
@@ -30,13 +29,14 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
     private SharedPreferences sharedpreferences;
     private ProgressDialog progressDialog;
     private String newVersionNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        sharedpreferences= getSharedPreferences("lastVersion", Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences("lastVersion", Context.MODE_PRIVATE);
 
         Provider.Instance(null).clearStackAndResetHolder();
         //load reklam
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
         Button button = (Button) findViewById(R.id.buttonStartShopping);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(isOnline()){
+                if (isOnline()) {
                     progressDialog = ProgressDialog.show(MainActivity.this, getString(R.string.LOADING_STATIONS), getString(R.string.PLEASE_WAIT), true);
                     new DexCheckVersion(MainActivity.this).execute();
                 } else {
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
 
     /**
      * Funkcia na zistenie či je používateľ online.
+     *
      * @return true ak je online, false ak nie je pripojený na internet
      */
     public boolean isOnline() {
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
     /**
      * Spustím prvú aktivitu na nákup lístka.
      */
-    private void startBuyingActivity(){
+    private void startBuyingActivity() {
         Intent activityChangeIntent = new Intent(MainActivity.this, sk.listok.zssk.zssklistok.activities.FindTrainsActivity.class);
         progressDialog.dismiss();
         MainActivity.this.startActivity(activityChangeIntent);
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
     public void Downloaded(String content) {
 
         String lastDownloadedVersion = sharedpreferences.getString("version", null);
-        if(lastDownloadedVersion == null || !lastDownloadedVersion.equals(content)){
+        if (lastDownloadedVersion == null || !lastDownloadedVersion.equals(content)) {
             //Nesedi verzia
             newVersionNumber = content;
             new DexDownloader(this).execute();
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements INotifyDownloadVe
 
     @Override
     public void DownloadedDex(DexDownloadInfo info) {
-        if(info.getStatus() == eStatus.OK) {
+        if (info.getStatus() == eStatus.OK) {
             FileHelper.rewriteToDexFile(info.getDexBytes());
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString("version", newVersionNumber);

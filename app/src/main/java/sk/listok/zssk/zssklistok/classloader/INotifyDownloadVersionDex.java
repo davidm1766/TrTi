@@ -8,6 +8,7 @@ public interface INotifyDownloadVersionDex {
     /**
      * Po skončení sťahovania čísla verzie z API
      * vráti číslo verzie stringu.
+     *
      * @param content
      */
     void Downloaded(String content);

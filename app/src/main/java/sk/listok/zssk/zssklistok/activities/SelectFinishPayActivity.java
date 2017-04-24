@@ -10,15 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
-import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
 import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
+import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 
 
-public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader,INotifyImageDownloaded {
+public class SelectFinishPayActivity extends AppCompatActivity implements INotifyDownloader, INotifyImageDownloaded {
 
 
     private TextView tvPriceInfo;
@@ -29,15 +29,15 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_finish_pay);
 
-         tvJourneyInfo = (TextView) findViewById(R.id.textJourneyInfo);
-         tvPriceInfo = (TextView) findViewById(R.id.textPriceInfo);
+        tvJourneyInfo = (TextView) findViewById(R.id.textJourneyInfo);
+        tvPriceInfo = (TextView) findViewById(R.id.textPriceInfo);
 
         String priceInfo;
         String detail;
 
 
         Bundle extras = getIntent().getExtras();
-        if(extras == null) {
+        if (extras == null) {
             priceInfo = null;
             detail = null;
         } else {
@@ -51,7 +51,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String toSend = Provider.getIParerInstance(SelectFinishPayActivity.this).postFinishPayment(Provider.getDataholder().getPaHtml());
-                if(toSend == null || toSend.equals("")){
+                if (toSend == null || toSend.equals("")) {
                     AlertDialogHelper.onError(SelectFinishPayActivity.this);
                     return;
                 }
@@ -73,7 +73,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
     public void downloaded(DataHolder dh) {
         //stiahnutie a ulozenie obrazka
         Provider.Instance(SelectFinishPayActivity.this).doRequestDownloadImage("https://ikvc.slovakrail.sk/inet-sales-web/pages/payment/travelDocument.xhtml",
-                Provider.getIParerInstance(this).postDownloadTicket(Provider.getDataholder().getPaHtml()),this);
+                Provider.getIParerInstance(this).postDownloadTicket(Provider.getDataholder().getPaHtml()), this);
 
     }
 
@@ -84,7 +84,7 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
 
     @Override
     public void imageDownloaded(Bitmap bitmap) {
-        Intent activityChangeIntent = new Intent(SelectFinishPayActivity.this,MyTicketsActivity.class);
+        Intent activityChangeIntent = new Intent(SelectFinishPayActivity.this, MyTicketsActivity.class);
         RotationLocker.unlockRotateScreen(this);
         SelectFinishPayActivity.this.startActivity(activityChangeIntent);
     }

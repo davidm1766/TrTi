@@ -12,12 +12,12 @@ public class Worker {
     private IQueryTown itown;
     private DatabaseHelper dbhelper;
 
-    public Worker(IQueryPerson ip, IQueryTown it){
+    public Worker(IQueryPerson ip, IQueryTown it) {
         this.iperson = ip;
         this.itown = it;
     }
 
-    public Worker(DatabaseHelper dbhelper){
+    public Worker(DatabaseHelper dbhelper) {
         this.dbhelper = dbhelper;
         this.itown = new QueryTown(dbhelper);
         this.iperson = new QueryPerson(dbhelper);

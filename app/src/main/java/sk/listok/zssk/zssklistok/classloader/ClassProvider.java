@@ -12,21 +12,21 @@ public class ClassProvider {
 
     private AppCompatActivity mActivity;
     private static ClassProvider inst;
-    private Pair<Class<?>,Object> lastCache;
+    private Pair<Class<?>, Object> lastCache;
 
-    public static ClassProvider Instance(AppCompatActivity activity){
-        if (inst == null){
+    public static ClassProvider Instance(AppCompatActivity activity) {
+        if (inst == null) {
             inst = new ClassProvider(activity);
         }
         return inst;
     }
 
-    private ClassProvider(AppCompatActivity activity){
+    private ClassProvider(AppCompatActivity activity) {
         this.mActivity = activity;
         lastCache = null;
     }
 
-    private ClassProvider(){
+    private ClassProvider() {
         //singleton
     }
 
@@ -36,10 +36,10 @@ public class ClassProvider {
      * načíta ho, ak je už zavedený do pamäte, tak
      * nič nenačítava, len ho vráti zo svojej cache.
      */
-    private void loadParser(){
+    private void loadParser() {
 
         //cache nech nenatahujem stale...
-        if(lastCache != null && lastCache.first != null && lastCache.second != null) {
+        if (lastCache != null && lastCache.first != null && lastCache.second != null) {
             return;
         }
 
@@ -48,8 +48,8 @@ public class ClassProvider {
 
         try {
             Object lastInstance = cl.newInstance();
-            this.lastCache = new Pair(cl,lastInstance);
-        }catch (Exception ex){
+            this.lastCache = new Pair(cl, lastInstance);
+        } catch (Exception ex) {
             this.lastCache = null;
         }
 
@@ -58,17 +58,18 @@ public class ClassProvider {
 
     /**
      * Zavolanie metody na načítanom bajtkóde parsera.
-     * @param methodName Názov metódy
-     * @param paramTypes Typy parametrov
+     *
+     * @param methodName  Názov metódy
+     * @param paramTypes  Typy parametrov
      * @param paramValues Hodnoty parametrov
      * @return
      */
-    public Object getMethodResult(String methodName, Class[] paramTypes, Object... paramValues){
+    public Object getMethodResult(String methodName, Class[] paramTypes, Object... paramValues) {
         try {
             loadParser(); //aktualizujem cache ak su prazdne...
             Method postFindTrains = lastCache.first.getDeclaredMethod(methodName, paramTypes);
             return postFindTrains.invoke(lastCache.second, paramValues);
-        }catch (Exception ex ){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
@@ -77,11 +78,12 @@ public class ClassProvider {
     /**
      * Funkcia skontroluje či sa podarilo načítať bajtkod
      * parsera do pamäte a či je tam zavedený.
+     *
      * @return true = bajtkod parsera je v pamäti
      */
-    public boolean isDexAvaiable(){
+    public boolean isDexAvaiable() {
         loadParser();
-        if(lastCache == null){
+        if (lastCache == null) {
             return false;
         }
         return true;
