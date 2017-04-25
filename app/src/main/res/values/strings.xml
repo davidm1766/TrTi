@@ -32,7 +32,7 @@
 
 
     <!-- reklama    app   ca-app-pub-9312615750092757~2122501823-->
-    <string name="banner_home_footer">ca-app-pub-9312615750092757/9181437022</string>
+    <string name="ID_ADBANNER">ca-app-pub-9312615750092757/9181437022</string>
     <string name="interstitial_full_screen">ca-app-pub-9312615750092757/6552701428</string>
     <string name="WARRNING">Upozornenie</string>
     <string name="NO">NIE</string>
@@ -65,6 +65,7 @@
     <string name="DEFAULT_TEXTVIEW">TextView</string>
     <string name="INFO_TICKET_TEXT">Informácie o lístku</string>
     <string name="UPDATING">Aktualizujem súčasti programu.</string>
+
 
 
 </resources>

@@ -15,6 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,6 +28,7 @@ import sk.listok.zssk.zssklistok.R;
 import sk.listok.zssk.zssklistok.communication.DataHolder;
 import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
 import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
 import sk.listok.zssk.zssklistok.helpers.RotationLocker;
 import sk.listok.zssk.zssklistok.helpers.TrainForParser;
@@ -51,8 +56,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
     private DatePickerFragment newDateFragment;
     TrainSearchFragment fragment;
     private int whichFragmentOpen;
-
-
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,11 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
         setContentView(R.layout.activity_select_towns);
         initComponents();
         initHandlers();
+        MobileAds.initialize(getApplicationContext(), getString(R.string.ID_ADBANNER));
+        mAdView= (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = AddsHelper.Instance().getAdRequest();
+        mAdView.loadAd(adRequest);
+
         sharedpreferences = getSharedPreferences(trainPreferences, Context.MODE_PRIVATE);
 
         //nacitam zo shared preferencies posledne vyhladane spoje
@@ -69,6 +78,23 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
     }
 
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -76,6 +102,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
             switch (fragOpen) {
                 case 0:
                     //nic nebolo otvorene som na acitvite
+                    mAdView.setVisibility(View.VISIBLE);
                     break;
                 case 1:
                     //bolo otvorene z mesta
@@ -100,9 +127,15 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     @Override
     public void onBackPressed() {
+        //vrátenie sa z výberu mesta
         if (containerFragment != null && containerFragment.getVisibility() == View.VISIBLE) {
             containerFragment.setVisibility(View.INVISIBLE);
             containerFragmentThis.setVisibility(View.VISIBLE);
+            /* vratil som sa z fragmentu na vyber mesta
+                 * a preto nastavim ze nie som uz na ziadnom frag.
+                 */
+            whichFragmentOpen = 0;
+            mAdView.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
         }
@@ -110,7 +143,9 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
 
     @Override
     protected void onPause() {
-
+        if (mAdView != null) {
+            mAdView.pause();
+        }
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         editor.putString("townFrom", twFromTown.getText().toString());
@@ -183,10 +218,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
                 } else {
                     twToTown.setText(lv.getItemAtPosition(position).toString());
                 }
-                /* vratil som sa z fragmentu na vyber mesta
-                 * a preto nastavim ze nie som uz na ziadnom frag.
-                 */
-                whichFragmentOpen = 0;
+
             }
 
         });
@@ -235,6 +267,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
      * Zobrazenie fragmentu so stanicami.
      */
     private void displayStationsFragment() {
+        mAdView.setVisibility(View.GONE); //skryjem reklamu kde zobrazujem fragment
         containerFragment.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
