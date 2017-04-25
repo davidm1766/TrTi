@@ -16,6 +16,7 @@ import sk.listok.zssk.zssklistok.classloader.ClassProvider;
 import sk.listok.zssk.zssklistok.helpers.IParserPostData;
 import sk.listok.zssk.zssklistok.helpers.ImageHelper;
 import sk.listok.zssk.zssklistok.helpers.PostCreator;
+import sk.listok.zssk.zssklistok.helpers.PostDataCreatorDynamic;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**
@@ -210,11 +211,12 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
     public static IParserPostData getIParerInstance(AppCompatActivity act) {
         if (ClassProvider.Instance(act).isDexAvaiable()) {
             // ak je dostupny parser v dex subore tak pouzijem ten
-            //return PostDataCreatorDynamic.Instance(act);
-            return new PostCreator();
+            return PostDataCreatorDynamic.Instance(act);
+            //return new PostCreator();
         } else {
             //inak pouzijem z kodu
-            return new PostCreator();
+            return null;
+            //return new PostCreator();
         }
     }
 
@@ -234,6 +236,11 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
             progressDialog.dismiss();
             progressDialog = null;
         }
+    }
+
+    @Override
+    public AppCompatActivity getCompatActivity() {
+        return inotImg.getCompatActivity();
     }
 }
 

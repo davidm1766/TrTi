@@ -76,7 +76,7 @@ public class MyTicketsActivity extends AppCompatActivity {
         dlgAlert.setPositiveButton(R.string.YES,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if (FileHelper.deleteTicket(selectedItemOnLong)) {
+                        if (FileHelper.deleteTicket(selectedItemOnLong,MyTicketsActivity.this)) {
                             Toast.makeText(MyTicketsActivity.this, R.string.TICKET_DELETE_SUCCESS, Toast.LENGTH_SHORT).show();
                             TicketsFramagment fragment = (TicketsFramagment) getSupportFragmentManager().findFragmentById(R.id.fragmentTicket);
                             fragment.adapter.remove(selectedItemOnLong);

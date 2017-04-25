@@ -64,6 +64,7 @@
     <string name="DEFAULT_DATE">1.1.2017</string>
     <string name="DEFAULT_TEXTVIEW">TextView</string>
     <string name="INFO_TICKET_TEXT">Informácie o lístku</string>
+    <string name="UPDATING">Aktualizujem súčasti programu.</string>
 
 
 </resources>

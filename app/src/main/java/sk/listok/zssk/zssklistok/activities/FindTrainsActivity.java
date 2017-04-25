@@ -53,6 +53,7 @@ public class FindTrainsActivity extends AppCompatActivity implements INotifyTime
     private int whichFragmentOpen;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

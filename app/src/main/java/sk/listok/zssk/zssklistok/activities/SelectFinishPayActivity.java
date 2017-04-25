@@ -88,4 +88,9 @@ public class SelectFinishPayActivity extends AppCompatActivity implements INotif
         RotationLocker.unlockRotateScreen(this);
         SelectFinishPayActivity.this.startActivity(activityChangeIntent);
     }
+
+    @Override
+    public AppCompatActivity getCompatActivity() {
+        return this;
+    }
 }

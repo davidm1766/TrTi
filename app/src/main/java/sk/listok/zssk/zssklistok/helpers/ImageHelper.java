@@ -81,7 +81,7 @@ public class ImageHelper extends AsyncTask<Pair<DataHolder, Ticket>, Void, Bitma
      * @param arr
      */
     private void saveImageToFile(byte[] arr, Ticket ticket) {
-        File myDir = FileHelper.getTicketFolder();
+        File myDir = FileHelper.getTicketFolder(inotify.getCompatActivity());
         File file = new File(myDir, ticket.getFilename());
         try {
             FileOutputStream fos = new FileOutputStream(file);

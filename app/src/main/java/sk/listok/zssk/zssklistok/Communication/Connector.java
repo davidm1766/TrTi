@@ -1,6 +1,7 @@
 package sk.listok.zssk.zssklistok.communication;
 
 import android.os.AsyncTask;
+import android.os.Process;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -37,6 +38,7 @@ public class Connector extends AsyncTask<DataHolder, Void, DataHolder> {
      * @return
      */
     private DataHolder requestToServer(DataHolder ht) {
+        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND + Process.THREAD_PRIORITY_MORE_FAVORABLE);
         HttpURLConnection connection = null;
         try {
 

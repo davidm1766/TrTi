@@ -3,6 +3,7 @@ package sk.listok.zssk.zssklistok.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class TicketsFramagment extends Fragment {
      * uložene v mobile.
      */
     private void populatestationsList() {
-        File dir = FileHelper.getTicketFolder();
+        File dir = FileHelper.getTicketFolder(((AppCompatActivity) getActivity()));
 
         String[] names = dir.list(
                 new FilenameFilter() {

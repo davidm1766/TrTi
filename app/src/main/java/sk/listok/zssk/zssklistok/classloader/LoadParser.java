@@ -30,7 +30,7 @@ public class LoadParser {
      */
     public Class<?> loadClassCore() {
 
-        File myDir = FileHelper.getDexFile(); // FileHelper.getTicketFolder();
+        File myDir = FileHelper.getDexFile(mActivity); // FileHelper.getTicketFolder();
         File dexOutputDir = FileHelper.getOutputDex(mActivity);
         String defaultLibPath = myDir + "";
         DexClassLoader dcl = new DexClassLoader(defaultLibPath,
