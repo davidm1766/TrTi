@@ -1,11 +1,14 @@
 package sk.listok.zssk.zssklistok.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -16,7 +19,10 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import sk.listok.zssk.zssklistok.R;
@@ -39,10 +45,69 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_train);
+
+        Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
+        {
+            @Override
+            public void uncaughtException (Thread thread, Throwable e)
+            {
+                handleUncaughtException (thread, e);
+            }
+        });
+
+
+
         clicked = false;
         RotationLocker.lockRotateScreen(this);
         loadTrains();
     }
+
+
+    public void handleUncaughtException (Thread thread, Throwable e)
+    {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+
+        final String asd = e.getMessage();
+        final String asd1 = sw.toString();
+        final String asd2 = e.toString();
+
+        new Thread() {
+            @Override
+            public void run() {
+                Looper.prepare();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SelectTrainActivity.this);
+                builder.setMessage("Nastala nepredvidateľna chyba...>>"+asd+">> "+asd1+">> "+asd2)
+                        .setPositiveButton("Report. ", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        })
+                        .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Not worked!
+                                dialog.dismiss();
+                                System.exit(0);
+                                android.os.Process.killProcess(android.os.Process.myPid());
+
+                            }
+                        });
+
+                dialog = builder.create();
+
+
+                Toast.makeText(SelectTrainActivity.this, "OOPS! Application crashed", Toast.LENGTH_SHORT).show();
+                if(!dialog.isShowing())
+                    dialog.show();
+                Looper.loop();
+
+            }
+        }.start();
+}
+    private AlertDialog dialog =null;
+
 
     @Override
     public void onBackPressed() {

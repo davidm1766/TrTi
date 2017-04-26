@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -108,8 +109,9 @@ public class SelectPassengerTypeActivity extends AppCompatActivity implements IN
 
     @Override
     public void downloaded(DataHolder dh) {
-        if (!Provider.getIParerInstance(this).checkNoMoreTickets(dh.getPaHtml()).equals("")) {
-            Toast.makeText(this, R.string.NO_MORE_TICKETS, Toast.LENGTH_SHORT).show();
+        String result = Html.fromHtml(Provider.getIParerInstance(this).checkNoMoreTickets(dh.getPaHtml())).toString();
+        if (!result.equals("")) {
+            Toast.makeText(this,result, Toast.LENGTH_SHORT).show();
             RotationLocker.lockRotateScreen(SelectPassengerTypeActivity.this);
         } else {
             Intent activityChangeIntent = new Intent(SelectPassengerTypeActivity.this, SelectPassengerInfoActivity.class);

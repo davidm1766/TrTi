@@ -215,8 +215,7 @@ public class Provider implements INotifyDownloader, INotifyImageDownloaded {
             //return new PostCreator();
         } else {
             //inak pouzijem z kodu
-            return null;
-            //return new PostCreator();
+            return new PostCreator();
         }
     }
 

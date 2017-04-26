@@ -175,7 +175,7 @@ public class SelectPassengerInfoActivity extends AppCompatActivity implements IN
 
     @Override
     public void downloaded(DataHolder dh) {
-        String result = Provider.getIParerInstance(this).checkUserInfo(dh.getPaHtml());
+        String result = Html.fromHtml(Provider.getIParerInstance(this).checkUserInfo(dh.getPaHtml())).toString();
         RotationLocker.unlockRotateScreen(SelectPassengerInfoActivity.this);
         if (!result.equals("")) {
             Toast.makeText(this, result, Toast.LENGTH_LONG).show();
