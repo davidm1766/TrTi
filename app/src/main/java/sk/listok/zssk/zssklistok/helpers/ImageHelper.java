@@ -13,8 +13,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import sk.listok.zssk.zssklistok.comm.DataHolder;
-import sk.listok.zssk.zssklistok.comm.INotifyImageDownloaded;
+import sk.listok.zssk.zssklistok.communication.DataHolder;
+import sk.listok.zssk.zssklistok.communication.INotifyImageDownloaded;
 import sk.listok.zssk.zssklistok.objects.Ticket;
 
 /**

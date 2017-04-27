@@ -19,7 +19,7 @@ import sk.listok.zssk.zssklistok.classloader.DexDownloader;
 import sk.listok.zssk.zssklistok.classloader.INotifyDownloadDex;
 import sk.listok.zssk.zssklistok.classloader.INotifyDownloadVersionDex;
 import sk.listok.zssk.zssklistok.classloader.eStatus;
-import sk.listok.zssk.zssklistok.comm.Provider;
+import sk.listok.zssk.zssklistok.communication.Provider;
 import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 import sk.listok.zssk.zssklistok.helpers.FileHelper;
 

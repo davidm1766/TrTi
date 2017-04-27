@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
-import sk.listok.zssk.zssklistok.comm.INotifyParser;
+import sk.listok.zssk.zssklistok.communication.INotifyParser;
 import sk.listok.zssk.zssklistok.objects.JourneyData;
 import sk.listok.zssk.zssklistok.objects.TrainData;
 
