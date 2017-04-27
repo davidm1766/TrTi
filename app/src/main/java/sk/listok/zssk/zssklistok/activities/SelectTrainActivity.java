@@ -63,6 +63,9 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    /**
+     * Odchytenie neodchytenej výnimky.
+     */
     public void handleUncaughtException (Thread thread, Throwable e)
     {
         StringWriter sw = new StringWriter();
