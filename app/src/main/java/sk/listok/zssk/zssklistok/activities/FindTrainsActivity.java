@@ -22,12 +22,12 @@ import com.google.android.gms.ads.MobileAds;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import sk.listok.zssk.zssklistok.INotifyDate;
-import sk.listok.zssk.zssklistok.INotifyTime;
+import sk.listok.zssk.zssklistok.helpers.INotifyDate;
+import sk.listok.zssk.zssklistok.helpers.INotifyTime;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.communication.DataHolder;
-import sk.listok.zssk.zssklistok.communication.INotifyDownloader;
-import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.comm.DataHolder;
+import sk.listok.zssk.zssklistok.comm.INotifyDownloader;
+import sk.listok.zssk.zssklistok.comm.Provider;
 import sk.listok.zssk.zssklistok.helpers.AddsHelper;
 import sk.listok.zssk.zssklistok.helpers.AlertDialogHelper;
 import sk.listok.zssk.zssklistok.helpers.RotationLocker;

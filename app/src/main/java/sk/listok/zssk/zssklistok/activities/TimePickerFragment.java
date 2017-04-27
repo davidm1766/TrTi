@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
-import sk.listok.zssk.zssklistok.INotifyTime;
+import sk.listok.zssk.zssklistok.helpers.INotifyTime;
 
 /**
  * Trieda na prácu s komponentom na časový picker.

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import sk.listok.zssk.zssklistok.MainActivity;
 import sk.listok.zssk.zssklistok.R;
-import sk.listok.zssk.zssklistok.communication.Provider;
+import sk.listok.zssk.zssklistok.comm.Provider;
 
 /**
  * Pomocník pri zobrazovní hlášok.

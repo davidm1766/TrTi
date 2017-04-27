@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.helpers;
 
 /**
  * Interface na oznámenie o zmene hodín a minút, napr. pri výbere z pickera.

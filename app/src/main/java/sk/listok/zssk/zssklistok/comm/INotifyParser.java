@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok.communication;
+package sk.listok.zssk.zssklistok.comm;
 
 import android.content.Context;
 

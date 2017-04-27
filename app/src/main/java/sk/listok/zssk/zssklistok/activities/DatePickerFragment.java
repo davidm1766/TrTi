@@ -8,7 +8,7 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
-import sk.listok.zssk.zssklistok.INotifyDate;
+import sk.listok.zssk.zssklistok.helpers.INotifyDate;
 
 /**
  * Fragment na výber dátumu.

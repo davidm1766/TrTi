@@ -1,4 +1,4 @@
-package sk.listok.zssk.zssklistok;
+package sk.listok.zssk.zssklistok.helpers;
 
 /**
  * Slúži na oznámenie o vybratí dátumu, napr. z pickera.
