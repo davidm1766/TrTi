@@ -69,17 +69,15 @@ public class SelectTrainActivity extends AppCompatActivity implements View.OnCli
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
 
-        final String asd = e.getMessage();
-        final String asd1 = sw.toString();
-        final String asd2 = e.toString();
-
+        final String mess = e.getMessage();
+        final String full = sw.toString();
         new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(SelectTrainActivity.this);
-                builder.setMessage("Nastala nepredvidateľna chyba...>>"+asd+">> "+asd1+">> "+asd2)
+                builder.setMessage("Nastala nepredvidateľna chyba...>>"+mess+">> "+full)
                         .setPositiveButton("Report. ", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
