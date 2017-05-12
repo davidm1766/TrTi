@@ -3,7 +3,9 @@ package sk.listok.zssk.zssklistok.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -39,7 +41,12 @@ public class MyTicketsActivity extends AppCompatActivity {
                 File ticketImg = FileHelper.getTicketImage(t.getFilename());
                 Intent i = new Intent();
                 i.setAction(android.content.Intent.ACTION_VIEW);
-                i.setDataAndType(Uri.fromFile(ticketImg), "image/png");
+                if(Build.VERSION.SDK_INT >= 24){
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    i.setDataAndType(FileProvider.getUriForFile(MyTicketsActivity.this, MyTicketsActivity.this.getApplicationContext().getPackageName() + ".provider", ticketImg),"image/png");
+                }else {
+                    i.setDataAndType(Uri.fromFile(ticketImg), "image/png");
+                }
                 startActivity(i);
             }
         });

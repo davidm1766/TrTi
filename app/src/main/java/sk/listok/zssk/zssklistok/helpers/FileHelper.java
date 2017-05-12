@@ -117,7 +117,7 @@ public class FileHelper {
      * Vráti súbor lístka podľa mena.
      */
     public static File getTicketImage(String filename) {
-        String root = Environment.getExternalStorageDirectory().toString();//context.getFilesDir().toString(); //Environment.getExternalStorageDirectory().toString();
+        String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/vlakoveListky/" + filename);
         return myDir;
     }
